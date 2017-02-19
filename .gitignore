@@ -1,5 +1,6 @@
 #node-related folders and files
 node_modules
+*/node_modules
 
 #Bower components
 bower_components
