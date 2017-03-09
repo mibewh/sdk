@@ -1,9 +1,11 @@
-# Node Typeahead Field
+# Node Search Field
 
 This directory provides an example of a custom Node typeahead field that connects to Cloud CMS to retrieve potential typeahead values, list suggestions and make selection easier.  It uses Twitter's Typeahead and Bloodhound plugins in conjunction with Alpaca's support for these modules in rendering
 typeahead suggestions.
 
-It exists to demonstrate how you can load values from a remote query to Cloud CMS and then use those values within a custom Cloud CMS field.
+This example performs a search using whatever text you type in.
+
+It exists to demonstrate how you can load values from a remote search to Cloud CMS and then use those values within a custom Cloud CMS field.
 
 ## How to run this
 
