@@ -53,6 +53,12 @@
         }]
     },
     "services": [{
+        "id": "favicon",
+        "enabled": true,
+        "config": {
+            "url": "/ext/custom-favicon.png"
+        }
+    }, {
         "id": "css",
         "enabled": true,
         "config": {

@@ -18,59 +18,41 @@ Alpaca.registerFieldClass("node-search", TextField.extend({
         
         this.base(function() {
                         
-            Gitana.connect(CLOUDCMS_CONFIG, function(err) {
+            var searchNodes = function(q, sync) {
 
-                var array = [];
-                
-                this.datastore("content").readBranch("master").queryNodes({}).each(function() {
-                    array.push({
-                        "title": this.title,
-                        "value": this._doc
-                    })
-                }).then(function() {
+                Gitana.connect(CLOUDCMS_CONFIG, function(err) {
 
-                    // set up typeahead using bloodhoud
-                    // the "datumTokenizer" converts an array element (title, value) into an array of token matches [value, title]
-                    // the "queryTokenizer" converts a query like "some thing" into an array of tokens to query with ["some", "thing"]  
-                    var data = new Bloodhound({
-                        "datumTokenizer": function(a) {
-                            var tokens = [a.value];
-                            
-                            if (a.title) {
-                                var titleTokens = Bloodhound.tokenizers.whitespace(a.title);
-                                for (var i = 0; i < titleTokens.length; i++) {
-                                    tokens.push(titleTokens[i]);
-                                }
-                            }
-                            
-                            return tokens;
-                        },
-                        "queryTokenizer": Bloodhound.tokenizers.whitespace,
-                        "local": array
+                    var array = [];
+                    this.datastore("content").readBranch("master").searchNodes(q).each(function() {
+                        array.push({
+                            "title": this.title,
+                            "value": this._doc
+                        })
+                    }).then(function() {
+                        sync(array);
                     });
-                    data.initialize();
-                                  
-                    // bind in the typeahead config
-                    // set up a custom suggestion entry so that we can see both the title and the value          
-                    self.options.typeahead = {
-                        "config": {
-                            "autoselect": true,
-                            "highlight": true,
-                            "hint": true,
-                            "minLength": 1
-                        },
-                        "datasets": {
-                            "source": data.ttAdapter(),
-                            "templates": {
-                                "suggestion": Handlebars.compile("<div><p style='word-wrap:break-word; white-space: normal'>{{title}} ({{value}})</p></div>")
-                            }
-                        }
-                    };
                     
-                    callback();
                 });
-                
-            });
+            };
+
+            // bind in the typeahead config
+            // set up a custom suggestion entry so that we can see both the title and the value
+            self.options.typeahead = {
+                "config": {
+                    "autoselect": true,
+                    "highlight": true,
+                    "hint": true,
+                    "minLength": 1
+                },
+                "datasets": {
+                    "source": searchNodes,
+                    "templates": {
+                        "suggestion": Handlebars.compile("<div><p style='word-wrap:break-word; white-space: normal'>{{title}} ({{value}})</p></div>")
+                    }
+                }
+            };
+
+            callback();
             
         });
     }
