@@ -1,0 +1,20 @@
+{
+  "name": "cloudcms-simple-authentication",
+  "version": "0.0.1",
+  "description": "Simple example demonstrating how to retrieve a token",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cloud",
+    "cms",
+    "cloudcms",
+    "authentication"
+  ],
+  "author": "Samuel Pouyt",
+  "license": "ISC",
+  "dependencies": {
+    "simple-oauth2": "^1.2.0"
+  }
+}
