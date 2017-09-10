@@ -4,24 +4,10 @@ define(function(require, exports, module) {
 
     var Alpaca = $.alpaca;
 
-    Alpaca.Fields.SampleField = Alpaca.Fields.TextField.extend(
-    /**
-     * @lends Alpaca.Fields.SampleField.prototype
-     */
-    {
-        /**
-         * @see Alpaca.Fields.TextField#getFieldType
-         */
-        getFieldType: function() {
-            return "sample";
-        },
+    Alpaca.Fields.CustomCopierField = Alpaca.Fields.TextField.extend({
 
-        /**
-         * @see Alpaca.Fields.TextField#setup
-         */
-        setup: function()
-        {
-            this.base();
+        getFieldType: function() {
+            return "custom-copier";
         },
 
         afterRenderControl: function(model, callback)
@@ -44,14 +30,6 @@ define(function(require, exports, module) {
                 });
                 callback();
             });
-        },
-
-        /**
-         * @see Alpaca.Fields.TextField#handleValidate
-         */
-        handleValidate: function()
-        {
-            return this.base();
         }
 
         /* builder_helpers */
@@ -95,7 +73,7 @@ define(function(require, exports, module) {
          * @see Alpaca.Fields.TextField#getTitle
          */
         getTitle: function() {
-            return "Sample Field";
+            return "Custom Copier Field";
         },
 
         /**
@@ -112,7 +90,6 @@ define(function(require, exports, module) {
         "noDependentField": "No dependent field found"
     });
     
-    Alpaca.registerFieldClass("sample-field", Alpaca.Fields.SampleField);
-
+    Alpaca.registerFieldClass("custom-copier", Alpaca.Fields.CustomCopierField);
 });
 
