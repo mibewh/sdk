@@ -1,9 +1,0 @@
-{
-    "_type": "wcm:page",
-    "_qname": "catalog:page-reviewer",
-    "title": "Catalog - Reviewer",
-    "uris": [
-        "/catalog/reviewer.html"
-    ],
-    "template": "/templates/reviewer.html"
-}

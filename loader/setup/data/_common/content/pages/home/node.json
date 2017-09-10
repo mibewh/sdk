@@ -1,9 +1,0 @@
-{
-    "_type": "wcm:page",
-    "title": "Home",
-    "uris": [
-        "/",
-        "/index.html"
-    ],
-    "template": "/templates/front.html"
-}

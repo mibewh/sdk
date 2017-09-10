@@ -1,9 +1,0 @@
-{
-    "_type": "wcm:page",
-    "_qname": "catalog:page-home",
-    "title": "Catalog - Home",
-    "uris": [
-        "/catalog/index.html"
-    ],
-    "template": "/templates/catalog.html"
-}

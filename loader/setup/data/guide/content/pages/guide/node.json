@@ -1,9 +1,0 @@
-{
-    "_type": "wcm:page",
-    "title": "Guide - Home",
-    "_qname": "guide:page-home",
-    "uris": [
-        "/guide/index.html"
-    ],
-    "template": "/templates/guide.html"
-}

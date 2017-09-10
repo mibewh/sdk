@@ -1,5 +1,0 @@
-{
-    "_type": "catalog:product-has-review",
-    "source": "content/products/cookie-monster/node.json",
-    "target": "content/product-reviews/review23/node.json"
-}
