@@ -16,4 +16,4 @@ Deploy this module to your Cloud CMS Platform (Manage Platform > Modules > Regis
 ## Test it out
 
 Create a project and a content model with a CKEditor field. When you create a new content instance of that type, a globe button shows up in your ckeditor. Once you click it, it prints out "Hello World!"
-![alt text](https://github.com/gitana/sdk/ui/modules/ckeditor-plugins/helloworld/demo.png "Demo")
+![alt text](https://github.com/gitana/sdk/blob/master/ui/modules/ckeditor-plugins/helloworld/demo.png "Demo")
