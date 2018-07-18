@@ -39,3 +39,6 @@ sessions/*.json
 _temp
 
 target
+
+# local binary
+.DS_Store
