@@ -1,7 +1,10 @@
 define(function(require, exports, module) {
 
-    var Helper = require("../helper.js");
+    var CKEditorTools = require("ckeditor-tools");
 
-    Helper.registerPlugin("helloworld");
+    CKEditorTools.registerPlugin("helloworld", {
+        "filepath": "plugin.js",
+        "module": module
+    });
 
 });
