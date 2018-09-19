@@ -1,0 +1,11 @@
+{
+    "name": "custom-http-deployment-receiver",
+    "description": "Custom HTTP Deployment Receiver for Cloud CMS",
+    "version": "1.0.0",
+    "private": true,
+    "dependencies": {
+        "cloudcms-http-deployment-receiver": "1.0.2",
+        "fs-extra": "^7.0.0",
+        "tmp": "0.0.33"
+    }
+}
