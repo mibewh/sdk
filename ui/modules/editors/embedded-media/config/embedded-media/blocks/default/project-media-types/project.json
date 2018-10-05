@@ -8,6 +8,9 @@
             }, {
                 "key": "instagram",
                 "label": "InstagramTest"
+            }, {
+                "key": "thinglink",
+                "label": "Thinglink"
             }]
         }
     }
