@@ -47,6 +47,17 @@ define(function (require, exports, module) {
             el.push(script);
 
             callback(null, el);
+
+            /**
+             * If you hope to wrap el in a div and have some attributes set,
+             * instead of directly firing callback with el,
+             * do the following:
+             */
+            // var wrap = $("<div/>");
+            // wrap.attr("class", "my-wrapper-class");  // any attribute that you want
+            // wrap.append(el);
+
+            // callback(null, wrap);
         },
 
         /**
