@@ -30,7 +30,9 @@
                 return false;
             })
             .readBranch("master")
-            .queryNodes(query).then(function () {
+            .queryNodes(query, {
+                limit: 100
+            }).then(function () {
                 // nodes
                 self.nodes = this.asArray();
                 // clear the loading notification
