@@ -4,12 +4,12 @@
         <title>Cloud CMS Example (using CORS to Hosted)</title>
         <script src="bower_components/jquery/dist/jquery.js"></script>
         <script src="bower_components/gitana/dist/gitana.js"></script>
+        <script src="GITANA_CREDENTIALS.js"></script>
         <script>
-            Gitana.connect({
-                "baseURL": "https://kzsh.cloudcms.net/proxy",
-                "application": "f9f39a0298514e087461"
-            }, function(err) {
+            CONNECTION_CREDENTIALS.baseURL = "https://api.cloudcms.com";
 
+            Gitana.connect(CONNECTION_CREDENTIALS, function(err) {
+                
                 this.platform().queryRepositories().then(function() {
                     $("#textarea1").append(JSON.stringify(this, null, "  "));
                 })
