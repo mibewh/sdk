@@ -29,6 +29,34 @@ And then point your browser to:
 
     http://localhost:3000/index.html
 
+    
+## Install data type
+Create a new type definition in your project with qname "catalog:product"
+````
+{
+    "title": "Catalog",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "title": "Name"
+        },
+        "headline": {
+            "type": "string",
+            "title": "headline"
+        },
+        "summary": {
+            "type": "string",
+            "title": "summary"
+        }
+    },
+    "description": "catalog:product",
+    "_parent": "n:node"
+}
+````
+
+Create several instances of the catalog:product type. Optionally add an attachment to each.
+
 ## Cookies
 
 Some browsers have cookie-related restrictions to using localhost.  For example, Google Chrome does not
