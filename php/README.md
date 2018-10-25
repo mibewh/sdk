@@ -6,7 +6,7 @@ the user and the backend API.
 
 There a few different ways to do this dance - it's covered in much greater detail here:
 
-    https://www.cloudcms.com/documentation/developers/authentication/authentication.html
+    https://www.cloudcms.com/documentation/api/authentication
     
 There are several different "flows" that you can use to connect to Cloud CMS.  The most secure is the
 "authorization code" flow which requires a few different redirects and some token and code exchanges in order
