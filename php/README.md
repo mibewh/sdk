@@ -58,7 +58,7 @@ And then save your changes.
 
 Now to check the connection run :
 
-php driver.php
+    php driver.php
 
 Now, you are all set to try the CRUD operations with Cloud CMS
 
@@ -66,9 +66,13 @@ To try this out, you will have to add your RepositoryId and BranchId in the the 
 
 To Create a node in Cloud CMS with your JSON data, check out the createNode.php example. This file demonstrates how to create a Node and upload an attachment to the Node in Cloud CMS. 
 
-To try it your self run : php createNode.php 
+To try it your self run : 
 
-To read a node, add the nodeId in the config.php file and run : php readNode.php 
+    php createNode.php 
+
+To read a node, add the nodeId in the config.php file and run : 
+
+    php readNode.php 
     
 The HTTP client will do the OAuth 2.0 dance and pull back some information about your repositories using the
 Cloud CMS API:
