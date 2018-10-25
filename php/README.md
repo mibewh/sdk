@@ -1,4 +1,4 @@
-# Cloud CMS PHP Connect Example
+# Cloud CMS PHP Connect and CRUD Example
 
 Welcome hero to the world of PHP.  Here you will find examples of how you can use PHP to connect to Cloud CMS.
 Connecting to Cloud CMS generally involves doing the OAuth 2.0 dance.  It's a handshake between your client code,
@@ -21,7 +21,7 @@ for providing the application server in the three tier architecture.  The applic
 generally within your control, preventing important "secret" tokens from leaking out into the public.
 
 As such, this folder provides an example of connecting to Cloud CMS using the resource owner "password" flow.
-You will find this in the `password.php` file.
+You will find this in the `driver.php` file.
 
 ## Building
 
@@ -41,11 +41,11 @@ First, begin by grabbing Composer:
 Then, run Composer to pull in your third-party dependencies.
 
     php composer.phar install
-    
-Now edit the `password.php` file and drop in your API Keys information.  You can get this from Cloud CMS.  If you
-don't know how, check out:
 
-    https://www.cloudcms.com/developers.html
+
+## The "config" file has API keys information
+
+Go to your Sample Web Application in your Sample Project and grap the API keys information from the gitana.php file and paste the information in the config.php file. Check : https://www.cloudcms.com/developers.html for more information on how to do this.
     
 Fill in the values for:
 
@@ -56,9 +56,19 @@ Fill in the values for:
     
 And then save your changes.
 
-Finally, run things!
+Now to check the connection run :
 
-    php password.php
+php driver.php
+
+Now, you are all set to try the CRUD operations with Cloud CMS
+
+To try this out, you will have to add your RepositoryId and BranchId in the the config.php file.
+
+To Create a node in Cloud CMS with your JSON data, check out the createNode.php example. This file demonstrates how to create a Node and upload an attachment to the Node in Cloud CMS. 
+
+To try it your self run : php createNode.php 
+
+To read a node, add the nodeId in the config.php file and run : php readNode.php 
     
 The HTTP client will do the OAuth 2.0 dance and pull back some information about your repositories using the
 Cloud CMS API:
