@@ -1,6 +1,6 @@
 # Cloud CMS PHP Connect and CRUD Example
 
-Welcome hero to the world of PHP.  Here you will find examples of how you can use PHP to connect to Cloud CMS.
+Here you will find examples of how you can use PHP to connect to Cloud CMS.
 Connecting to Cloud CMS generally involves doing the OAuth 2.0 dance.  It's a handshake between your client code,
 the user and the backend API.
 
