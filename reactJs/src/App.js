@@ -25,7 +25,6 @@ class App extends Component {
      "_type": "my:author"
  }).each(function(){
    results.push(this)}).then(function(){
-   console.log("results", results);
    th.setState({
       data: results
  });
@@ -56,7 +55,7 @@ class App extends Component {
              <th>Author Image</th> 
            </tr>
            {
-             this.state.data.map(items => ( console.log("items",items),<tr>
+             this.state.data.map(items => (<tr>
             <td>{items.title}</td>
             <td></td>
             <td></td>
@@ -65,7 +64,6 @@ class App extends Component {
             <td></td>
             <td></td>
             <td></td>
-            <td><img height='150' width='150'src={"http://localhost/proxy/repositories/" + items.getRepositoryId() + "/branches/" + items.getBranchId() + "/nodes/" + items.Image.id + "/attachments/default"}/></td>
             </tr>),
         )}
              </table>
