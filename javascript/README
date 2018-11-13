@@ -1,0 +1,27 @@
+# Quickstart - Java Script Example using Node
+
+This directory provides a simple application that connects to the Cloud CMS Sample Project on your
+tenant and pulls back all the details of authors and books
+
+You can use this project as a way to test out a simple HTML web page connecting to Cloud CMS.
+
+There are only 4 simple files you need to be aware about. 
+
+    app.js - this file handles the connection with Cloud CMS and handles the queries.
+
+    index.html - this file shows the list of Authors and Books in your sample project. You can create new content instances of Author and Books and immidiately view it on this page.
+
+    author.html - this file shows the details of the Author using the _doc property of the author content.
+
+    book.html - this file shows the details of the Book and the related Author using the _doc property of the book content.
+
+Steps to run this :
+
+    Copy your API keys in the app.js file from your Sample Web Application in your Sample Project from your Cloud CMS Tenant.
+
+    run -   npm install
+            npm start
+
+    And then point your browser to:
+
+        http://localhost:3000

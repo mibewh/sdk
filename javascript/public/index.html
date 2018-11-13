@@ -1,0 +1,130 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>Welcome to Cloud CMS</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+        <!--Custom fonts for this template -->
+        <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+
+        <!-- Custom styles for this template -->
+        <link href="css/quickstart.css" rel="stylesheet">
+
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script src="bower_components/gitana/dist/gitana.js"></script>
+        <script src="bower_components/handlebars/handlebars.js"></script>
+        <script src="app.js"></script>
+
+    </head>
+    <body>
+        <div class="row">
+                
+            <div class="cloudcms-theme-header cloudcms-theme-header-platform">
+                        
+                <img src="./img/login-logo.png" style="max-width: 320px">
+        
+            </div>
+            <div style="clear:both"></div>
+        </div>
+
+        <div gadget="workspace-bar" region="workspace-bar" id="gadget15" gadget-strategy="replace" ratchet="ratchet-911" class="ratchet-completed" style="display: none;"></div>
+        
+        <section class="second">
+            <div class="cta-content">
+                <div class="container">
+                    <h1><b>Welcome to Our Library</b></h1>
+                    <a href="#authors" class="btn btn-outline btn-xl js-scroll-trigger">Click Here to have a look at all the Authors</a>
+                    <a href="#books" class="btn btn-outline btn-xl js-scroll-trigger">Click Here to have a look at the Books</a>
+                </div>
+            </div>
+            <div class="overlay"></div>
+        </section>
+        
+        <section class="cta" id="authors">
+            <div class="cta-content">
+                <div class="container">
+                    <h1><b>List of Authors in the library</b></h1>
+                    <ol></ol>
+                </div>
+            </div>
+            <div class="overlay"></div>
+        </section>
+
+        <section class="cta" id="books">
+            <div class="cta-content">
+                <div class="container">
+                    <h1><b>List of Books in the library</b></h1>
+                        <data></data>
+                </div>
+            </div>
+            <div class="overlay"></div>
+        </section>
+
+        <section class="contact bg-primary" id="contact">
+            <div class="container">
+                <h1>Contact Us</h1>
+                <ul class="list-inline list-social">
+                    <li class="list-inline-item social-twitter">
+                        <a href="https://www.twitter.com/cloudcms">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item social-twitter">
+                        <a href="https://www.linkedin.com/company/cloudcms">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item social-google-plus">
+                        <a href="https://plus.google.com/+Cloudcms">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item social-github">
+                        <a href="https://github.com/gitana">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <footer>
+            <div class="container">
+                <p>Copyright © 2018 <a href="https://www.cloudcms.com" target="blank">Cloud CMS</a> / All rights reserved.</p>
+            </div>
+        </footer>
+
+</body>
+
+<script id="author-list" type="text/x-handlebars-template">
+
+    {{#each items}}
+    <div>
+        <div class="cta-content">
+            <img height='100' width='100' src= "{{imageURL}}">
+            <a href="author.html?id={{nodeId}}" class="btn btn-outline btn-xl js-scroll-trigger">{{title}}</a>
+        </div>
+    </div>
+    </br>
+    </br>
+    {{/each}}
+</script>
+
+<script id="books-list" type="text/x-handlebars-template">
+
+    {{#each items}}
+    <div>
+        <div class="cta-content">
+            <img height='100' width='100' src= "{{imageURL}}">
+            <a href="book.html?id={{nodeId}}" class="btn btn-outline btn-xl js-scroll-trigger">{{title}}</a>
+        </div>
+    </div>
+    </br>
+    </br>
+    {{/each}}
+</script>
+
+
+</html>
