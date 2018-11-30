@@ -1,8 +1,8 @@
 export class Hero {
-  id: number;
+  id: string;
   name: string;
 
-  constructor(name: string, id: number) {
+  constructor(name: string, id: string) {
     this.name = name;
     this.id = id;
   }

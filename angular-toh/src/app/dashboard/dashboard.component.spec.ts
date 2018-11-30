@@ -6,7 +6,7 @@ import { HeroSearchComponent } from '../hero-search/hero-search.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { HEROES } from '../mock-heroes';
-import { HeroService } from '../hero.service';
+import { CloudcmsHeroService } from '../cloudcms.service';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -15,7 +15,7 @@ describe('DashboardComponent', () => {
   let getHeroesSpy;
 
   beforeEach(async(() => {
-    heroService = jasmine.createSpyObj('HeroService', ['getHeroes']);
+    heroService = jasmine.createSpyObj('CloudcmsHeroService', ['getHeroes']);
     getHeroesSpy = heroService.getHeroes.and.returnValue( of(HEROES) );
     TestBed.configureTestingModule({
       declarations: [
@@ -26,7 +26,7 @@ describe('DashboardComponent', () => {
         RouterTestingModule.withRoutes([])
       ],
       providers: [
-        { provide: HeroService, useValue: heroService }
+        { provide: CloudcmsHeroService, useValue: heroService }
       ]
     })
     .compileComponents();

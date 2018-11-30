@@ -1,0 +1,14 @@
+{
+  "title": "Hero",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "title": "Title"
+    }
+  },
+  "_parent": "n:node",
+  "description": "Hero",
+  "_qname": "demo:hero",
+  "_type": "d:type"
+}

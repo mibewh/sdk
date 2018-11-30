@@ -5,11 +5,15 @@ declare var Gitana: any;
 import * as gitanaCredentials from "../../gitana.json";
 const credentials = (<any>gitanaCredentials).default;
 
+import * as heroDefinitionModule from "../../hero-definition.json";
+const heroDefinition = (<any>heroDefinitionModule).default;
+
 import { Observable, Subject, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 
 import { Hero } from "./hero";
 import { MessageService } from "./message.service";
+import { httpInMemBackendServiceFactory } from "angular-in-memory-web-api";
 
 @Injectable({ providedIn: "root" })
 export class CloudcmsHeroService {
@@ -31,6 +35,7 @@ export class CloudcmsHeroService {
     console.log("Initializing Cloud CMS Connection " + JSON.stringify(credentials, null, 4));
 
     return new Promise(function(resolve, reject) {
+      // Gitana.DEFAULT_LOCALE="es";
       Gitana.connect(credentials, function(err) {
           if (err) {
             reject(new Error("Could not connect to Cloud CMS " + err));
@@ -50,8 +55,21 @@ export class CloudcmsHeroService {
               self.applicationDomain = self.appHelper.datastore("principals");
               self.connected = true;
               console.log('connected to project: "' + self.project.title + '" and branch: "' + self.branch.title + '"');
-              resolve(self);
-              return;
+
+              self.branch.queryNodes({
+                _type: heroDefinition._type,
+                _qname: heroDefinition._qname
+              }).then(function() {
+                if (this.asArray().length === 0) {
+                  self.branch.createNode(heroDefinition).then(function() {
+                    resolve(self);
+                    return;
+                  });
+                } else {
+                  resolve(self);
+                  return;
+                }
+              });
             });
         }
       );
@@ -68,15 +86,17 @@ export class CloudcmsHeroService {
       console.log('connected to project: "' + connection.project.title + '" and branch: "' + connection.branch.title + '"');
 
       connection.branch.queryNodes({
-            _type: "n:node",
-            isHeroExample: "true"
-          },{
-            sort: { title: 1 }
+          _type: "demo:hero",
+          "_features.f:translation": {
+            "$exists": false
+          }
+        },{
+          sort: { title: 1 }
         }).then(function() {
           let heroes: Array<Hero> = [];
           let result: Array<any> = this.asArray();
           for (var i = 0; i < result.length; i++) {
-            heroes.push(new Hero(result[i].title || "NO NAME", result[i]._doc || -1));
+            heroes.push(new Hero(result[i].title || "NO NAME", result[i]._doc || "NO ID"));
           }
 
           herosResult.next(heroes);
@@ -95,14 +115,6 @@ export class CloudcmsHeroService {
     let herosResult = new Subject<Hero>();
     this.getConnection().then(connection => {
       console.log('connected to project: "' + connection.project.title + '" and branch: "' + connection.branch.title + '"');
-
-      // connection.branch.queryNodes({
-      //     _type: "n:node",
-      //     isHeroExample: "true",
-      //     id: id
-      //   }).keepOne().then(function() {
-      //     herosResult.next(new Hero(this.title || "NO NAME", this._doc || -1));
-      //   });
 
       connection.branch.readNode(id).then(function() {
         herosResult.next(new Hero(this.title || "NO NAME", this._doc || -1));
@@ -133,7 +145,7 @@ export class CloudcmsHeroService {
           let heroes: Array<Hero> = [];
           let result: Array<any> = this.asArray();
           for (var i = 0; i < result.length; i++) {
-            if (!!result[i].isHeroExample) {
+            if (result[i]._type === "demo:hero") {
               heroes.push(new Hero(result[i].title || "NO NAME", result[i]._doc || -1));
             }
           }
@@ -158,8 +170,7 @@ export class CloudcmsHeroService {
       console.log('connected to project: "' + connection.project.title + '" and branch: "' + connection.branch.title + '"');
 
       connection.branch.createNode({
-          _type: "n:node",
-          isHeroExample: "true",
+          _type: "demo:hero",
           title: hero.name
         }).then(function() {
           heroResult.next(new Hero(this.title, this._doc));
@@ -180,12 +191,11 @@ export class CloudcmsHeroService {
     this.getConnection().then(connection => {
       console.log('connected to project: "' + connection.project.title + '" and branch: "' + connection.branch.title + '"');
 
-      connection.branch.queryNode({
-          _type: "n:node",
-          isHeroExample: "true",
-          id: id
-        }).keepOne.then(function() {
-          this.delete().then(function() {
+      connection.branch.queryOne({
+          _type: "demo:hero",
+          _doc: id
+        }).then(function() {
+          this.del().then(function() {
             heroResult.next(null);
           });
         });
@@ -205,7 +215,6 @@ export class CloudcmsHeroService {
       console.log('connected to project: "' + connection.project.title + '" and branch: "' + connection.branch.title + '"');
 
       connection.branch.readNode(hero.id).then(function() {
-        this.isHeroExample = "true";
         this.title = hero.name;
         this.update().then(function() {
           heroResult.next(hero);
