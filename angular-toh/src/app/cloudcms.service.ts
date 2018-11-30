@@ -61,9 +61,16 @@ export class CloudcmsHeroService {
                 _qname: heroDefinition._qname
               }).then(function() {
                 if (this.asArray().length === 0) {
+                  // add the definition to the branch
                   self.branch.createNode(heroDefinition).then(function() {
-                    resolve(self);
-                    return;
+                  // create a sample hero node on the branch
+                  self.branch.createNode({
+                      _type: "demo:hero",
+                      title: "test hero 1"
+                    }).then(function() {
+                      resolve(self);
+                      return;
+                    });
                   });
                 } else {
                   resolve(self);
