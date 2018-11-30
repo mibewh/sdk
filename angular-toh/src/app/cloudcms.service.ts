@@ -32,7 +32,15 @@ export class CloudcmsHeroService {
   getConnection(): Promise<CloudcmsHeroService> {
     var self = this;
 
-    console.log("Initializing Cloud CMS Connection " + JSON.stringify(credentials, null, 4));
+    if (self.connected) {
+      console.log("Using existing Cloud CMS Connection");
+
+      return new Promise(function(resolve, reject) {
+        resolve(self);
+      });
+    }
+
+    console.log("Initializing Cloud CMS Connection");
 
     return new Promise(function(resolve, reject) {
       // Gitana.DEFAULT_LOCALE="es";
@@ -90,8 +98,6 @@ export class CloudcmsHeroService {
 
     let herosResult = new Subject<Hero[]>();
     this.getConnection().then(connection => {
-      console.log('connected to project: "' + connection.project.title + '" and branch: "' + connection.branch.title + '"');
-
       connection.branch.queryNodes({
           _type: "demo:hero",
           "_features.f:translation": {
@@ -121,8 +127,6 @@ export class CloudcmsHeroService {
 
     let herosResult = new Subject<Hero>();
     this.getConnection().then(connection => {
-      console.log('connected to project: "' + connection.project.title + '" and branch: "' + connection.branch.title + '"');
-
       connection.branch.readNode(id).then(function() {
         herosResult.next(new Hero(this.title || "NO NAME", this._doc || -1));
       });
@@ -140,8 +144,6 @@ export class CloudcmsHeroService {
 
     let herosResult = new Subject<Hero[]>();
     this.getConnection().then(connection => {
-      console.log('connected to project: "' + connection.project.title + '" and branch: "' + connection.branch.title + '"');
-
       connection.branch.searchNodes({
         search: {
           query_string: {
@@ -174,8 +176,6 @@ export class CloudcmsHeroService {
 
     let heroResult = new Subject<Hero>();
     this.getConnection().then(connection => {
-      console.log('connected to project: "' + connection.project.title + '" and branch: "' + connection.branch.title + '"');
-
       connection.branch.createNode({
           _type: "demo:hero",
           title: hero.name
@@ -196,8 +196,6 @@ export class CloudcmsHeroService {
 
     let heroResult = new Subject<Hero>();
     this.getConnection().then(connection => {
-      console.log('connected to project: "' + connection.project.title + '" and branch: "' + connection.branch.title + '"');
-
       connection.branch.queryOne({
           _type: "demo:hero",
           _doc: id
@@ -219,8 +217,6 @@ export class CloudcmsHeroService {
 
     let heroResult = new Subject<Hero>();
     this.getConnection().then(connection => {
-      console.log('connected to project: "' + connection.project.title + '" and branch: "' + connection.branch.title + '"');
-
       connection.branch.readNode(hero.id).then(function() {
         this.title = hero.name;
         this.update().then(function() {
