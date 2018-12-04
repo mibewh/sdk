@@ -1,0 +1,35 @@
+{
+    "title": "Course",
+    "type": "object",
+    "properties": {
+        "title": {
+            "type": "string",
+            "title": "Title"
+        },
+        "author": {
+            "type": "string",
+            "title": "author"
+        },
+        "description": {
+            "type": "string",
+            "title": "description"
+        },
+        "topic": {
+            "type": "string",
+            "title": "topic"
+        },
+        "url": {
+            "type": "string",
+            "title": "url"
+        }
+    },
+    "_parent": "n:node",
+    "description": "Course",
+    "_qname": "demo:course",
+    "_type": "d:type",
+    "mandatoryFeatures": {
+        "f:multilingual": {
+            "enabled": true
+        }
+    }
+}
