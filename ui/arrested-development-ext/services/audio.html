@@ -1,4 +1,4 @@
 <script>
     var a = new Audio("{{config.url}}");
-    a.play();
+    try { a.play(); } catch (e) { }
 </script>
