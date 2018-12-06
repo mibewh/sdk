@@ -6,7 +6,7 @@ module.exports = function (app, callback) {
 
     app.all("/graphql", function (req, res) {
         console.log("url: " + req.url);
-        console.log("query: " + req.params.query);
+        // console.log("query: " + req.params.query);
 
         req.branch(function (err, branch) {
             branch.trap(function (err) {
@@ -14,16 +14,9 @@ module.exports = function (app, callback) {
                 return res.status(500).json(err);
             }).then(function (err) {
                 var branch = this;
-                var query = {
-                    query: req.body.query
-                };
 
-                branch.getPlatform().getDriver().gitanaPost("/repositories/" + branch.getRepositoryId() + "/branches/" + branch.getId() + "/" + req.url, null, query, function (response) {
-                    console.log("response: " + JSON.stringify(response));
+                branch.graphqlQuery(req.body.query, req.body.operationName, req.body.variables, function (response) {
                     return res.status(200).json(response);
-                }, function (error) {
-                    console.log("error: " + JSON.stringify(error));
-                    return res.status(200).json(error);
                 });
             });
         });

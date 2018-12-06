@@ -10,6 +10,7 @@
 		"start": "node app"
 	},
 	"dependencies": {
+		"gitana": "^1.0.277",
 		"cloudcms-server": "*",
 		"express": "*"
 	},
