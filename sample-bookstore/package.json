@@ -1,0 +1,20 @@
+{
+	"name": "SampleBookstoreExample",
+	"version": "1.0.0",
+	"description": "Sample Bookstore Example",
+	"keywords": [
+		"Cloud CMS"
+	],
+	"author": "Michael Whitman",
+	"contributors": [
+		"Shweta Thakkar",
+		"Claire Li"
+	],
+	"scripts": {
+		"start": "node app"
+	},
+	"dependencies": {
+		"cloudcms-server": "*"
+	},
+	"private": true
+}
