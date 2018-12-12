@@ -39,9 +39,11 @@ export default {
             book: {}
         };
     },
+
     created() {
         this.fetchBook();
     },
+
     methods: {
         fetchBook() {
             return axios.get('/api/books')

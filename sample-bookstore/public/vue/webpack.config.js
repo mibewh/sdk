@@ -1,11 +1,12 @@
+var path = require('path');
 var VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
     entry: './public/vue/index.js',
     output: {
-        path: __dirname,
-        publicPath: '/vue/',
-        filename: 'dist.js'
+        path: path.join(__dirname, 'dist'),
+        publicPath: '/vue/dist/',
+        filename: 'index.js'
     },
     resolve: {
         extensions: ['*', '.js', '.vue', '.json']

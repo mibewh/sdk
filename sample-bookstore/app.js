@@ -3,6 +3,10 @@ var path = require("path");
 
 var routes = function (app, callback)
 {
+    app.get("/vue", function(req, res) {
+        res.status(200).sendFile(path.join(__dirname, "public/vue/index.html"));
+    });
+
     app.get("/api/books", function(req, res) {
         req.branch(function(err, branch) {
             branch.trap(function(err) {
@@ -25,7 +29,7 @@ var routes = function (app, callback)
             }).queryNodes({
                 _type: "store:author"
             }).each(function() {
-                this.imageUrl = '/proxy/repositories/' + this.getRepositoryId() + '/branches/' + this.getBranchId() + '/nodes/' + this._doc + '/attachments/default';
+                this.imageUrl = "/static/" + this._doc + "-cover.jpg?repository=" + this.getRepositoryId() + "&branch=" + this.getBranchId() + "&node=" + this.getId();                this.imageUrl = '/proxy/repositories/' + this.getRepositoryId() + '/branches/' + this.getBranchId() + '/nodes/' + this._doc + '/attachments/default';
             }).then(function() {
                 res.status(200).json(this);
             });
