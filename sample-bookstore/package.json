@@ -11,10 +11,27 @@
 		"Claire Li"
 	],
 	"scripts": {
-		"start": "node app"
+		"start": "node app",
+		"build-vue": "webpack --mode development --config public/vue/webpack.config.js"
 	},
 	"dependencies": {
-		"cloudcms-server": "*"
+		"axios": "^0.18.0",
+		"cloudcms-server": "*",
+		"express": "^4.16.4",
+		"vue": "^2.5.20"
 	},
-	"private": true
+	"private": true,
+	"devDependencies": {
+		"@babel/core": "^7.2.0",
+		"@babel/preset-env": "^7.2.0",
+		"babel-loader": "^8.0.4",
+		"css-loader": "^2.0.0",
+		"file-loader": "^2.0.0",
+		"html-webpack-inline-source-plugin": "0.0.10",
+		"html-webpack-plugin": "^3.2.0",
+		"vue-loader": "^15.4.2",
+		"vue-template-compiler": "^2.5.20",
+		"webpack": "^4.27.1",
+		"webpack-cli": "^3.1.2"
+	}
 }
