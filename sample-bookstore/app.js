@@ -1,4 +1,5 @@
 var server = require("cloudcms-server/server");
+var path = require("path"); 
 
 var routes = function (app, callback)
 {
@@ -9,7 +10,7 @@ var routes = function (app, callback)
             }).queryNodes({
                 _type: "store:book"
             }).each(function() {
-                this.imageUrl = '/proxy/repositories/' + this.getRepositoryId() + '/branches/' + this.getBranchId() + '/nodes/' + this._doc + '/attachments/default';
+                this.imageUrl = "/static/" + this._doc + "-cover.jpg?repository=" + this.getRepositoryId() + "&branch=" + this.getBranchId() + "&node=" + this.getId();
                 this.authorTitle = this.author.title;
             }).then(function() {
                 res.status(200).json(this);
