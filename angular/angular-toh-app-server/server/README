@@ -1,7 +1,7 @@
 Create the gitana.json file for your Cloud CMS project in this folder using either the cloudcms-cli or
 download from "API Keys" under "Manage Project" in the Cloud CMS Project.
 
-Run the build in the home folder of this project (see the README) to install
+Run the build in the home folder of this project (see ../README) to install
 the angular application production distribution in ./public. Then run the server:
     npm install
     npm start

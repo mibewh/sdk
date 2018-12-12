@@ -3,32 +3,26 @@
 
 This is an adaptation of the angular.io tutorial "Tour of Heroes" which uses Cloud CMS as a backend.
 
-This version of Tour of Heroes
-Create the gitana.json file for your Cloud CMS project in this folder by either using the cloudcms-cli or
-download from "API Keys" under "Manage Project" in the Cloud CMS Project.
+There are two applications is in this project. The first is the front-end app in this folder. The second
+is a cloudcms-server (https://github.com/gitana/cloudcms-server) based application server back-end which
+implements a custom API to serve the front-end.
 
-Then do:
-  npm install
-  ng serve --open
+To build and run these applications:
 
-After a connection is established to the Cloud CMS API server a check is made to see if the custom
-type with qname "demo:hero" exists. If it does not then it is installed for you and one sample record
-is created with title: "Test Hero 1".
+    1. Build the front-end application:
+        1. npm install
+        2. ng build --prod
+           (Final compiled files will be written to server/public)
 
-This example uses direct connection to the Cloud CMS API which is not recommended for production as it
-exposes the security keys in gitana.json. However, basic Create, Read, Update, Delete, Query operations
-are demonstrated.
-
-Build the app. Final compiled files will be copied to server/public:
-
-    npm install
-    ng build --prod
-
-Start the server:
-    cd server
-    npm install
-    npm Start
-
-Open in your browser:
-    http://localhost:2999
+    2. Build and run the back-end application:
+        1. cd server
+        2. Create the gitana.json file for your Cloud CMS project in the server folder using the
+        cloudcms-cli (https://www.cloudcms.com/documentation/cli) or download from "API Keys"
+        under "Manage Project" in your Cloud CMS Project.
+        3. npm install
+        4. npm start
+        5. Open in your browser and go to: http://localhost:2999
+            After a connection is established to the Cloud CMS API server a check is made to see if
+            the custom type with qname "demo:hero" exists. If it does not then it is installed for you
+            and one sample record is created with title: "Test Hero 1".
 
