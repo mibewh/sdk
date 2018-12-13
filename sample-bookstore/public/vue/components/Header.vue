@@ -10,12 +10,12 @@
                 <ul class="navbar-nav nav navbar-right">
                     <li class="disabled"><a href="#">Login</a></li>
                     <li>
-                        <form class="navbar-form" method="get" action="search.html">
+                        <div class="navbar-form">
                             <div class="form-group">
-                                <input name="text" type="text" class="form-control" placeholder="Search">
+                                <input v-model="searchQuery" v-on:keyup.enter="search" type="text" class="form-control" placeholder="Search">
                             </div>
-                            <button type="submit" class="btn btn-default btn-search">Search</button>
-                        </form>
+                            <a class="btn btn-default btn-search" v-on:click.stop="search">Search</a>
+                        </div>
 
                     </li>
                 </ul>
@@ -57,6 +57,21 @@
 
 <script>
 export default {
-    
+    data() {
+        return {
+            searchQuery: ""
+        }
+    },
+
+    methods: {
+        search() {
+            this.$router.push({
+                path: "/search",
+                query   : {
+                    text: this.searchQuery
+                }
+            });
+        }
+    }
 }
 </script>

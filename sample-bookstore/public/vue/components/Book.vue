@@ -1,30 +1,17 @@
 <template>
-    <div class="books">
-        <div class="book">
-            <div class="book-cover">
-                <div class="book-inner">
-                    <a v-bind:href="bookLink">
-                        <img v-bind:src="book.imageUrl" v-bind:alt="book.title">
-                    </a>
-                    <div class="fade"></div>
-                    <div class="book-price">
-                        <span class="price">
-                            $ {{book.price}}
-                        </span>
-                    </div>
-                </div>
+    <div class="book">
+            <div v-if="sale" class="sale-ribbon"><div class="sale-ribbon-content">sale off</div></div>
+        <div class="book-cover">
+            <div class="book-inner">
+                <a v-bind:href="bookLink">
+                    <img v-bind:src="book.imageUrl" v-bind:alt="book.title" v-bind:width="width" v-bind:height="height">
+                </a>
+                <div class="fade"></div>
             </div>
-            <div class="book-details">
-                <router-link tag="h3" class="book-title" v-bind:to="bookLink"><a>{{book.title}}</a></router-link>
-                <p class="book-author">{{book.authorTitle}}</p>
-                <div class="star-rating">
-                    <!-- <i class="fa fa-star {{#lte 1 book.rating}}color{{/lte}}"></i>
-                    <i class="fa fa-star {{#lte 2 book.rating}}color{{/lte}}"></i>
-                    <i class="fa fa-star {{#lte 3 book.rating}}color{{/lte}}"></i>
-                    <i class="fa fa-star {{#lte 4 book.rating}}color{{/lte}}"></i>
-                    <i class="fa fa-star {{#lte 5 book.rating}}color{{/lte}}"></i> -->
-                </div>
-            </div>
+        </div>
+        <div class="book-details">
+            <router-link tag="h3" class="book-title" v-bind:to="bookLink"><a>{{book.title}}</a></router-link>
+            <p class="book-author">{{book.authorTitle}}</p>
         </div>
     </div>
 </template>
@@ -35,6 +22,16 @@ export default {
         book: {
             type: Object,
             required: true
+        },
+        width: {
+            type: String,
+        },
+        height: {
+            type: String,
+        },
+        sale: {
+            type: Boolean,
+            default: false
         }
     },
 
