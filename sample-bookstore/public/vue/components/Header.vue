@@ -4,7 +4,7 @@
         <nav class="navbar navbar-top-bar navbar-static-top">
             <div class="container">
                 <ul class="navbar-nav nav">
-                    <li><a href="index.html">Home</a></li>
+                    <router-link tag="li" to="/"><a>Home</a></router-link>
                     <li class="disabled"><a href="index.html">About Us</a></li>
                 </ul>
                 <ul class="navbar-nav nav navbar-right">
@@ -34,10 +34,10 @@
                             <span class="icon-bar"></span>
                         </button>
 
-                        <a class="navbar-brand" href="index.html">
+                        <router-link tag="a" class="navbar-brand" to="/">
                             <img class="logo" src="../../images/book-flat.png">
                             <span class="title">Quick Start Books</span>
-                        </a>
+                        </router-link>
                     </div>
                     <!--
                     <div class="collapse navbar-collapse" id="KYbook-navbar">

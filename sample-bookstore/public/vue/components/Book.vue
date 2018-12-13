@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="book-details">
-                <h3 class="book-title"><a v-bind:href="bookLink">{{book.title}}</a></h3>
+                <router-link tag="h3" class="book-title" v-bind:to="bookLink"><a>{{book.title}}</a></router-link>
                 <p class="book-author">{{book.authorTitle}}</p>
                 <div class="star-rating">
                     <!-- <i class="fa fa-star {{#lte 1 book.rating}}color{{/lte}}"></i>
@@ -40,7 +40,7 @@ export default {
 
     data() {
         return {
-            bookLink: "book.html?id=" + this.book._doc
+            bookLink: "/book/" + this.book._doc
         };
     }
 };
