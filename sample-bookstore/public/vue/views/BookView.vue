@@ -26,12 +26,6 @@
                         <div class="book-detail-body">
 
                             <div class="detail-cart-button row clearfix">
-                                <div class="pull-left col-md-6 col-sm-5 col-xs-12">
-                                    <div class="detail-book-price">
-                                        <span class="price">$ {{book.price}}</span>
-                                    </div>
-                                </div>
-
                                 <div class="pull-right col-md-6 col-sm-7 col-xs-12">
                                     <div class="row product-actions">
 
@@ -51,7 +45,9 @@
                                 <!-- <p> -->
                                     <template v-for="tag in book.tags">
                                     <h4 style="display:inline-block" v-bind:key="tag">
-                                        <span class="label label-default"><a href="'tags.html?id=' + tag" style="color:white">{{tag}}</a></span>
+                                        <span class="label label-default">
+                                            <router-link tag="a" v-bind:to="'/search?tag=' + tag" style="color:white">{{tag}}</router-link>
+                                        </span>
                                     </h4>
                                     </template>
                                 <!-- </p> -->

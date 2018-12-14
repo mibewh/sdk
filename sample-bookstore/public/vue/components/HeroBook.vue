@@ -19,9 +19,6 @@
                                 <h1 class="slider-caption-title fadeInDown-1">{{book.title}}</h1>
                                 <p class="slider-caption-subtitle fadeInDown-2 hidden-xs">{{book.description}}</p>
                             </div>
-                            <div class="clearfix slider-price fadeInDown-3 hidden-xs">
-                                <a class="btn btn-secondary btn-price" href="#">${{book.price}}</a>
-                            </div>
                         </div>
                     </div>
                 </div>
