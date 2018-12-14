@@ -1,50 +1,58 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
-import Layout from './components/Layout'
-import BookItem from './components/BookItem'
+import Layout from './components/Layout';
+import Slider from './components/Slider';
+import BooksContainer from './components/BooksContainer';
+import AuthorsContainer from './components/AuthorsContainer';
 
 class App extends React.Component {
 
     constuctor() {
         this.state = {
             books: null,
+            authors: null,
             error: null
         };
     }
 
-    componentDidMount() {
-        axios
-            .get("/api/books")
-            .then(res => {
-                console.log("hello");
-                console.log(res.data);
-                this.setState({ books: res.data })
-            })
-            .catch(error => this.setState({ error }))
+    fetchBooks() {
+        return axios.get("/api/books");
     }
 
-    getBookList(data) {
-        const bookList = Object.values(data);
-        return bookList
+    fetchAuthors() {
+        return axios.get("/api/authors");
+    }
+
+    componentDidMount() {
+        axios.all([this.fetchBooks(), this.fetchAuthors()])
+            .then(axios.spread((bs, as) => {
+                this.setState({ 
+                    authors: as.data,
+                    books: bs.data
+                });
+            }))
+            .catch(error => this.setState({ error }));
     }
 
     render() {
         const books = this.state && this.state.books;
-        if (books === null) {
-            return "error"
+        if (!books) {
+            return "Error: No book data found"
         }
+        const bookList = Object.values(books);
+
+        const authors = this.state && this.state.authors;
+        if (!authors) {
+            return "Error: No author data found"
+        }
+        const authorList = Object.values(authors);
 
         return (
             <Layout>
-                <h1>CCMS</h1>
-                <ul>
-                    {this.getBookList(books).map((book) => (
-                        <li key={book._doc}>
-                            <BookItem bookItem={book} />
-                        </li>
-                    ))}
-                </ul>
+                <Slider bookItem={bookList[0]} />
+                <BooksContainer books={bookList} />
+                <AuthorsContainer authors={authorList} />
             </Layout>
         )
     }
