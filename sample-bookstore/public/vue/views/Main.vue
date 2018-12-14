@@ -12,11 +12,11 @@
 
             </div>
 
-            <BookCarousel title="New Books" description="Do eiusmod tempor incididunt ut labore et dolore magna aliqua" />
+            <BookList title="New Books" description="Do eiusmod tempor incididunt ut labore et dolore magna aliqua" />
 
             <!-- featured authors -->
             <div class="featured-item-block">
-                <AuthorCarousel />
+                <AuthorList />
             </div>
 
         </div>
@@ -25,14 +25,14 @@
 
 <script>
 import HeroBook from "../components/HeroBook";
-import BookCarousel from "../components/BookCarousel";
-import AuthorCarousel from "../components/AuthorCarousel";
+import BookList from "../components/BookList";
+import AuthorList from "../components/AuthorList";
 
 export default {
     components: {
         HeroBook,
-        BookCarousel,
-        AuthorCarousel
+        BookList,
+        AuthorList
     }
 }
 </script>

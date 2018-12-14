@@ -1,5 +1,5 @@
 <template>
-    <div class="book">
+    <div class="book" style="text-align: center">
             <div v-if="sale" class="sale-ribbon"><div class="sale-ribbon-content">sale off</div></div>
         <div class="book-cover">
             <div class="book-inner">

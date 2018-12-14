@@ -86,18 +86,18 @@
         </div>
 
         <!-- recommendations -->
-        <BookCarousel v-if="loaded" title="Recommendations" description="If you enjoy this book, we also recommend..." v-bind:books="book.recommendations" />
+        <BookList v-if="loaded" title="Recommendations" description="If you enjoy this book, we also recommend..." v-bind:books="book.recommendations" />
 
     </div>
 </template>
 
 <script>
 import axios from 'axios';
-import BookCarousel from "../components/BookCarousel";
+import BookList from "../components/BookList";
 
 export default {
     components: {
-        BookCarousel
+        BookList
     },
 
     data() {
