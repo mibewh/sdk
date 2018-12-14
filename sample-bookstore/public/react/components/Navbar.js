@@ -1,3 +1,5 @@
+import React from "react";
+
 const Navbar = () => (
   <nav className="navbar navbar-top-bar navbar-static-top">
     <div className="container">

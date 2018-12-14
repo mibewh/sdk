@@ -1,3 +1,5 @@
+import React from "react";
+
 const Navmain = () => (
     <div className="yamm navbar navbar-default navbar-default-book animate-dropdown" role="navigation">
         <div className="container">
@@ -11,7 +13,7 @@ const Navmain = () => (
                         <span className="icon-bar"></span>
                     </button>
                     <a className="navbar-brand" href="index.html">
-                        <img className="logo" src="../images/book-flat.png" />
+                        <img className="logo" src="static/images/book-flat.png" />
                         <span className="title">Quick Start Books</span>
                     </a>
                 </div>

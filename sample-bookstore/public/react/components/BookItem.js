@@ -1,10 +1,32 @@
-import Link from 'next/link'
+import React from "react";
 
 const BookItem = (props) => (
-    <div>
-        <Link href={props.bookItem.imageUrl}>
-            <a>{props.bookItem.title}</a>
-        </Link>
+    <div className="item item-carousel">
+        <div className="books">
+            <div className="book">
+                <div className="book-cover">
+                    <div className="book-inner">
+                        <a href={`book.html?id=${props.bookItem._doc}`}>
+                            <img src={props.bookItem.imageUrl} alt={props.bookItem.title} />
+                        </a>
+                        <div className="fade"></div>
+                        <div className="book-price">
+                            <span className="price">
+                                $ {props.bookItem.price}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div className="book-details">
+                    <h3 className="book-title">
+                        <a href={`book.html?id=${props.bookItem._doc}`}>
+                            {props.bookItem.title}
+                        </a>
+                    </h3>
+                    <p className="book-author">{props.bookItem.authorTitle}</p>
+                </div>
+            </div>
+        </div>
     </div>
 )
 
