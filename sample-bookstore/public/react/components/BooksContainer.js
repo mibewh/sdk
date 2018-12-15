@@ -11,14 +11,14 @@ class BooksContainer extends React.Component {
                 <div className="wow fadeInUp">
                     <div className="module block-new-books module-block">
                         <div className="module-heading">
-                            <h2 className="module-title">New Books</h2>
-                            <p className="module-subtitle">Do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+                            <h2 className="module-title">{this.props.title}</h2>
+                            <p className="module-subtitle">{this.props.subtitle}</p>
                         </div>
                         <div className="module-body">
                             <div className="books">
                                 <div className="row">
                                     {
-                                       firstFourBooks.map((book) => (
+                                        firstFourBooks.map((book) => (
                                             <div className="col-md-3" key={book._doc}>
                                                 <Book book={book} />
                                             </div>

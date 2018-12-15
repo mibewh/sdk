@@ -7,7 +7,7 @@ const Book = ({ book }) => (
             <div className="book">
                 <div className="book-cover">
                     <div className="book-inner">
-                        <Link to={`book/${book._doc}`}>
+                        <Link to={`/book/${book._doc}`}>
                             <img src={book.imageUrl} alt={book.title} />
                         </Link>
                         <div className="fade"></div>
@@ -15,7 +15,7 @@ const Book = ({ book }) => (
                 </div>
                 <div className="book-details">
                     <h3 className="book-title">
-                        <Link to={`book/${book._doc}`}>
+                        <Link to={`/book/${book._doc}`}>
                             {book.title}
                         </Link>
                     </h3>
