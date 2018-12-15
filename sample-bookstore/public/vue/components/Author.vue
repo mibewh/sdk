@@ -1,5 +1,5 @@
 <template>
-    <div class="item item-author-block author">
+    <div class="item item-author-block author" style="text-align: center">
         <router-link to="/search">
             <div class="author-dp">
                 <img v-bind:src="author.imageUrl"  v-bind:alt="author.title">
