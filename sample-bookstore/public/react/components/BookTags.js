@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { Link } from "react-router-dom";
 
 const styleH4 = {
     display: "inline-block"
@@ -15,7 +16,9 @@ const BookTags = ({ book }) => (
             {
                 book.tags.map((tag) => (
                     <h4 style={styleH4} key={tag}>
-                        <span className="label label-default"><a href={`tags.html?id=${tag}`} style={styleA}>{tag}</a></span>
+                        <span className="label label-default">
+                            <Link to={`/search?tag=${tag}`} style={styleA}>{tag}</Link>
+                        </span>
                     </h4>
                 ))
             }

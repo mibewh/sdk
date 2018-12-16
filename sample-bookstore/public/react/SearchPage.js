@@ -41,8 +41,13 @@ class SearchPage extends React.Component {
 
         this.fetchTags();
 
-        const searchText = this.props.history.location.state.searchText;
-        this.searchByText(searchText);
+        const queryString = this.props.location.search;
+        if (queryString.indexOf("tag") > 0) {
+            this.searchByTag(queryString.split("tag=")[1]);
+        }
+        else {
+            this.searchByText(queryString.split("text=")[1]);
+        }
     }
 
     componentDidUpdate(prevProps) {
