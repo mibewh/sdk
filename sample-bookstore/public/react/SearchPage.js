@@ -92,8 +92,16 @@ class SearchPage extends React.Component {
                                     <div className="row">
                                         <div className="col-md-3 col-sm-4">
                                             <ul id="myTab" className="nav nav-tabs grid-list-view-buttons" role="tablist">
-                                                <li role="presentation" className="active"><Link to={`${this.props.match.url}#grid`} className="btn navbar-btn" role="tab" data-toggle="tab"><span className="glyphicon glyphicon-th active"></span></Link></li>
-                                                <li role="presentation"><a href="#list" className="btn navbar-btn" role="tab" data-toggle="tab"><span className="glyphicon glyphicon-th-list"></span></a></li>
+                                                <li role="presentation" className="active">
+                                                    <a href="#grid" className="btn navbar-btn" role="tab" data-toggle="tab">
+                                                        <span className="glyphicon glyphicon-th active"></span>
+                                                    </a>
+                                                </li>
+                                                <li role="presentation">
+                                                    <a href="#list" className="btn navbar-btn" role="tab" data-toggle="tab">
+                                                        <span className="glyphicon glyphicon-th-list"></span>
+                                                    </a>
+                                                </li>
                                             </ul>
                                         </div>
 
@@ -137,6 +145,46 @@ class SearchPage extends React.Component {
                                                 }
                                             </div>
                                         </div>
+                                    </div>
+                                    <div className="tab-pane wow fadeInUp featured-book-holder" id="list" role="tabpanel">
+
+                                        {
+                                            bookList.map((book) => (
+                                                <Fragment key={book._doc}>
+                                                    <div className="featured-book">
+                                                        <div className="books clearfix">
+                                                            <div className="row">
+                                                                <div className="col-md-4 col-sm-5">
+                                                                    <div className="book">
+                                                                        <div className="hot-ribbon"><div className="hot-ribbon-content">hot</div></div>
+                                                                        <div className="book-cover">
+                                                                            <img className="img-responsive" width="193" height="261" src={book.imageUrl} alt={book.title} />
+                                                                            <div className="fade"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className="col-md-8 col-sm-7">
+                                                                    <div className="book-details book-details-list-view">
+                                                                        <h3 className="book-title">
+                                                                            <Link to={`/book/${book._doc}`}>
+                                                                                {book.title}
+                                                                            </Link>
+                                                                        </h3>
+                                                                        <p className="book-author">{book.authorTitle}</p>
+                                                                    </div>
+
+                                                                    <div className="featured-book-content">
+                                                                        <p className="hidden-sm hidden-md">{book.description}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </Fragment>
+                                            ))
+                                        }
+
                                     </div>
 
                                 </div>

@@ -28,8 +28,7 @@ class BookPage extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.match.params.id !== prevProps.match.params.id)
-        {
+        if (this.props.match.params.id !== prevProps.match.params.id) {
             this.fetchAndUpdateBook();
         }
     }
@@ -88,8 +87,12 @@ class BookPage extends React.Component {
                         <div className="tab-holder clearfix">
                             <div className="book-additional-details">
                                 <ul className="nav nav-tabs book-detail-tab">
-                                    <li className="active" role="presentation"><a href="#more" data-toggle="tab">More About This Book</a></li>
-                                    <li role="presentation"><a href="#download" data-toggle="tab">Download</a></li>
+                                    <li className="active" role="presentation">
+                                        <a href="#more" data-toggle="tab">More About This Book</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#download" data-toggle="tab">Download</a>
+                                    </li>
                                 </ul>
 
                                 <div className="tab-content">
