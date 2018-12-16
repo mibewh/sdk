@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Book from "./components/Book";
+import Book from "../components/Book";
 
 class SearchPage extends React.Component {
 

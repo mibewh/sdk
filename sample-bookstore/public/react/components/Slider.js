@@ -1,7 +1,13 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
+const style = {
+    height: 600,
+    backgroundColor: "#629c49"
+}
 
 const Slider = ({ book }) => (
-    <div className="slider">
+    <div className="slider" style={style}>
         <div id="hero">
             <div id="owl-main" className="owl-carousel1 owl-theme">
                 <div className="item">
@@ -23,6 +29,11 @@ const Slider = ({ book }) => (
                                         <div className="slider-caption-heading">
                                             <h1 className="slider-caption-title fadeInDown-1">{book.title}</h1>
                                             <p className="slider-caption-subtitle fadeInDown-2 hidden-xs">{book.description}</p>
+                                        </div>
+                                        <div className="clearfix slider-price fadeInDown-3 hidden-xs">
+                                            <Link className="btn btn-secondary btn-price" to={`/book/${book._doc}`}>
+                                                View Book
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>

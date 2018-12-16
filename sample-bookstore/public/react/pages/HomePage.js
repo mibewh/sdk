@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
 import axios from "axios";
-import Slider from './components/Slider';
-import BooksContainer from './components/BooksContainer';
-import AuthorsContainer from './components/AuthorsContainer';
+import Slider from '../components/Slider';
+import BooksContainer from '../components/BooksContainer';
+import AuthorsContainer from '../components/AuthorsContainer';
 
 class HomePage extends React.Component {
 

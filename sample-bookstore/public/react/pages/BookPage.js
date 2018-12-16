@@ -1,8 +1,7 @@
-import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 import axios from "axios";
-import BooksContainer from "./components/BooksContainer";
-import BookTags from "./components/BookTags";
+import BooksContainer from "../components/BooksContainer";
+import BookTags from "../components/BookTags";
 
 class BookPage extends React.Component {
 
