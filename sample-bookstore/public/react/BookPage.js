@@ -12,14 +12,26 @@ class BookPage extends React.Component {
         };
     }
 
-    componentDidMount() {
+    fetchAndUpdateBook() {
         const bookId = this.props.match.params.id;
+
         axios.get(`/api/books/${bookId}`)
             .then((res) => {
                 this.setState({
                     book: res.data
                 });
             });
+    }
+
+    componentDidMount() {
+        this.fetchAndUpdateBook();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.match.params.id !== prevProps.match.params.id)
+        {
+            this.fetchAndUpdateBook();
+        }
     }
 
     render() {
