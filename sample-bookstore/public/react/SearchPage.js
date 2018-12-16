@@ -1,14 +1,75 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import Book from "./components/Book";
 
 class SearchPage extends React.Component {
 
+    fetchTags() {
+        axios.get("/api/tags").then((res) => {
+            this.setState({
+                tags: res.data
+            })
+        })
+    }
+
+    searchByText(searchText) {
+        axios.get("/api/search", {
+            params: {
+                text: searchText
+            }
+        }).then((res) => {
+            this.setState({
+                books: res.data
+            })
+        });
+    }
+
+    searchByTag(searchTag) {
+        axios.get("/api/books", {
+            params: {
+                tag: searchTag
+            }
+        }).then((res) => {
+            this.setState({
+                books: res.data
+            })
+        });
+    }
+
     componentDidMount() {
 
+        this.fetchTags();
+
+        const searchText = this.props.history.location.state.searchText;
+        this.searchByText(searchText);
+    }
+
+    componentDidUpdate(prevProps) {
+
+        if (this.props.location.search !== prevProps.location.search) {
+            const queryString = this.props.location.search;
+            if (queryString.indexOf("tag") > 0) {
+                this.searchByTag(queryString.split("tag=")[1]);
+            }
+            else {
+                this.searchByText(queryString.split("text=")[1]);
+            }
+        }
     }
 
     render() {
+        const tags = this.state && this.state.tags;
+        if (!tags) {
+            return "Error: No book data found"
+        }
+        const tagList = Object.values(tags);
 
+        const books = this.state && this.state.books;
+        if (!books) {
+            return "Error: No book data found"
+        }
+        const bookList = Object.values(books);
 
         return (
             <div className="category page">
@@ -60,17 +121,17 @@ class SearchPage extends React.Component {
                                     <div className="tab-pane active wow fadeInUp" id="grid" role="tabpanel">
                                         <div className="category-books books grid-view">
                                             <div className="row">
-
-                                                {/* book results */}
-
+                                                {
+                                                    bookList.map((book) => (
+                                                        <Fragment key={book._doc}>
+                                                            <div className="col-md-4 col-sm-6">
+                                                                <Book book={book} />
+                                                            </div>
+                                                        </Fragment>
+                                                    ))
+                                                }
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div className="tab-pane wow fadeInUp featured-book-holder" id="list" role="tabpanel">
-
-                                        {/* featured books */}
-
                                     </div>
 
                                 </div>
@@ -95,7 +156,13 @@ class SearchPage extends React.Component {
 
                                         <div className="module-body category-module-body">
                                             <ul className="list-unstyled category-list">
-                                                {/* tags */}
+                                                {
+                                                    tagList.map((tag) => (
+                                                        <li key={tag.tag}>
+                                                            <Link to={`/search?tag=${tag.tag}`}>{tag.title}</Link>
+                                                        </li>
+                                                    ))
+                                                }
                                             </ul>
                                         </div>
                                     </section>

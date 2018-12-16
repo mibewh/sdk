@@ -27,7 +27,7 @@ class BookPage extends React.Component {
         this.fetchAndUpdateBook();
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (this.props.match.params.id !== prevProps.match.params.id)
         {
             this.fetchAndUpdateBook();

@@ -15,7 +15,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/" component={HomePage} />} />
             <Route exact path={`/book/:id`} component={BookPage} />} />
-            {/* <Route path={`/search`} component={SearchPage} /> */}
+            <Route path={`/search`} component={SearchPage} />
           </Switch>
         </Layout>
       </Router>
