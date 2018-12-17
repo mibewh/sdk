@@ -2,8 +2,7 @@
 
 This is an adaptation of the angular.io tutorial "Tour of Heroes" which uses Cloud CMS as a backend.
 
-Create the gitana.json file for your Cloud CMS project in this folder by either using the cloudcms-cli or
-download from "API Keys" under "Manage Project" in the Cloud CMS Project.
+Create the gitana.json file for your Cloud CMS project in this folder. For information on how to retrieve this see: https://www.cloudcms.com/apikeys.html
 
 Then do:
   npm install
