@@ -7,6 +7,10 @@ var routes = function (app, callback)
         res.status(200).sendFile(path.join(__dirname, "public/vue/index.html"));
     });
 
+    app.get("/react", function(req, res) {
+        res.status(200).sendFile(path.join(__dirname, "public/react/index.html"));       
+    });
+
     app.get("/api/books", function(req, res) {
         let query = {
             _type: "store:book"

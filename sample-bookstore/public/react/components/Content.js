@@ -1,7 +1,9 @@
-const Content = (props) => (
-    <div className="content">
-      {props.children}
-    </div>
+import React from "react";
+
+const Content = ({ children }) => (
+  <div className="content">
+    {children}
+  </div>
 )
 
 export default Content
