@@ -1,4 +1,4 @@
-var util = require("../lib/util.js");
+var util = require("./util.js");
 var cloudcmsUtil = require("cloudcms-server/util/util");
 
 module.exports = function (app, callback) {
