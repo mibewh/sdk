@@ -11,10 +11,10 @@
     $provider = new GenericProvider([
         'clientId'                => $clientKey,    // The client ID assigned to you by the provider
         'clientSecret'            => $clientSecret, 
-        'urlAuthorize'            => 'https://api.cloudcms.com/oauth/authorize',
-        'urlAccessToken'          => 'https://api.cloudcms.com/oauth/token',
-        'redirectUri'             => 'http://example.com/your-redirect-url/',    
-        'urlResourceOwnerDetails' => 'https://api.cloudcms.com'
+        'urlAuthorize'            => 'http://localhost:8080/oauth/authorize',
+        'urlAccessToken'          => 'http://localhost:8080/oauth/token',
+        'redirectUri'             => 'http://localhost:8080',
+        'urlResourceOwnerDetails' => 'http://localhost:8080'
     ]);
 
     // connect to Cloud CMS using OAuth 2.0 "password" flow

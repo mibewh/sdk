@@ -7,7 +7,7 @@
     
     include __DIR__ . '/config.php';
 
-    $url = "http://api.cloudcms.com/repositories/{$repositoryId}/branches/{$branchId}/nodes/{$nodeId}";
+    $url = "http://localhost:8080/repositories/{$repositoryId}/branches/{$branchId}/nodes/{$nodeId}";
 
     $request = $provider->getAuthenticatedRequest(
         'GET',

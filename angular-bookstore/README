@@ -1,0 +1,34 @@
+
+# Tour of Heroes AngularJS example
+
+This is an adaptation of the angular.io tutorial "Tour of Heroes" which uses Cloud CMS as a backend.
+
+This version of Tour of Heroes
+Create the gitana.json file for your Cloud CMS project in this folder by either using the cloudcms-cli or
+download from "API Keys" under "Manage Project" in the Cloud CMS Project.
+
+Then do:
+  npm install
+  ng serve --open
+
+After a connection is established to the Cloud CMS API server a check is made to see if the custom
+type with qname "demo:hero" exists. If it does not then it is installed for you and one sample record
+is created with title: "Test Hero 1".
+
+This example uses direct connection to the Cloud CMS API which is not recommended for production as it
+exposes the security keys in gitana.json. However, basic Create, Read, Update, Delete, Query operations
+are demonstrated.
+
+Build the app. Final compiled files will be copied to server/public:
+
+    npm install
+    ng build --prod
+
+Start the server:
+    cd server
+    npm install
+    npm Start
+
+Open in your browser:
+    http://localhost:2999
+
