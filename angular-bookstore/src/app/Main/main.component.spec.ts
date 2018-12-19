@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HeroBookComponent } from './herobook.component';
+import { DashboardComponent } from './main.component';
 import { HeroSearchComponent } from '../hero-search/hero-search.component';
 
 import { RouterTestingModule } from '@angular/router/testing';
@@ -8,9 +8,9 @@ import { of } from 'rxjs';
 import { HEROES } from '../mock-heroes';
 import { HeroService } from '../hero.service';
 
-describe('HeroBookComponent', () => {
-  let component: HeroBookComponent;
-  let fixture: ComponentFixture<HeroBookComponent>;
+describe('DashboardComponent', () => {
+  let component: DashboardComponent;
+  let fixture: ComponentFixture<DashboardComponent>;
   let heroService;
   let getHeroesSpy;
 
@@ -19,7 +19,7 @@ describe('HeroBookComponent', () => {
     getHeroesSpy = heroService.getHeroes.and.returnValue( of(HEROES) );
     TestBed.configureTestingModule({
       declarations: [
-          HeroBookComponent,
+        DashboardComponent,
         HeroSearchComponent
       ],
       imports: [
@@ -34,7 +34,7 @@ describe('HeroBookComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HeroBookComponent);
+    fixture = TestBed.createComponent(DashboardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

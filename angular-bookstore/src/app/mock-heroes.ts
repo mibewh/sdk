@@ -1,4 +1,4 @@
-import { Hero } from './book';
+import { Hero } from './hero';
 
 export const HEROES: Hero[] = [
   { id: "11", name: 'Mr. Nice', multilingual: false, translations: [], locale: 'default' },

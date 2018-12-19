@@ -1,7 +1,28 @@
-<h1>{{title}}</h1>
-<nav>
-  <a routerLink="/dashboard">Dashboard</a>
-  <a routerLink="/heroes">Heroes</a>
-</nav>
-<router-outlet></router-outlet>
-<app-messages></app-messages>
+<div class="wrapper">
+    <app-header></app-header>
+
+    <div class="content">
+        <div class="home page">
+
+            <div class="slider">
+                <div id="hero">
+                    <div id="owl-main" class="owl-carousel1 owl-theme">
+                        <app-herobook></app-herobook>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <app-bookcarausel></app-bookcarausel>
+
+            <!-- featured authors -->
+            <div class="featured-item-block">
+                <app-authorlist></app-authorlist>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

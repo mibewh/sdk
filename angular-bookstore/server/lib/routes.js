@@ -3,99 +3,7 @@ var cloudcmsUtil = require("cloudcms-server/util/util");
 
 module.exports = function (app, callback) {
 
-    app.get("/api/books", function(req, res) {
-        let query = {
-            _type: "store:book"
-        };
-        if (req.query.tag)
-        {
-            query.tags = req.query.tag;
-        }
-
-        req.branch(function(err, branch) {
-            branch.trap(function(err) {
-                return res.status(500).json(err);
-            }).queryNodes(query).each(function() {
-                this.imageUrl = "/static/" + this._doc + "-image.jpg?repository=" + this.getRepositoryId() + "&branch=" + this.getBranchId() + "&node=" + this.getId();
-                this.authorTitle = this.author.title;
-            }).then(function() {
-                return res.status(200).json(this);
-            });
-        });
-    });
-
-    app.get("/api/books/:id", function(req, res) {
-        const bookId = req.params.id;
-
-        req.branch(function(err, branch) {
-            branch.trap(function(err) {
-                return res.json(err);
-            }).readNode(bookId)
-                .then(function() {
-                    this.imageUrl = "/static/" + this._doc + "-image.jpg?repository=" + this.getRepositoryId() + "&branch=" + this.getBranchId() + "&node=" + this.getId();
-                    this.pdfUrl = "/static/" + this._doc + "-pdf.jpg?repository=" + this.getRepositoryId() + "&branch=" + this.getBranchId() + "&node=" + this.getId() + "&attachment=book_pdf";
-                    this.authorTitle = this.author.title;
-
-                    const self = this;
-                    this.recommendations.forEach(function(rec) {
-                        rec._doc = rec.id;
-                        rec.imageUrl = "/static/" + rec._doc + "-image.jpg?repository=" + self.getRepositoryId() + "&branch=" + self.getBranchId() + "&node=" + rec._doc;
-                    });
-                    return res.status(200).json(this);
-                });
-        });
-    });
-
-    app.get("/api/authors", function(req, res) {
-        req.branch(function(err, branch) {
-            branch.trap(function(err) {
-                return res.status(500).json(err);
-            }).queryNodes({
-                _type: "store:author"
-            }).each(function() {
-                this.imageUrl = "/static/" + this._doc + "-image.jpg?repository=" + this.getRepositoryId() + "&branch=" + this.getBranchId() + "&node=" + this.getId();
-            }).then(function() {
-                return res.status(200).json(this);
-            });
-        });
-    });
-
-    app.get("/api/search", function(req, res) {
-        const text = req.query.text;
-
-        req.branch(function(err, branch) {
-            branch.trap(function(err) {
-                return res.status(500).json(err);
-            }).findNodes({
-                search: text,
-                query: {
-                    _type: "store:book"
-                }
-            }).each(function() {
-                this.imageUrl = "/static/" + this._doc + "-image.jpg?repository=" + this.getRepositoryId() + "&branch=" + this.getBranchId() + "&node=" + this.getId();
-            }).then(function() {
-                return res.status(200).json(this);
-            });
-        });
-    });
-
-    app.get("/api/tags", function(req, res) {
-        req.branch(function(err, branch) {
-            branch.trap(function(err) {
-                return res.status(500).json(err);
-            }).queryNodes({
-                _type: "n:tag"
-            }, {
-                sort: {
-                    tag: 1
-                }
-            }).then(function() {
-                return res.status(200).json(this);
-            });
-        });
-    });
-
-   app.get("/api/heroes", function (req, res) {
+    app.get("/api/heroes", function (req, res) {
         req.cache.read("heroes", function (err, cachedNodes) {
             if (cachedNodes) {
                 console.log("found heroes in cache: " + cachedNodes.length);
@@ -105,23 +13,23 @@ module.exports = function (app, callback) {
             var nodes = [];
             req.branch(function (err, branch) {
                 branch.trap(function (err) {
-                        return res.status(500).json(err);
-                    }).queryNodes({
-                        _type: "demo:hero",
-                        "_features.f:translation": { // skip translations
-                            "$exists": false
-                        }
-                    }, {
-                        "limit": 100
-                    })
+                    return res.status(500).json(err);
+                }).queryNodes({
+                    _type: "demo:hero",
+                    "_features.f:translation": { // skip translations
+                        "$exists": false
+                    }
+                }, {
+                    "limit": 100
+                })
                     .each(function () {
                         var node = this;
                         nodes.push(heroFromNode(node));
                     }).then(function () {
-                        req.cache.write("heroes", nodes, 60 * 2 /* cache for 2 minutes */ , function () {
-                            return res.status(200).json(nodes);
-                        });
+                    req.cache.write("heroes", nodes, 60 * 2 /* cache for 2 minutes */ , function () {
+                        return res.status(200).json(nodes);
                     });
+                });
             });
         });
     });
@@ -156,6 +64,57 @@ module.exports = function (app, callback) {
                     }
                 });
             });
+        });
+    });
+
+    app.get("/api/books", function(req, res) {
+        req.branch(function(err, branch) {
+            branch.trap(function(err) {
+                return res.status(500).json(err);
+            }).queryNodes({
+                _type: "store:book"
+            }).each(function() {
+                this.imageUrl = "/static/" + this._doc + "-cover.jpg?repository=" + this.getRepositoryId() + "&branch=" + this.getBranchId() + "&node=" + this.getId();
+                this.authorTitle = this.author.title;
+            }).then(function() {
+                res.status(200).json(this);
+            });
+        });
+    });
+
+    app.get("/api/authors", function(req, res) {
+        req.branch(function(err, branch) {
+            branch.trap(function(err) {
+                return res.status(500).json(err);
+            }).queryNodes({
+                _type: "store:author"
+            }).each(function() {
+                this.imageUrl = '/proxy/repositories/' + this.getRepositoryId() + '/branches/' + this.getBranchId() + '/nodes/' + this._doc + '/attachments/default';
+            }).then(function() {
+                res.status(200).json(this);
+            });
+        });
+    });
+
+    app.get("/api/books/:id", function(req, res) {
+        const bookId = req.params.id;
+
+        req.branch(function(err, branch) {
+            branch.trap(function(err) {
+                return res.json(err);
+            }).readNode(bookId)
+                .then(function() {
+                    this.imageUrl = "/static/" + this._doc + "-image.jpg?repository=" + this.getRepositoryId() + "&branch=" + this.getBranchId() + "&node=" + this.getId();
+                    this.pdfUrl = "/static/" + this._doc + "-pdf.jpg?repository=" + this.getRepositoryId() + "&branch=" + this.getBranchId() + "&node=" + this.getId() + "&attachment=book_pdf";
+                    this.authorTitle = this.author.title;
+
+                    const self = this;
+                    this.recommendations.forEach(function(rec) {
+                        rec._doc = rec.id;
+                        rec.imageUrl = "/static/" + rec._doc + "-image.jpg?repository=" + self.getRepositoryId() + "&branch=" + self.getBranchId() + "&node=" + rec._doc;
+                    });
+                    return res.status(200).json(this);
+                });
         });
     });
 

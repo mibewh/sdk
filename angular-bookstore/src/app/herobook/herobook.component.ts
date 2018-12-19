@@ -1,28 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 
-import { HeroBook } from '../herobook';
-import { HeroBookService } from '../herobook.service';
+import { Hero } from '../hero';
+import { HeroService } from '../hero.service';
 
 @Component({
-  selector: 'app-herobook',
-  templateUrl: './herobook.component.html'
+    selector: 'app-herobook',
+    templateUrl: './herobook.component.html'
 })
 export class HeroBookComponent implements OnInit {
 
     book;
 
-  constructor(private heroBookService: HeroBookService) { }
+    constructor(private heroService: HeroService) { }
 
-  ngOnInit() {
-    this.getHeroes();
-  }
+    ngOnInit() {
+        this.getHeroes();
+    }
 
-  getHeroes(): void {
-    this.heroBookService.getHeroes()
-        .subscribe(heroes => {
-                this.book = Object.values(heroes)[0];
-            }
-        );
-  }
+    getHeroes(): void {
+        this.heroService.getHeroes()
+            .subscribe(heroes => {
+                console.log("this.book", Object.values(heroes)[0]);
+                    this.book = Object.values(heroes)[0];
+                }
+            );
+    }
 
 }
