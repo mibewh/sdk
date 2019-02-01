@@ -6,9 +6,8 @@ import { BookDetailComponent }  from './Bookdetail/book-detail.component';
 import {SearchComponent} from "./Search/search.component";
 
 const routes: Routes = [
-    { path: '', redirectTo: '/main', pathMatch: 'full' },
-    { path: 'main', component: MainComponent },
-    { path: 'detail/:id', component: BookDetailComponent },
+    { path: '', component: MainComponent },
+    { path: 'book/:id', component: BookDetailComponent },
     { path: 'search', component: SearchComponent }
 ];
 
