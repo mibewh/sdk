@@ -1,16 +1,16 @@
 <template>
     <div class="item item-author-block author" style="text-align: center">
-        <nuxt-link to="/">
+        <a href="/">
             <div class="author-dp">
                 <img v-bind:src="author.imageUrl"  v-bind:alt="author.title">
             </div>
-        </nuxt-link>        
+        </a>        
         <div class="author-details">
             <h3 class="author-name">
-                <nuxt-link tag="a" to="/">{{author.title}}</nuxt-link>
+                <a href="/">{{author.title}}</a>
             </h3>
             <blockquote class="author-testimonial">{{author.testimonial}}</blockquote>
-            <nuxt-link tag="a" to="/" class="btn btn-primary btn-view-books">View books</nuxt-link>
+            <a href="/" class="btn btn-primary btn-view-books">View books</a>
         </div>
     </div>
 </template>

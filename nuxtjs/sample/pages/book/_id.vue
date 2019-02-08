@@ -5,8 +5,7 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="book-cover book detail-book-cover">
-                            <!-- <img v-bind:src="'http://localhost:2999' + book.imageUrl" class="img-responsive" v-bind:alt="book.title"> -->
-                            <img :src="book.imageUrl">
+                            <img :src="book.imageUrl" class="img-responsive" :alt="book.title">
                             <div class="fade"></div>
                         </div>
                     </div>
@@ -16,11 +15,6 @@
                             <h2 class="book-title">{{book.title}}</h2>
                             <p class="book-author">By <span class="book-author-name">{{book.author.title}}</span></p>
                             <div class="star-rating">
-                                <!-- <i class="fa fa-star {{#lte 1 book.rating}}color{{/lte}}"></i>
-                                <i class="fa fa-star {{#lte 2 book.rating}}color{{/lte}}"></i>
-                                <i class="fa fa-star {{#lte 3 book.rating}}color{{/lte}}"></i>
-                                <i class="fa fa-star {{#lte 4 book.rating}}color{{/lte}}"></i>
-                                <i class="fa fa-star {{#lte 5 book.rating}}color{{/lte}}"></i> -->
                             </div>
                         </div>
 
@@ -43,7 +37,6 @@
 
                                 <template v-if="book.tags">
                                 <h3>Tags</h3>
-                                <!-- <p> -->
                                     <template v-for="tag in book.tags">
                                     <h4 style="display:inline-block" v-bind:key="tag">
                                         <span class="label label-default">
@@ -51,7 +44,6 @@
                                         </span>
                                     </h4>
                                     </template>
-                                <!-- </p> -->
                                 </template>
 
 
@@ -93,7 +85,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import BookList from "../../components/BookList";
 
 export default {
@@ -110,12 +101,11 @@ export default {
 
     asyncData(context) {
         const bookId = context.params.id;
-
         return context.$getCloudCMS().then(function({ branch }) {
             return branch.readNode(bookId).then(function() {
                 var book = this;
                 book.imageUrl = context.app.$baseCDNURL + "/static/" + book._doc + "-image.jpg?node=" + book._doc;
-                book.pdfURL = context.app.$baseCDNURL + "/static/" + book._doc + "-pdf.jpg?node=" + book._doc + "&attachment=book_pdf";
+                book.pdfURL = context.app.$baseCDNURL + "/static/" + book._doc + "-pdf.pdf?node=" + book._doc + "&attachment=book_pdf";
                 book.recommendations.forEach(function(rec) {
                     rec._doc = rec.id;
                     rec.imageUrl = context.app.$baseCDNURL + "/static/" + rec.id + "-image.jpg?node=" + rec.id;

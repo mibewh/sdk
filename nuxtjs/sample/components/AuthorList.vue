@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import Author from "./Author";
 
 export default {
@@ -33,26 +32,6 @@ export default {
             type: Array
         }
     }
-
-    // data() {
-    //     return {
-    //         authors: []
-    //     };
-    // },
-
-    // created() {
-    //     this.fetchAuthors();
-    // },
-
-    // methods: {
-    //     fetchAuthors() {
-    //         return axios.get('http://localhost:2999/api/authors')
-    //             .then(response => {
-    //                 this.authors = Object.values(response.data);
-    //                 this.authors = this.authors.slice(0, Math.min(4, this.authors.length));
-    //             });
-    //     }
-    // }
 }
 </script>
 

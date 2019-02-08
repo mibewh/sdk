@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="book-details">
-            <nuxt-link tag="h3" class="book-title" v-bind:to="bookLink"><a>{{book.title}}</a></nuxt-link>
+            <h3 class="book-title"><a :href="bookLink">{{book.title}}</a></h3>
             <p v-if="book.author" class="book-author">{{book.author.title}}</p>
         </div>
     </div>

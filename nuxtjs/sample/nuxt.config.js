@@ -1,5 +1,10 @@
 const pkg = require('./package');
 const Gitana = require('gitana');
+// Reset this to allow server renderer to work
+window = undefined;
+var gitanaConfig = require('./gitana.json');
+gitanaConfig.baseCDNURL = "http://localhost:2999";
+
 
 module.exports = {
   mode: 'universal',
@@ -62,16 +67,7 @@ module.exports = {
   ** Nuxt.js modules
   */
   modules: [
-    // ['@nuxtjs/router', { keepDefaultRouter: true }],
-    ['cloudcms-nuxt', {
-      "clientKey": "e34de2c1-f4f7-43a6-93c4-efa23d105fea",
-      "clientSecret": "IoLE0ldateSW2gdmOJO0bgiMEeBbMbkeCjSvhm98FbeUYyJwn1dLlzsNPVOwF+PgJ0WCvfF0JkO1yGwzTALu51vOHYHY48cehH3K/NOVOUI=",
-      "username": "dac1fbfe-1265-4881-954b-782f296076c2",
-      "password": "Oy/XF8OIBxH9QjfRYHC2G3ZTV9MSUvjA3yU+haVLBKhnzvaHeIHSMeiYh++y3mPr9PciFwaR+B6u0yWQTk/arKsxl+HlbuDl8Y7LmoaZ6us=",
-      "baseURL": "http://localhost:8080",
-      "application": "f72237d7737ec3e70e3d",
-      "baseCDNURL": "http://localhost:2999"
-    }]
+    ['cloudcms-nuxt', gitanaConfig]
   ],
 
   /*
@@ -86,9 +82,25 @@ module.exports = {
     }
   },
 
-  // generate: {
-  //   routes: function() {
-  //     // console.log(cloudcms);
-  //   }
-  // }
+  generate: {
+    routes: function(callback) {
+      Gitana.connect(gitanaConfig, function(err) {
+        if (err) {
+          callback(err);
+        }
+
+        const repository = this.datastore("content");
+        repository.readBranch("master").then(function() {
+          const branch = this;
+
+          branch.queryNodes({ _type: "store:book" }).then(function() {
+            const books = this.asArray();
+            const routes = books.map(book => "/book/" + book._doc);
+
+            callback(null, routes);
+          });
+        });
+      });
+    }
+  }
 }

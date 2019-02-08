@@ -1,22 +1,15 @@
-# sample
+# Nuxt JS Static Sample Site Example
 
-> My flawless Nuxt.js project
+This is an example website which uses Cloud CMS as a data source and generates a static site. It relies on the Cloud CMS App Server as a CDN to serve images, but this can be replaced with your own cdn.
 
-## Build Setup
+To run, in the nuxtjs/sample directory:
+1. Add your `gitana.json` file. For information on how to retrieve this see: https://www.cloudcms.com/apikeys.html
+2. Run `npm install`
+3. Run `npm install http-server -g`
+4. Run `npm install nuxt-cli -g`
+5. Run `nuxt generate` to generate your static site
+6. In a separate terminal, run `node appServer` to run the image serving app server
+7. Switch to the `dist` directory, and run `http-server`.
+8. Navigate to http://localhost:8081
 
-``` bash
-# install dependencies
-$ yarn install
-
-# serve with hot reload at localhost:3000
-$ yarn run dev
-
-# build for production and launch server
-$ yarn run build
-$ yarn start
-
-# generate static project
-$ yarn run generate
-```
-
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+This example is not intended for production use, but rather to demonstrate how Cloud CMS might integrate with your Nuxt JS application.

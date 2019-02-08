@@ -4,9 +4,9 @@
         <nav class="navbar navbar-top-bar navbar-static-top">
             <div class="container">
                 <ul class="navbar-nav nav">
-                    <nuxt-link tag="li" to="/">
-                        <a>Home</a>
-                    </nuxt-link>
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
                     <li class="disabled"><a href="index.html">About Us</a></li>
                 </ul>
                 <ul class="navbar-nav nav navbar-right">
@@ -27,20 +27,11 @@
                             <span class="icon-bar"></span>
                         </button>
 
-                        <nuxt-link tag="a" class="navbar-brand" to="/">
+                        <a class="navbar-brand" :href="'/'">
                             <img class="logo" src="../static/book-flat.png">
                             <span class="title">Quick Start Books</span>
-                        </nuxt-link>
+                        </a>
                     </div>
-                    <!--
-                    <div class="collapse navbar-collapse" id="KYbook-navbar">
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="active"><a href="index.html">Books</a></li>
-                            <li class="disabled"><a href="index.html">Audiobooks</a></li>
-                            <li class="disabled"><a href="index.html">Magazines</a></li>
-                        </ul>
-                    </div>
-                    -->
                 </div>
             </div>
         </div>

@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import Book from "./Book";
 
 export default {
