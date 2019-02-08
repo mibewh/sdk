@@ -1,6 +1,5 @@
-const pkg = require('./package')
-const axios = require('axios');
-
+const pkg = require('./package');
+const Gitana = require('gitana');
 
 module.exports = {
   mode: 'universal',
@@ -17,14 +16,14 @@ module.exports = {
     ],
     script: [
       { src: "https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.0/jquery.min.js" },
-      { src: "/assets/js/bootstrap.min.js" },
-      { src: "/assets/js/bootstrap-hover-dropdown.min.js" },
-      { src: "/assets/js/echo.min.js" },
-      { src: "/assets/js/jquery.easing.min.js" },
-      { src: "/assets/js/wow.min.js" },
-      { src: "/assets/js/bootstrap-select.min.js" },
-      { src: "/assets/js/jquery-ui.min.js" },
-      { src: "/assets/js/scripts.js" },
+      { src: "/js/bootstrap.min.js" },
+      { src: "/js/bootstrap-hover-dropdown.min.js" },
+      { src: "/js/echo.min.js" },
+      { src: "/js/jquery.easing.min.js" },
+      { src: "/js/wow.min.js" },
+      { src: "/js/bootstrap-select.min.js" },
+      { src: "/js/jquery-ui.min.js" },
+      { src: "/js/scripts.js" },
 
     ],
     link: [
@@ -46,17 +45,11 @@ module.exports = {
   ** Global CSS
   */
   css: [
-    "@/assets/css/main.css",
-    "@/assets/css/green.css",
-    // "@/assets/css/bootstrap.min.css",
-    // "@/assets/css/bootstrap-select.min.css",
-    // "@/assets/css/font-awesome.min.css",
-    // "@/assets/css/owl.carousel.css",
-    // "@/assets/css/owl.transitions.css",
-    "@/assets/css/animate.min.css",
-    // "@/assets/css/jquery-ui.min.css",
-    "@/assets/css/elegant-fonts.css",
-    "@/assets/css/custom.css"
+    "@/static/css/main.css",
+    "@/static/css/green.css",
+    "@/static/css/animate.min.css",
+    "@/static/css/elegant-fonts.css",
+    "@/static/css/custom.css"
   ],
 
   /*
@@ -69,18 +62,17 @@ module.exports = {
   ** Nuxt.js modules
   */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
-    // Doc: https://bootstrap-vue.js.org/docs/
-    'bootstrap-vue/nuxt'
+    // ['@nuxtjs/router', { keepDefaultRouter: true }],
+    ['cloudcms-nuxt', {
+      "clientKey": "e34de2c1-f4f7-43a6-93c4-efa23d105fea",
+      "clientSecret": "IoLE0ldateSW2gdmOJO0bgiMEeBbMbkeCjSvhm98FbeUYyJwn1dLlzsNPVOwF+PgJ0WCvfF0JkO1yGwzTALu51vOHYHY48cehH3K/NOVOUI=",
+      "username": "dac1fbfe-1265-4881-954b-782f296076c2",
+      "password": "Oy/XF8OIBxH9QjfRYHC2G3ZTV9MSUvjA3yU+haVLBKhnzvaHeIHSMeiYh++y3mPr9PciFwaR+B6u0yWQTk/arKsxl+HlbuDl8Y7LmoaZ6us=",
+      "baseURL": "http://localhost:8080",
+      "application": "f72237d7737ec3e70e3d",
+      "baseCDNURL": "http://localhost:2999"
+    }]
   ],
-  /*
-  ** Axios module configuration
-  */
-  axios: {
-    baseURL: 'http://localhost:2999'
-    // See https://github.com/nuxt-community/axios-module#options
-  },
 
   /*
   ** Build configuration
@@ -94,13 +86,9 @@ module.exports = {
     }
   },
 
-  generate: {
-    routes: function() {
-      return axios.get('http://localhost:2999/api/books')
-        .then(response => {
-          var bookList = Object.values(response.data);
-          return bookList.map(book => '/book/' + book._doc);
-        });
-    }
-  }
+  // generate: {
+  //   routes: function() {
+  //     // console.log(cloudcms);
+  //   }
+  // }
 }

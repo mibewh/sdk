@@ -4,22 +4,13 @@
         <nav class="navbar navbar-top-bar navbar-static-top">
             <div class="container">
                 <ul class="navbar-nav nav">
-                    <router-link tag="li" to="/">
-                    <a>Home</a>
-                    </router-link>
+                    <nuxt-link tag="li" to="/">
+                        <a>Home</a>
+                    </nuxt-link>
                     <li class="disabled"><a href="index.html">About Us</a></li>
                 </ul>
                 <ul class="navbar-nav nav navbar-right">
                     <li class="disabled"><a href="#">Login</a></li>
-                    <li>
-                        <div class="navbar-form">
-                            <div class="form-group">
-                                <input v-model="searchQuery" v-on:keyup.enter="search" type="text" class="form-control" placeholder="Search">
-                            </div>
-                            <a class="btn btn-default btn-search" v-on:click.stop="search">Search</a>
-                        </div>
-
-                    </li>
                 </ul>
             </div>
         </nav>
@@ -36,10 +27,10 @@
                             <span class="icon-bar"></span>
                         </button>
 
-                        <router-link tag="a" class="navbar-brand" to="/">
+                        <nuxt-link tag="a" class="navbar-brand" to="/">
                             <img class="logo" src="../static/book-flat.png">
                             <span class="title">Quick Start Books</span>
-                        </router-link>
+                        </nuxt-link>
                     </div>
                     <!--
                     <div class="collapse navbar-collapse" id="KYbook-navbar">
@@ -59,21 +50,6 @@
 
 <script>
 export default {
-    data() {
-        return {
-            searchQuery: ""
-        }
-    },
 
-    methods: {
-        search() {
-            this.$router.push({
-                path: "/search",
-                query   : {
-                    text: this.searchQuery
-                }
-            });
-        }
-    }
 }
 </script>

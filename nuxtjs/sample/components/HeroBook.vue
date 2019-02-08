@@ -7,7 +7,7 @@
                         <div class="book-in-shelf">
                             <div class="book-shelf">
                                 <div class="book-cover slider-book-cover">
-                                    <img class="img-responsive" alt="" v-bind:src="'http://localhost:2999' + book.imageUrl" width="258" height="351">
+                                    <img class="img-responsive" alt="" v-bind:src="book.imageUrl" width="258" height="351">
                                     <div class="fade"></div>
                                 </div>
                             </div>
@@ -28,25 +28,10 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
-    data() {
-        return {
-            book: {}
-        };
-    },
-
-    created() {
-        this.fetchBook();
-    },
-
-    methods: {
-        fetchBook() {
-            return axios.get('http://localhost:2999/api/books')
-                .then(response => {
-                    this.book = Object.values(response.data)[0];
-                });
+    props: {
+        book: {
+            type: Object
         }
     }
 }

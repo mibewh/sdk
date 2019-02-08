@@ -5,7 +5,8 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="book-cover book detail-book-cover">
-                            <img v-bind:src="'http://localhost:2999' + book.imageUrl" class="img-responsive" v-bind:alt="book.title">
+                            <!-- <img v-bind:src="'http://localhost:2999' + book.imageUrl" class="img-responsive" v-bind:alt="book.title"> -->
+                            <img :src="book.imageUrl">
                             <div class="fade"></div>
                         </div>
                     </div>
@@ -13,7 +14,7 @@
                     <div class="col-sm-8">
                         <div class="book-detail-header">
                             <h2 class="book-title">{{book.title}}</h2>
-                            <p class="book-author">By <span class="book-author-name">{{book.authorTitle}}</span></p>
+                            <p class="book-author">By <span class="book-author-name">{{book.author.title}}</span></p>
                             <div class="star-rating">
                                 <!-- <i class="fa fa-star {{#lte 1 book.rating}}color{{/lte}}"></i>
                                 <i class="fa fa-star {{#lte 2 book.rating}}color{{/lte}}"></i>
@@ -46,7 +47,7 @@
                                     <template v-for="tag in book.tags">
                                     <h4 style="display:inline-block" v-bind:key="tag">
                                         <span class="label label-default">
-                                            <router-link tag="a" v-bind:to="'/search?tag=' + tag" style="color:white">{{tag}}</router-link>
+                                            <a style="color:white">{{tag}}</a>
                                         </span>
                                     </h4>
                                     </template>
@@ -76,7 +77,7 @@
 
                             <div class="tab-pane" id="download" role="tabpanel">
                                 <h3>Download</h3>
-                                <p>Download this book - <a v-bind:href="'http://localhost:2999' + book.pdfUrl" target="_blank">PDF</a></p>
+                                <p>Download this book - <a :href="book.pdfURL" target="_blank">PDF</a></p>
                             </div>
 
                         </div>
@@ -107,18 +108,26 @@ export default {
         }
     },
 
-    created() {
-        this.fetchBook(this.$route.params.id);
-    },
+    asyncData(context) {
+        const bookId = context.params.id;
 
-    methods: {
-        fetchBook(bookId) {
-            return axios.get('/api/books/' + bookId)
-                .then(response => {
-                    this.book = response.data;
-                    this.loaded = true;
+        return context.$getCloudCMS().then(function({ branch }) {
+            return branch.readNode(bookId).then(function() {
+                var book = this;
+                book.imageUrl = context.app.$baseCDNURL + "/static/" + book._doc + "-image.jpg?node=" + book._doc;
+                book.pdfURL = context.app.$baseCDNURL + "/static/" + book._doc + "-pdf.jpg?node=" + book._doc + "&attachment=book_pdf";
+                book.recommendations.forEach(function(rec) {
+                    rec._doc = rec.id;
+                    rec.imageUrl = context.app.$baseCDNURL + "/static/" + rec.id + "-image.jpg?node=" + rec.id;
                 });
-        }
+
+                return {
+                    book: book,
+                    loaded: true
+                };
+            });
+        });
     }
+
 }
 </script>
