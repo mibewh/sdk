@@ -1,1 +1,0 @@
-{"errors":[{"message":"Variable \"$bookId\" of required type \"String!\" was not provided.","locations":[{"line":2,"column":3}]}],"pageContext":{"$bookId":"5969693987b3376e92f1"}}

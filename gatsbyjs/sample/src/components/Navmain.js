@@ -13,7 +13,7 @@ const Navmain = () => (
                         <span className="icon-bar"></span>
                     </button>
                     <Link to="/" className="navbar-brand">
-                        <img className="logo" src={withPrefix("images/book-flat.png")} />
+                        <img className="logo" src={withPrefix("images/book-flat.png")} alt="logo" />
                         <span className="title">Quick Start Books</span>
                     </Link>
                 </div>

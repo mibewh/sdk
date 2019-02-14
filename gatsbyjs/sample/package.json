@@ -1,13 +1,12 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "gatsby-cloudcms-example",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "An example static Gatsby site using Cloud CMS as a data source",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Michael Whitman <michael.whitman@cloudcms.com>",
   "dependencies": {
-    "better-queue": "^3.8.10",
-    "file-type": "^10.7.0",
-    "fs-extra": "^7.0.1",
+    "apollo-link-http": "^1.5.11",
+    "cloudcms-server": "^0.9.176",
     "gatsby": "^2.0.85",
     "gatsby-cli": "^2.4.8",
     "gatsby-image": "^2.0.20",
@@ -16,12 +15,10 @@
     "gatsby-plugin-react-helmet": "^3.0.5",
     "gatsby-plugin-sharp": "^2.0.14",
     "gatsby-source-filesystem": "^2.0.8",
-    "gatsby-source-graphql": "^2.0.8",
+    "gatsby-source-graphql": "^2.0.10",
     "gatsby-transformer-sharp": "^2.1.8",
     "gitana": "^1.0.282",
-    "got": "^9.5.0",
-    "graphql": "0.13.2",
-    "graphql-tools": "^4.0.3",
+    "graphql": "14.1.1",
     "jquery": "1.12.0",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
@@ -34,7 +31,7 @@
   "keywords": [
     "gatsby"
   ],
-  "license": "MIT",
+  "license": "Apache 2.0",
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
@@ -51,8 +48,5 @@
   },
   "bugs": {
     "url": "https://github.com/gatsbyjs/gatsby/issues"
-  },
-  "resolutions": {
-    "graphql": "0.13.2"
   }
 }

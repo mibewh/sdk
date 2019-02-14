@@ -1,37 +1,40 @@
 import React from "react";
 import { graphql } from "gatsby";
 
-import Layout from '../components/layout';
+import Layout from '../components/Layout';
 import Slider from '../components/Slider';
 import BooksContainer from '../components/BooksContainer';
 import AuthorsContainer from "../components/AuthorsContainer";
 
-// const IndexPage = () => (
-//   <Layout>
-//     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
-//     <h1>Hi people</h1>
-//     <p>Welcome to your new Gatsby site.</p>
-//     <p>Now go build something great.</p>
-//     <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-//       <Image />
-//     </div>
-//     <Link to="/page-2/">Go to page 2</Link>
-//   </Layout>
-// )
+const HomePage = ({ data }) => {
+  const books = data.cloudcms.store_books.map(book => {
+    book.imageUrl = data.site.siteMetadata.baseCDNURL + "/static/" + book._doc + "-image.jpg?node=" + book._doc;
+    return book;
+  });
+  const authors = data.cloudcms.store_authors.map(author => {
+    author.imageUrl = data.site.siteMetadata.baseCDNURL + "/static/" + author._doc + "-image.jpg?node=" + author._doc;
+    return author;
+  });
 
-const HomePage = ({ data }) => (
+  return (
   <Layout>
-    <Slider book={data.cloudcms.store_books[0]} />
+    <Slider book={books[0]} />
     <BooksContainer
-        books={data.cloudcms.store_books}
+        books={books}
         title="New Books"
         subtitle="Do eiusmod tempor incididunt ut labore et dolore magna aliqua" />
-    <AuthorsContainer authors={data.cloudcms.store_authors} />
+    <AuthorsContainer authors={authors} />
   </Layout>
-);
+  );
+}
 
 export const query = graphql`
   query {
+    site {
+      siteMetadata {
+          baseCDNURL
+      }
+    }
     cloudcms {
       store_books {
         _doc
@@ -39,9 +42,6 @@ export const query = graphql`
         description
         author {
           title
-        }
-        _attachments {
-          uri
         }
       }
       store_authors {

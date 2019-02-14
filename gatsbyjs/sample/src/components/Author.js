@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "gatsby";
 
 const Author = ({ author }) => (
-    <div className="item item-author-block author">
+    <div className="item item-author-block author" style={{"textAlign": "center"}}>
         <Link to={`/author/${author._doc}`}>
             <div className="author-dp">
                 <img src={author.imageUrl} alt={author.title} />
@@ -10,11 +10,11 @@ const Author = ({ author }) => (
         </Link>
         <div className="author-details">
             <h3 className="author-name">
-                <Link to={`author/${author._doc}`}>
+                <Link to={`/`}>
                     {author.title}
                 </Link>
             </h3>
-            <Link to={`/search`} className="btn btn-primary btn-view-books">
+            <Link to={`/`} className="btn btn-primary btn-view-books">
                 View Books
             </Link>
         </div>

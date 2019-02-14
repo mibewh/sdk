@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "gatsby";
-import NavForm from "./NavForm";
 
 const Navbar = () => (
   <nav className="navbar navbar-top-bar navbar-static-top">
@@ -10,10 +9,7 @@ const Navbar = () => (
         <li className="disabled"><Link to="/">About Us</Link></li>
       </ul>
       <ul className="navbar-nav nav navbar-right">
-        <li className="disabled"><a href="#">Login</a></li>
-        <li>
-          <NavForm />
-        </li>
+        <li className="disabled"><a href="/">Login</a></li>
       </ul>
     </div>
   </nav>

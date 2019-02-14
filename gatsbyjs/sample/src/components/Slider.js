@@ -18,7 +18,7 @@ const Slider = ({ book }) => (
                                     <div className="book-in-shelf">
                                         <div className="book-shelf">
                                             <div className="book-cover slider-book-cover">
-                                                <img className="img-responsive" alt="" src={book._attachments[0].path} width="258" height="351" />
+                                                <img className="img-responsive" alt="" src={book.imageUrl} width="258" height="351" />
                                                 <div className="fade"></div>
                                             </div>
                                         </div>

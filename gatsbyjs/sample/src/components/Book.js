@@ -1,26 +1,12 @@
 import React from "react";
 import { Link } from "gatsby";
 
-class SaleRibbon extends React.Component {
-    render () {
-        // if (window.location.href.indexOf("search") < 0) {
-        //     return null;
-        // }
-
-        // return (
-        //     <div className="sale-ribbon"><div className="sale-ribbon-content">sale off</div></div>
-        // )
-        return null;
-    }
-}
-
 const Book = ({ book }) => (
     <div className="book">
-        <SaleRibbon />
         <div className="book-cover">
             <div className="book-inner">
                 <Link to={`/book/${book._doc}`}>
-                    <img src={book.imageUrl} alt={book.title} />
+                    <img src={book.imageUrl} alt={book.title} width="255" height="261" />
                 </Link>
                 <div className="fade"></div>
             </div>
@@ -31,7 +17,9 @@ const Book = ({ book }) => (
                     {book.title}
                 </Link>
             </h3>
-            <p className="book-author">{book.authorTitle}</p>
+            { book.author &&
+                <p className="book-author">{book.author.title}</p>
+            }
         </div>
     </div>
 )
