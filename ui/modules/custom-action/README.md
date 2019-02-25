@@ -1,6 +1,16 @@
 # custom-action module
 
-This module shows you how to customize an action in CloudCMS.
+In CloudCMS, [Actions](https://www.cloudcms.com/documentation/actions) are units of work that are typically fired off as a result of an event handler or listener. Not only do we provide a lot of actions, but also allow you to customize existing actions by overriding them with [Modules](https://www.cloudcms.com/documentation/modules). This sample module shows you how to override an existing action in CloudCMS.
+
+Here we use action ```add-attachment``` as an example. Below is the screenshot of the form before and after implementing this module:
+
+Before
+{{#image "./screenshots/before.png" "600px"}}{{/image}}
+
+After
+{{#image "./screenshots/after.png" "600px"}}{{/image}}
+
+As you can see, we've customized it so that the Attachment ID field is readonly, and there's a helper text under the Upload File field.
 
 ## Installation
 
