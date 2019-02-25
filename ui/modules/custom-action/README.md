@@ -4,11 +4,11 @@ In CloudCMS, [Actions](https://www.cloudcms.com/documentation/actions) are units
 
 Here we use action ```add-attachment``` as an example. Below is the screenshot of the form before and after implementing this module:
 
-Before
-{{#image "./screenshots/before.png" "600px"}}{{/image}}
+Before: 
+![Before](https://github.com/gitana/sdk/blob/master/ui/modules/custom-action/screenshots/before.png)
 
-After
-{{#image "./screenshots/after.png" "600px"}}{{/image}}
+After: 
+![After](https://github.com/gitana/sdk/blob/master/ui/modules/custom-action/screenshots/after.png)
 
 As you can see, we've customized it so that the Attachment ID field is readonly, and there's a helper text under the Upload File field.
 
