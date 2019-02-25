@@ -1,8 +1,0 @@
-{
-  "name": "hello-sencha-touch",
-  "directory" : "application/bower_components",
-  "version": "0.0.1",
-  "dependencies": {
-    "gitana": "*"
-  }
-}

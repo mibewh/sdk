@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -10,7 +10,7 @@ import { BookService }  from '../book.service';
   templateUrl: './book-detail.component.html'
 })
 export class BookDetailComponent implements OnInit {
-  @Input() book: Book;
+  book: Book;
 
   constructor(
     private route: ActivatedRoute,

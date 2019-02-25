@@ -12,11 +12,11 @@
                 <li>
                     <form class="navbar-form" method="get" action="search.html">
                         <div class="form-group">
-                            <input #searchBox id="search-box" (input)="search(searchBox.value)" type="text" class="form-control" placeholder="Search"/>
+                            <input #searchBox id="search-box" (keyup.enter)="search(searchBox.value)" type="text" class="form-control" placeholder="Search"/>
 
                         </div>
 
-                        <button [routerLink]="['./search']" (click)="clicked(searchBox.value)">Search</button>
+                        <a class="btn btn-default btn-search" [routerLink]="['./search']" (click)="search(searchBox.value)">Search</a>
                     </form>
 
                 </li>

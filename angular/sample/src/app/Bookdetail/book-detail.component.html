@@ -1,4 +1,4 @@
-<div class="book-detail page">
+<div *ngIf="book" class="book-detail page">
     <div class="container">
         <div class="primary-block clearfix">
             <div class="row">
@@ -13,13 +13,6 @@
                     <div class="book-detail-header">
                         <h2 class="book-title">{{book.title}}</h2>
                         <p class="book-author">By <span class="book-author-name">{{book.authorTitle}}</span></p>
-                        <div class="star-rating">
-                            <!-- <i class="fa fa-star {{#lte 1 book.rating}}color{{/lte}}"></i>
-                            <i class="fa fa-star {{#lte 2 book.rating}}color{{/lte}}"></i>
-                            <i class="fa fa-star {{#lte 3 book.rating}}color{{/lte}}"></i>
-                            <i class="fa fa-star {{#lte 4 book.rating}}color{{/lte}}"></i>
-                            <i class="fa fa-star {{#lte 5 book.rating}}color{{/lte}}"></i> -->
-                        </div>
                     </div>
 
                     <div class="book-detail-body">
@@ -39,19 +32,12 @@
                             <p>{{book.description}}</p>
 
 
-                            <!--<template v-if="book.tags">-->
-                                <h3>Tags</h3>
-                                <!-- <p> -->
-                                <div ngFor="tag in book.tags">
-                                    <h4 style="display:inline-block">
-                                        <span class="label label-default">
-                                            <!--<router-link tag="a" v-bind:to="'/search?tag=' + tag" style="color:white">{{tag}}</router-link>-->
-                                        </span>
-                                    </h4>
-                                </div>
-                                <!-- </p> -->
-                            <!--</template>-->
-
+                            <h3>Tags</h3>
+                            <h4 *ngFor="let tag of book.tags" style="display:inline-block">
+                                <span class="label label-default">
+                                    <a routerLink="/search" [queryParams]="{tag: tag}" style="color:white">{{tag}}</a>
+                                </span>
+                            </h4>
 
                         </div>
 
@@ -85,6 +71,5 @@
     </div>
 
     <!-- recommendations -->
-    <!--<BookList v-if="loaded" title="Recommendations" description="If you enjoy this book, we also recommend..." v-bind:books="book.recommendations" />-->
-
+    <app-bookcarousel [books]="book.recommendations"></app-bookcarousel>
 </div>

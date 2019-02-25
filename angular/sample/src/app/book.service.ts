@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 
 import { Book } from './book';
 import { Author } from './author';
@@ -25,42 +25,42 @@ export class BookService {
     getBook(id: string): Observable<Book> {
         const url = `${this.booksUrl}/${id}`;
         return this.http.get<Book>(url).pipe(
-            tap(_ => this.log(`fetched hero id=${id}`)),
-            catchError(this.handleError<Book>(`getHero id=${id}`))
+            catchError(this.handleError<Book>(`getBook id=${id}`))
         );
     }
 
     getAuthors (): Observable<Author[]> {
-        return this.http.get<Author[]>(this.authorsUrl)
-            .pipe(
-                tap(_ => this.log('fetched heroes')),
-                catchError(this.handleError('getHeroes', []))
-            );
+        return this.http.get<Author[]>(this.authorsUrl).pipe(
+            catchError(this.handleError('getAuthors', []))
+        );
     }
 
     getBooks (): Observable<Book[]> {
-        return this.http.get<Book[]>(this.booksUrl)
-            .pipe(
-                tap(_ => this.log('fetched heroes')),
-                catchError(this.handleError('getHeroes', []))
-            );
+        return this.http.get<Book[]>(this.booksUrl).pipe(
+            catchError(this.handleError('getBooks', []))
+        );
     }
 
     getTags (): Observable<Book[]> {
-        return this.http.get<Book[]>(this.tagsUrl)
-            .pipe(
-                tap(_ => this.log('fetched heroes')),
-                catchError(this.handleError('getHeroes', []))
-            );
+        return this.http.get<Book[]>(this.tagsUrl).pipe(
+            catchError(this.handleError('getTags', []))
+        );
     }
 
     getSearchResults(text: string): Observable<Book[]> {
         return this.http.get<Book[]>(this.searchUrl, {params: {
             text: text
         }}).pipe(
-                tap(_ => this.log('fetched heroes')),
-                catchError(this.handleError('getHeroes', []))
-            );
+            catchError(this.handleError('getSearchResults', []))
+        );
+    }
+
+    getTagResults(tag: string): Observable<Book[]> {
+        return this.http.get<Book[]>(this.booksUrl, {params: {
+            tag: tag
+        }}).pipe(
+            catchError(this.handleError('getTagResults', []))
+        );
     }
 
 

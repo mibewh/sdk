@@ -12,7 +12,8 @@ import { HeaderComponent }   from './Header/header.component';
 import {BookDetailComponent} from './Bookdetail/book-detail.component';
 import {SearchComponent} from './Search/search.component';
 import {AuthorlistComponent} from "./Authorlist/authorlist.component";
-import {BookcarauselComponent} from "./Bookcarausel/bookcarausel.component";
+import {BookcarouselComponent} from "./Bookcarousel/bookcarousel.component";
+import {BookItemComponent} from "./Bookitem/bookitem.component";
 
 @NgModule({
   imports: [
@@ -28,8 +29,9 @@ import {BookcarauselComponent} from "./Bookcarausel/bookcarausel.component";
       MainComponent,
       HeroBookComponent,
       AuthorlistComponent,
-      BookcarauselComponent,
-      SearchComponent
+      BookcarouselComponent,
+      SearchComponent,
+      BookItemComponent
   ],
   bootstrap: [ AppComponent ]
 })
