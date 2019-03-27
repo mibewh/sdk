@@ -4,7 +4,7 @@ This is an example website which uses a Cloud CMS sample project as a backend an
 
 To run, in the angular/sample directory:
 
-1. Add your `gitana.json` file. For information on how to retrieve this see: https://www.cloudcms.com/apikeys.html
+1. Add your `gitana.json` file. You can get it by: Creating a sample project > Manage Project > API Keys
 2. Run `npm install`
 3. Run `npm install -g @angular/cli` to install Angular
 4. Run `ng build --prod` to build the Angular app
