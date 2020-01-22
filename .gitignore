@@ -42,3 +42,7 @@ target
 
 # local binary
 .DS_Store
+
+_old
+
+package-lock.json

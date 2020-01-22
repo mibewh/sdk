@@ -1,0 +1,24 @@
+{
+    "title": "Default Form",
+    "engineId": "alpaca1",
+    "fields": {
+        "name": {
+            "type": "text",
+            "label": "Name"
+        },
+        "meal": {
+            "type": "select",
+            "optionLabels": [
+                "Chicken",
+                "Fish"
+            ],
+            "hideNone": true,
+            "label": "Meal"
+        },
+        "glutenFree": {
+            "type": "checkbox",
+            "rightLabel": "Gluten Free"
+        }
+    },
+    "_form_key": "default"
+}

@@ -1,0 +1,17 @@
+{
+	"name": "appserver-example-embedded",
+	"version": "1.0.0",
+	"description": "Cloud CMS Application Server Example - Embedded",
+	"keywords": [
+		"Cloud CMS"
+	],
+	"author": "Harry Moore",
+	"scripts": {
+		"start": "node app"
+	},
+	"dependencies": {
+		"cloudcms-server": "*"
+	},
+	"devDependencies": {},
+	"private": true
+}

@@ -1,0 +1,22 @@
+{
+    "title": "Registration",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "meal": {
+            "type": "string",
+            "enum": [
+                "chicken",
+                "fish"
+            ]
+        },
+        "glutenFree": {
+            "type": "boolean"
+        }
+    },
+    "_parent": "n:node",
+    "description": "custom:registration",
+    "$schema": "http://json-schema.org/draft-04/schema#"
+}
