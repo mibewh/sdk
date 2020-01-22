@@ -1,4 +1,4 @@
-# Custom Authentication Examplese
+# Custom Authentication Examples
 
 Provides examples of how to introduce custom authentication using the Cloud CMS Application Server.
 
