@@ -1,13 +1,13 @@
 define(function(require, exports, module) {
 
     var UI = require("ui");
-    var moduleId = module.uri.match(/^.+(_modules[^\/]+)\/.*/)[1];
+    var moduleId = UI.extractModuleID(module.uri);
 
     // register the theme: "arrested-development-theme"
     UI.registerTheme({
         "key": "arrested-development-theme",
         "title": "Arrested Development Theme",
-        "module": moduleId + "/theme.js"
+        "module": "_modules/" + moduleId + "/theme.js"
     });
 
 });
