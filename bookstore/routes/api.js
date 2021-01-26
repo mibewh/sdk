@@ -5,10 +5,9 @@ var cloudcms = require('cloudcms');
 
 var cachedSession = null;
 
-var repositoryId = 'f4dd8924bee403c94e78';
-var branchId = '05c5ee82a76de6965c1a';
+var repositoryId = 'b7a9374d20f91c325655';
 
-var tenantId = '016eeac21b6e1ee383c0';
+var tenantId = '5042e2fd62829f754806';
 var baseCdnUrl = 'https://cdn.cloudcms.com/trial/' + tenantId;
 
 function enhanceBook(book) {
@@ -49,6 +48,25 @@ router.use(async function (req, res, next) {
 });
 
 
+// Branch multiplexing middleware
+router.use(async function (req, res, next) {
+
+  req.branchId = "master";
+  console.log(req.cookies);
+
+  if (req.query.branchId)
+  {
+    req.branchId = req.query.branchId;
+    res.cookie("ONETEAM_BRANCH_ID", req.query.branchId);
+  }
+  else if (req.cookies && req.cookies["ONETEAM_BRANCH_ID"])
+  {
+    req.branchId = req.cookies["ONETEAM_BRANCH_ID"];
+  }
+
+  next();
+});
+
 // List books
 router.get('/books', async function(req, res) {
   let query = {
@@ -59,7 +77,7 @@ router.get('/books', async function(req, res) {
     query.tags = req.query.tag;
   }
 
-  let books = await req.cloudcms.queryNodes(repositoryId, branchId, query);
+  let books = await req.cloudcms.queryNodes(repositoryId, req.branchId, query);
 
   books.rows.forEach(function(book) {
     enhanceBook(book);
@@ -70,7 +88,7 @@ router.get('/books', async function(req, res) {
 
 // // Read book
 router.get('/books/:id', async function(req, res) {
-  var node = await req.cloudcms.readNode(repositoryId, branchId, req.params.id);
+  var node = await req.cloudcms.readNode(repositoryId, req.branchId, req.params.id);
   enhanceBook(node);
   
   res.status(200).json(node);
@@ -82,7 +100,7 @@ router.get('/authors', async function(req, res) {
     _type: 'store:author'
   };
 
-  let authors = await req.cloudcms.queryNodes(repositoryId, branchId, query);
+  let authors = await req.cloudcms.queryNodes(repositoryId, req.branchId, query);
   authors.rows.forEach(function(author) {
     enhanceAuthor(author);
   });
@@ -99,7 +117,7 @@ router.get('/search', async function(req, res) {
       _type: 'store:book'
     }
   };
-  let results = await req.cloudcms.findNodes(repositoryId, branchId, config);
+  let results = await req.cloudcms.findNodes(repositoryId, req.branchId, config);
   results.rows.forEach(function(book) {
     book.imageUrl = baseCdnUrl + "/store/books/" + book.slug + ".jpg";
   });
@@ -117,9 +135,16 @@ router.get('/tags', async function(req, res) {
       tag: 1
     }
   };
-  var results = await req.cloudcms.queryNodes(repositoryId, branchId, query, pagination);
+  var results = await req.cloudcms.queryNodes(repositoryId, req.branchId, query, pagination);
 
   res.status(200).json(results.rows);
+});
+
+// Fetch generic document
+router.get("/resources/:id", async function(req, res) {
+  var node = await req.cloudcms.readNode(repositoryId, req.branchId, req.params.id);
+  
+  res.status(200).json(node);
 });
 
 module.exports = router;

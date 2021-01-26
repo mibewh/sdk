@@ -13,7 +13,10 @@ var app = express();
 // CORS
 if (process.env.NODE_ENV === 'development') {
   var cors = require('cors');
-  app.use(cors());
+  app.use(cors({
+    origin: ["http://localhost:3000", "http://localhost:3001"],
+    credentials: true
+   }));
 }
 
 // view engine setup

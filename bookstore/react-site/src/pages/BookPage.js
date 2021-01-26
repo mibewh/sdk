@@ -2,6 +2,7 @@ import Axios from 'axios';
 import React, { Component } from 'react';
 import { Row, Col, Container, Tabs, Tab } from 'react-bootstrap';
 import axios from 'axios';
+import queryString from 'query-string';
 import BooksContainer from '../components/BooksContainer';
 
 
@@ -23,7 +24,9 @@ class BookPage extends Component {
   loadBook(props) {
     // Call self-hosted API to get response
     let { id } = props.match.params;
-    axios.get(`${DEV_URL}/api/books/${id}`).then((res) => {
+    let params = queryString.parse(props.location.search); 
+
+    axios.get(`${DEV_URL}/api/books/${id}`, { params, withCredentials: true }).then((res) => {
       this.setState({
         book: res.data
       });

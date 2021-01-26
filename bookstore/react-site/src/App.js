@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import HomePage from './pages/HomePage';
 import BookPage from './pages/BookPage';
 import SearchPage from './pages/SearchPage';
+import ResourcePage from './pages/ResourcePage';
 import Layout from './components/Layout';
 
 
@@ -31,6 +32,7 @@ class App extends Component {
               <Route exact path={`/`} component={HomePage} />
               <Route path={`/book/:id`} component={BookPage} />
               <Route path={`/search`} component={SearchPage} />
+              <Route path={`/resource/:id`} component={ResourcePage} />
             </Switch>
           </Layout>
         </Router>
