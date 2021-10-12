@@ -1,14 +1,10 @@
 const pkg = require('./package');
-const Gitana = require('gitana');
 // Reset this to allow server renderer to work
 window = undefined;
 var gitanaConfig = require('./gitana.json');
-gitanaConfig.baseCDNURL = "http://localhost:2999";
 
 
 module.exports = {
-  mode: 'universal',
-
   /*
   ** Headers of the page
   */
@@ -82,25 +78,9 @@ module.exports = {
     }
   },
 
-  generate: {
-    routes: function(callback) {
-      Gitana.connect(gitanaConfig, function(err) {
-        if (err) {
-          callback(err);
-        }
-
-        const repository = this.datastore("content");
-        repository.readBranch("master").then(function() {
-          const branch = this;
-
-          branch.queryNodes({ _type: "store:book" }).then(function() {
-            const books = this.asArray();
-            const routes = books.map(book => "/book/" + book._doc);
-
-            callback(null, routes);
-          });
-        });
-      });
-    }
-  }
+  env: {
+    baseCDNurl: process.env.baseCDNurl || "http://localhost:2999",
+    repositoryId: process.env.repositoryId ||  "89b236097bdd37d1ea23",
+    branchId: process.env.branchId || "master"
+  },
 }

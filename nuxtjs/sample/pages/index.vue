@@ -16,7 +16,6 @@
             <div class="featured-item-block">
                 <AuthorList :authors="authors" />
             </div>
-
         </div>
     </div>
 </template>
@@ -33,30 +32,30 @@ export default {
         AuthorList
     },
 
-    asyncData(context) {
+    async asyncData({ $cloudcms }) {
+ 
+        let books = (await $cloudcms.queryNodes(process.env.repositoryId, process.env.branchId, { _type: "store:book" }, { limit: 4 })).rows;
+        for (let book of books)
+        {
+            book.imageUrl = await $cloudcms.createAttachmentLink(process.env.repositoryId, process.env.branchId, book._doc);
 
-        return context.$getCloudCMS().then(function({ branch }) {
+        }
 
-            return branch.queryNodes({ _type: "store:book" }).then(function() {
-                var books = this.asArray().slice(0,4);
-                books.forEach(function(book) {
-                    book.imageUrl = context.app.$baseCDNURL + "/static/" + book._doc + "-image.jpg?node=" + book._doc;
-                });
+        let authors = (await $cloudcms.queryNodes(process.env.repositoryId, process.env.branchId, { _type: "store:author" }, { limit: 4 })).rows;
+        for (let author of authors)
+        {
+            author.imageUrl = await $cloudcms.createAttachmentLink(process.env.repositoryId, process.env.branchId, author._doc);
 
-                return branch.queryNodes({ _type: "store:author" }).then(function() {
-                    const authors = this.asArray().slice(0,4);
-                    authors.forEach(function(author) {
-                        author.imageUrl = context.app.$baseCDNURL + "/static/" + author._doc + "-image.jpg?node=" + author._doc;
-                    });
-                    
-                    return {
-                        heroBook: books[0],
-                        books: books,
-                        authors: authors
-                    };
-                });
-            });
-        });
+        }
+        
+        let link = await $cloudcms.createAttachmentLink(process.env.repositoryId, process.env.branchId, books[0]._doc, "default");
+
+        return {
+            heroBook: books[0],
+            books: books,
+            authors: authors,
+            link: link //`/cloudcms/assets/${process.env.repositoryId}/${process.env.branchId}/${books[0]._doc}/default`
+        };
     }
 }
 </script>

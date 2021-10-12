@@ -99,24 +99,23 @@ export default {
         }
     },
 
-    asyncData(context) {
+    async asyncData(context) {
         const bookId = context.params.id;
-        return context.$getCloudCMS().then(function({ branch }) {
-            return branch.readNode(bookId).then(function() {
-                var book = this;
-                book.imageUrl = context.app.$baseCDNURL + "/static/" + book._doc + "-image.jpg?node=" + book._doc;
-                book.pdfURL = context.app.$baseCDNURL + "/static/" + book._doc + "-pdf.pdf?node=" + book._doc + "&attachment=book_pdf";
-                book.recommendations.forEach(function(rec) {
-                    rec._doc = rec.id;
-                    rec.imageUrl = context.app.$baseCDNURL + "/static/" + rec.id + "-image.jpg?node=" + rec.id;
-                });
 
-                return {
-                    book: book,
-                    loaded: true
-                };
-            });
-        });
+        let book = await context.$cloudcms.readNode(process.env.repositoryId, process.env.branchId, bookId);
+
+        book.imageUrl = await context.$cloudcms.createAttachmentLink(process.env.repositoryId, process.env.branchId, book._doc);
+        book.pdfURL = await context.$cloudcms.createAttachmentLink(process.env.repositoryId, process.env.branchId, book._doc, "book_pdf");;
+        for (let rec of book.recommendations)
+        {
+            rec._doc = rec.id;
+            rec.imageUrl = await context.$cloudcms.createAttachmentLink(process.env.repositoryId, process.env.branchId, rec._doc);
+        }
+
+        return {
+            book: book,
+            loaded: true
+        };
     }
 
 }
