@@ -3,27 +3,93 @@
 This is an example website which uses Cloud CMS as a data source and generates a static site. 
 It relies on the Cloud CMS App Server as a CDN to serve images, but this can be replaced with your own CDN.
 
+This example is not intended for production use, but rather to demonstrate how Cloud CMS might integrate with your
+own Nuxt JS applications.
+
 ## Prerequisites
 
-The following global dependencies should be installed.
+To build this sample, you will need to have Nuxt.js installed.
 
-1. Run `npm install http-server -g`
-2. Run `npm install nuxt -g`
+1. Run `npm install nuxt -g` to install Nuxt globally.
+2. Run `npm install` within your `nuxtjs/sample` directory.
 
-## Building the Sample
+## Configuration
 
 Go into your `nuxtjs/sample` directory and do the following.
 
 1. Add your `gitana.json` file. For information on how to retrieve this see: https://www.cloudcms.com/apikeys.html
-2. Modify `nuxt.config.js` to use your project's `repositoryId`.
-3. Run `npm install`
-4. Run `nuxt generate` to generate your static site
+2. Modify `nuxt.config.js` and fill in the value for your project's `repositoryId`.
 
-## Running the Sample
+## Building
 
-You can now run your web site:
+To build out the static web site, simply run:
 
-1. Switch to the `dist` directory, and run `http-server`.
-2. Navigate to `http://localhost:8081`
+```
+nuxt generate
+```
 
-This example is not intended for production use, but rather to demonstrate how Cloud CMS might integrate with your Nuxt JS application.
+## Running the Sample (with Nuxt)
+
+To run your static site using Nuxt's server, run the following:
+
+```
+nuxt start
+```
+
+Now open a browser to `http://localhost:3000`.
+
+## Running the Sample (with Web Server)
+
+If you want to run the generated static site within a standard web server, you just need to copy the contents
+of the `dist` directory to your web root.
+
+You can try this locally by doing this:
+
+1. Run `npm install http-server -g` to install a global web server.
+2. From the command prompt, go into the `dist` directory and run `http-server`
+3. Navigate to `http://localhost:8081`
+
+## Integration to Cloud CMS
+
+### Cloud CMS Nuxt Module
+
+This sample site pulls in the [https://github.com/gitana/cloudcms-nuxt](Cloud CMS Nuxt Module) to provide build and
+render time integration to the Cloud CMS API.  
+
+### Cloud CMS JavaScript Driver
+
+This module instantiates the [https://github.com/gitana/cloudcms-javascript-driver](Cloud CMS JavaScript Driver)
+using the credentials provided in your `gitana.json` file.  This driver is then available to your Nuxt files via the
+`context.$cloudcms` variable.
+
+## Preview Mode
+
+This sample application provides optional support for Nuxt's Preview Mode.  If you run this sample site using `nuxt start`, 
+then you have the optional to make requests that run in "Preview Mode".  Requests that run in Preview Mode will fetch
+fresh content from the Cloud CMS API.  This allows your editorial users to preview changes to their content on the live
+web site.
+
+To enable Preview Mode, you simple add the `preview` request parameter, like this:
+
+```
+http://localhost:3000?preview
+```
+
+The request will store a cookie into the browser called `cms_preview`.  This puts the browser session itself into
+preview mode such that any further clicks will be retrieved in preview mode as well.
+
+If you wish to preview a different working branch (such as an editorial draft branch), you can supply the `branch`
+identifier like this:
+
+```
+http://localhost:3000?preview&branch={{branch.id}}
+```
+
+Where `branch.id` is the ID of the branch you wish to preview.
+
+Cloud CMS provides editorial integration from workspaces to preview servers.  As such, this sample site can be configured
+as a Cloud CMS Preview Endpoint using the URL as shown.
+
+```
+http://localhost:3000?preview&branch={{branch.id}}
+```

@@ -4,7 +4,7 @@
         <div class="book-cover">
             <div class="book-inner">
                 <a v-bind:href="bookLink">
-                    <img v-bind:src="book.imageUrl" v-bind:alt="book.title" v-bind:width="width" v-bind:height="height">
+                    <img v-bind:src="book.defaultAttachmentUrl" v-bind:alt="book.title" v-bind:width="width" v-bind:height="height">
                 </a>
                 <div class="fade"></div>
             </div>

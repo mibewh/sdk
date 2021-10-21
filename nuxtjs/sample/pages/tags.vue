@@ -16,9 +16,9 @@ export default {
         TagList
     },
 
-    async asyncData({ $cloudcms }) {
+    async asyncData({ $branch }) {
 
-        let tags = (await $cloudcms.queryNodes(process.env.repositoryId, process.env.branchId, { _type: "n:tag" }, { limit: 1000 })).rows;
+        let tags = (await $branch.query({ _type: "n:tag" }, { limit: 1000 })).rows;
 
         return {
             tags: tags

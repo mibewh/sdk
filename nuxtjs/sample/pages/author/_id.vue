@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="author-cover author detail-author-cover">
-                            <img :src="author.imageUrl" class="img-responsive" :alt="author.title">
+                            <img :src="author.defaultAttachmentUrl" class="img-responsive" :alt="author.title">
                             <div class="fade"></div>
                         </div>
                     </div>
@@ -80,12 +80,10 @@ export default {
     async asyncData(context) {
 
         const authorSlug = context.params.id;
+        const $branch = context.$branch;
 
         // find author instance
-        let author = (await context.$cloudcms.queryNodes(process.env.repositoryId, process.env.branchId, { "_type": "store:author", "slug": authorSlug }, { limit: 1 })).rows[0];
-
-        author.imageUrl = await context.$cloudcms.createAttachmentLink(process.env.repositoryId, process.env.branchId, author._doc);
-        author.pdfURL = await context.$cloudcms.createAttachmentLink(process.env.repositoryId, process.env.branchId, author._doc, "default");;
+        let author = (await $branch.queryOne({ "_type": "store:author", "slug": authorSlug }, { limit: 1 }));
 
         return {
             author: author,

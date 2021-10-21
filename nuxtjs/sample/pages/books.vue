@@ -16,13 +16,9 @@ export default {
         BookList
     },
 
-    async asyncData({ $cloudcms }) {
+    async asyncData({ $branch }) {
 
-        let books = (await $cloudcms.queryNodes(process.env.repositoryId, process.env.branchId, { _type: "store:book" }, { limit: 1000 })).rows;
-        for (let book of books)
-        {
-            book.imageUrl = await $cloudcms.createAttachmentLink(process.env.repositoryId, process.env.branchId, book._doc);
-        }
+        let books = (await $branch.query({ _type: "store:book" }, { limit: 1000 })).rows;
 
         return {
             books: books

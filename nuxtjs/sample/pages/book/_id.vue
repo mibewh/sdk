@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="book-cover book detail-book-cover">
-                            <img :src="book.imageUrl" class="img-responsive" :alt="book.title">
+                            <img :src="book.defaultAttachmentUrl" class="img-responsive" :alt="book.title">
                             <div class="fade"></div>
                         </div>
                     </div>
@@ -99,23 +99,16 @@ export default {
     async asyncData(context) {
 
         const bookSlug = context.params.id;
+        const $branch = context.$branch;
 
         // find book instance
-        let book = (await context.$cloudcms.queryNodes(process.env.repositoryId, process.env.branchId, { "_type": "store:book", "slug": bookSlug }, { limit: 1 })).rows[0];
-        if (book.tags)
-        {
-          for (var i = 0; i < book.tags.length; i++)
-          {
-            book.tags[i]
-          }
-        }
+        let book = (await $branch.queryOne({ "_type": "store:book", "slug": bookSlug }, { limit: 1 }));
 
-        book.imageUrl = await context.$cloudcms.createAttachmentLink(process.env.repositoryId, process.env.branchId, book._doc);
-        book.pdfURL = await context.$cloudcms.createAttachmentLink(process.env.repositoryId, process.env.branchId, book._doc, "book_pdf");;
+        book.pdfURL = (await $branch.createAttachmentLink(book._doc, "book_pdf"));
         for (let rec of book.recommendations)
         {
             rec._doc = rec.id;
-            rec.imageUrl = await context.$cloudcms.createAttachmentLink(process.env.repositoryId, process.env.branchId, rec._doc);
+            rec.defaultAttachmentUrl = (await $branch.createAttachmentLink(rec._doc));
         }
 
         return {

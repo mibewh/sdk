@@ -16,13 +16,9 @@ export default {
         AuthorList
     },
 
-    async asyncData({ $cloudcms }) {
+    async asyncData({ $branch }) {
 
-        let authors = (await $cloudcms.queryNodes(process.env.repositoryId, process.env.branchId, { _type: "store:author" }, { limit: 1000 })).rows;
-        for (let author of authors)
-        {
-            author.imageUrl = await $cloudcms.createAttachmentLink(process.env.repositoryId, process.env.branchId, author._doc);
-        }
+        let authors = (await $branch.query({ _type: "store:author" }, { limit: 1000 })).rows;
 
         return {
             authors: authors

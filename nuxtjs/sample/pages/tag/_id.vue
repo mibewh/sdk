@@ -42,16 +42,13 @@ export default {
     async asyncData(context) {
 
         const tagSlug = context.params.id;
+        const $branch = context.$branch;
 
         // find tag instance
-        let tag = (await context.$cloudcms.queryNodes(process.env.repositoryId, process.env.branchId, { "_type": "n:tag", "tag": tagSlug }, { limit: 1 })).rows[0];
+        let tag = (await $branch.queryOne({ "_type": "n:tag", "tag": tagSlug }, { limit: 1 }));
 
         // find tagged documents
-        let results = (await context.$cloudcms.queryNodes(process.env.repositoryId, process.env.branchId, { "_type": { "$in": ["store:book", "store:author"] }, "tags": tagSlug }, { limit: 100 })).rows;
-        for (let result of results)
-        {
-            result.imageUrl = await context.$cloudcms.createAttachmentLink(process.env.repositoryId, process.env.branchId, result._doc);
-        }
+        let results = (await $branch.query({ "_type": { "$in": ["store:book", "store:author"] }, "tags": tagSlug }, { limit: 100 })).rows;
 
         return {
             tag: tag,

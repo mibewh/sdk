@@ -7,7 +7,7 @@
                         <div class="book-in-shelf">
                             <div class="book-shelf">
                                 <div class="book-cover slider-book-cover">
-                                    <img class="img-responsive" alt="" v-bind:src="book.imageUrl" width="258" height="351">
+                                    <img class="img-responsive" alt="" v-bind:src="book.defaultAttachmentUrl" width="258" height="351">
                                     <div class="fade"></div>
                                 </div>
                             </div>

@@ -32,21 +32,12 @@ export default {
         AuthorList
     },
 
-    async asyncData({ $cloudcms }) {
+    async asyncData({ $branch }) {
 
-        let books = (await $cloudcms.queryNodes(process.env.repositoryId, process.env.branchId, { _type: "store:book" }, { limit: 4 })).rows;
-        for (let book of books)
-        {
-            book.imageUrl = await $cloudcms.createAttachmentLink(process.env.repositoryId, process.env.branchId, book._doc);
-        }
+        let books = (await $branch.query({ _type: "store:book" }, { limit: 4 })).rows;
+        let authors = (await $branch.query({ _type: "store:author" }, { limit: 4 })).rows;
 
-        let authors = (await $cloudcms.queryNodes(process.env.repositoryId, process.env.branchId, { _type: "store:author" }, { limit: 4 })).rows;
-        for (let author of authors)
-        {
-            author.imageUrl = await $cloudcms.createAttachmentLink(process.env.repositoryId, process.env.branchId, author._doc);
-        }
-
-        let link = await $cloudcms.createAttachmentLink(process.env.repositoryId, process.env.branchId, books[0]._doc, "default");
+        let link = books[0].defaultAttachmentUrl;
 
         return {
             heroBook: books[0],

@@ -2,10 +2,10 @@
     <div class="item item-author-block author" style="text-align: center">
         <a :href="authorLink">
             <div class="author-dp">
-                <img v-bind:src="author.imageUrl" v-bind:alt="author.title">
+                <img v-bind:src="author.defaultAttachmentUrl" v-bind:alt="author.title">
             </div>
         </a>
-        <div class="author-details" data-node-id="{{author._doc}}"">
+        <div class="author-details" :data-node-id="author._doc">
             <h3 class="author-name">
                 <a :href="authorLink">{{author.title}}</a>
             </h3>

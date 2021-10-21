@@ -3,8 +3,9 @@ const pkg = require('./package');
 window = undefined;
 var gitanaConfig = require('./gitana.json');
 
-
 module.exports = {
+  target: "static",
+
   /*
   ** Headers of the page
   */
@@ -57,6 +58,8 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    "./plugins/preview.client.js",
+    "./plugins/cloudcms.js"
   ],
 
   /*
@@ -100,7 +103,6 @@ module.exports = {
   // },
 
   env: {
-    //baseCDNurl: process.env.baseCDNurl || "http://localhost:2999",
     repositoryId: process.env.repositoryId ||  "8acd8b0c0b5c0beef7a0",
     branchId: process.env.branchId || "master"
   },
