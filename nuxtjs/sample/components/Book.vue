@@ -37,7 +37,7 @@ export default {
 
     data() {
         return {
-            bookLink: "/book/" + this.book._doc
+            bookLink: "/book/" + this.book.slug
         };
     }
 };

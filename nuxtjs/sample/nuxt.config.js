@@ -74,13 +74,34 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
-      
+
     }
   },
 
+  // hooks: {
+  //   generate: {
+  //     page({route, path, html}) {
+  //
+  //       var i = html.indexOf("data-node-id");
+  //       if (i > -1)
+  //       {
+  //         var text = html.substring(i + 12);
+  //         var i1 = text.indexOf("\"");
+  //         var i2 = text.substring(i1 + 1).indexOf("\"");
+  //         var nodeId = text.substring(i1 + 1, i2);
+  //
+  //         console.log("The page: " + path + " depends on a node ID: " + nodeId);
+  //       }
+  //     },
+  //     done(nuxt, errors) {
+  //       console.log('done');
+  //     }
+  //   },
+  // },
+
   env: {
-    baseCDNurl: process.env.baseCDNurl || "http://localhost:2999",
-    repositoryId: process.env.repositoryId ||  "89b236097bdd37d1ea23",
+    //baseCDNurl: process.env.baseCDNurl || "http://localhost:2999",
+    repositoryId: process.env.repositoryId ||  "8acd8b0c0b5c0beef7a0",
     branchId: process.env.branchId || "master"
   },
 }

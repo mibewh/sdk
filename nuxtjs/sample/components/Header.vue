@@ -7,10 +7,15 @@
                     <li>
                         <a href="/">Home</a>
                     </li>
-                    <li class="disabled"><a href="index.html">About Us</a></li>
-                </ul>
-                <ul class="navbar-nav nav navbar-right">
-                    <li class="disabled"><a href="#">Login</a></li>
+                    <li>
+                      <a href="/books">Books</a>
+                    </li>
+                    <li>
+                      <a href="/authors">Authors</a>
+                    </li>
+                    <li>
+                      <a href="/tags">Tags</a>
+                    </li>
                 </ul>
             </div>
         </nav>
@@ -29,7 +34,7 @@
 
                         <a class="navbar-brand" :href="'/'">
                             <img class="logo" src="../static/book-flat.png">
-                            <span class="title">Quick Start Books</span>
+                            <span class="title">Book Store</span>
                         </a>
                     </div>
                 </div>

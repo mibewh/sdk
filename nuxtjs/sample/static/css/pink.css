@@ -305,6 +305,7 @@ a:active {
 .scrollup {
   background: #e95a72;
 }
+/*
 .ui-state-default,
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
@@ -314,6 +315,7 @@ a:active {
 .ui-widget-header {
   background: url("images/ui-bg_highlight-soft_75_d75f33_1x100.png") repeat-x scroll 50% 50% #e43754 !important;
 }
+*/
 .table-cart > tbody .price.subtotal {
   color: #e43754;
 }

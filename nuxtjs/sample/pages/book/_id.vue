@@ -38,14 +38,11 @@
                                 <template v-if="book.tags">
                                 <h3>Tags</h3>
                                     <template v-for="tag in book.tags">
-                                    <h4 style="display:inline-block" v-bind:key="tag">
-                                        <span class="label label-default">
-                                            <a style="color:white">{{tag}}</a>
-                                        </span>
-                                    </h4>
+                                      <div class="badge badge-info">
+                                        <a :href="'/tag/' + tag" style="color:white">{{tag}}</a>
+                                      </div>
                                     </template>
                                 </template>
-
 
                             </div>
 
@@ -100,9 +97,18 @@ export default {
     },
 
     async asyncData(context) {
-        const bookId = context.params.id;
 
-        let book = await context.$cloudcms.readNode(process.env.repositoryId, process.env.branchId, bookId);
+        const bookSlug = context.params.id;
+
+        // find book instance
+        let book = (await context.$cloudcms.queryNodes(process.env.repositoryId, process.env.branchId, { "_type": "store:book", "slug": bookSlug }, { limit: 1 })).rows[0];
+        if (book.tags)
+        {
+          for (var i = 0; i < book.tags.length; i++)
+          {
+            book.tags[i]
+          }
+        }
 
         book.imageUrl = await context.$cloudcms.createAttachmentLink(process.env.repositoryId, process.env.branchId, book._doc);
         book.pdfURL = await context.$cloudcms.createAttachmentLink(process.env.repositoryId, process.env.branchId, book._doc, "book_pdf");;
