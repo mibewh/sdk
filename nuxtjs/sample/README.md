@@ -53,8 +53,8 @@ of the `dist` directory to your web root.
 You can try this locally by doing this:
 
 1. Run `npm install http-server -g` to install a global web server.
-2. From the command prompt, go into the `dist` directory and run `http-server`
-3. Navigate to `http://localhost:8081`
+2. From the command prompt, go into the `dist` directory and run `http-server -p 3000`
+3. Navigate to `http://localhost:3000`
 
 ## Integration to Cloud CMS
 
