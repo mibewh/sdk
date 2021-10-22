@@ -1,14 +1,15 @@
 const pkg = require('./package');
 // Reset this to allow server renderer to work
 window = undefined;
-var gitanaConfig = require("./gitana.json");
 
-// configuration for cloudcms-addon module
-var addonConfig = {
-  "trackRenditions": true,
-  "preview": true,
-  "basePageUrl": "http://localhost:3000"
-};
+// gitana config
+var config = require("./gitana.json");
+
+// additional config for module
+config.renditions = true;
+config.preview = true;
+config.basePageUrl = "http://localhost:3000";
+
 
 module.exports = {
   target: "static",
@@ -65,16 +66,14 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    // "./plugins/preview.client.js",
-    // "./plugins/cloudcms.js"
+    "./plugins/sample.js",
   ],
 
   /*
   ** Nuxt.js modules
   */
   modules: [
-      ["cloudcms-nuxt", gitanaConfig],
-      ["./modules/cloudcms-nuxt-addon/module", addonConfig]
+      ["cloudcms-nuxt", config]
   ],
 
   /*

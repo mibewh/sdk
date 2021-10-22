@@ -61,8 +61,7 @@ You can try this locally by doing this:
 ### Cloud CMS Nuxt Module
 
 This sample site pulls in the [https://github.com/gitana/cloudcms-nuxt](Cloud CMS Nuxt Module) to provide build and
-render time integration to the Cloud CMS API.  It also currently pulls in a custmo module (`cloudcms-nuxt-addon`) that
-will soon be merged into `cloudcms-nuxt`.
+render time integration to the Cloud CMS API.
 
 ### Cloud CMS JavaScript Driver
 
@@ -72,10 +71,11 @@ using the credentials provided in your `gitana.json` file.  This driver is then 
 
 ## Preview Mode
 
-This sample application provides optional support for Nuxt's Preview Mode.  If you run this sample site using `nuxt start`, 
-then you have the optional to make requests that run in "Preview Mode".  Requests that run in Preview Mode will fetch
-fresh content from the Cloud CMS API.  This allows your editorial users to preview changes to their content on the live
-web site.
+This sample site supports Nuxt's Preview Mode via the Cloud CMS Nuxt Module. 
+
+If you run this sample site using `nuxt start`, then you have the optional to make requests that run in "Preview Mode".  
+Requests that run in Preview Mode will fetch fresh content from the Cloud CMS API.  
+This allows your editorial users to preview changes to their content on the live web site.
 
 To enable Preview Mode, you simple add the `preview` request parameter, like this:
 
