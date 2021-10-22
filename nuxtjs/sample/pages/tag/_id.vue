@@ -1,5 +1,5 @@
 <template>
-    <div class="tag-detail page">
+    <div class="tag-detail page" :data-cms-id="tag._doc">
         <div class="container">
             <div class="primary-block clearfix">
                 <div class="row">

@@ -1,7 +1,14 @@
 # Nuxt JS Static Sample Site Example
 
-This is an example website which uses Cloud CMS as a data source and generates a static site. 
-It relies on the Cloud CMS App Server as a CDN to serve images, but this can be replaced with your own CDN.
+This is an sample website which uses Cloud CMS as a data source and generates a static web site.  The static site
+can either be run by itself or you can run it inside of Nuxt itself.
+
+This sample further demonstrates how to utilize Preview Mode to allow your editors to preview changes to content
+on their editoiral branches.
+
+Finally, this sample demonstrates how to automatically track Page Renditions at build time.  Page Renditions record
+which pieces of content are rendered on which pages.  This allows your editors to make changes to content and
+see how to appears on different places within the web site.
 
 This example is not intended for production use, but rather to demonstrate how Cloud CMS might integrate with your
 own Nuxt JS applications.
@@ -54,11 +61,12 @@ You can try this locally by doing this:
 ### Cloud CMS Nuxt Module
 
 This sample site pulls in the [https://github.com/gitana/cloudcms-nuxt](Cloud CMS Nuxt Module) to provide build and
-render time integration to the Cloud CMS API.  
+render time integration to the Cloud CMS API.  It also currently pulls in a custmo module (`cloudcms-nuxt-addon`) that
+will soon be merged into `cloudcms-nuxt`.
 
 ### Cloud CMS JavaScript Driver
 
-This module instantiates the [https://github.com/gitana/cloudcms-javascript-driver](Cloud CMS JavaScript Driver)
+The Cloud CMS Nuxt Module instantiates the [https://github.com/gitana/cloudcms-javascript-driver](Cloud CMS JavaScript Driver)
 using the credentials provided in your `gitana.json` file.  This driver is then available to your Nuxt files via the
 `context.$cloudcms` variable.
 
@@ -93,3 +101,12 @@ as a Cloud CMS Preview Endpoint using the URL as shown.
 ```
 http://localhost:3000?preview&branch={{branch.id}}
 ```
+
+## Page Renditions
+
+When you run `nuxt generate`, the build process will automatically connect to your Cloud CMS Application and will
+populate Page Renditions for you.
+
+When your Editors click "Preview" on a piece of content, they will be able to see all of the places in the web site
+where that piece of content appears.  They can then navigate to the site using instant preview to see their changes
+in place.

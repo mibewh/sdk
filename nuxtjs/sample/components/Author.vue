@@ -1,11 +1,11 @@
 <template>
-    <div class="item item-author-block author" style="text-align: center">
+    <div class="item item-author-block author" style="text-align: center" :data-cms-id="author._doc">
         <a :href="authorLink">
             <div class="author-dp">
                 <img v-bind:src="author.defaultAttachmentUrl" v-bind:alt="author.title">
             </div>
         </a>
-        <div class="author-details" :data-node-id="author._doc">
+        <div class="author-details">
             <h3 class="author-name">
                 <a :href="authorLink">{{author.title}}</a>
             </h3>

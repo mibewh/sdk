@@ -1,5 +1,5 @@
 <template>
-    <div class="item item-tag-block tag" style="text-align: center">
+    <div class="item item-tag-block tag" style="text-align: center" :data-cms-id="tag._doc">
         <div class="tag-details">
             <h3 class="tag-name">
                 <a :href="tagLink">{{tag.title}}</a>

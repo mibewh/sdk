@@ -1,0 +1,22 @@
+{
+  "name": "cloudcms-nuxt-addon",
+  "version": "0.0.1",
+  "description": "CloudCMS Nuxt.js Addon Module",
+  "license": "Apache 2.0",
+  "contributors": [
+  ],
+  "main": "module.js",
+  "eslintIgnore": [
+    "lib/*.*"
+  ],
+  "files": [
+    "lib"
+  ],
+  "dependencies": {
+    "cloudcms": "^0.1.8",
+    "mime-types": "^2.1.33"
+  },
+  "devDependencies": {
+    "express": "^4.17.1"
+  }
+}

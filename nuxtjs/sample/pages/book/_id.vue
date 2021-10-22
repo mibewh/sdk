@@ -1,5 +1,5 @@
 <template>
-    <div class="book-detail page">
+    <div class="book-detail page" :data-cms-id="book._doc">
         <div class="container">
             <div class="primary-block clearfix">
                 <div class="row">

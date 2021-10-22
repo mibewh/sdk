@@ -1,7 +1,14 @@
 const pkg = require('./package');
 // Reset this to allow server renderer to work
 window = undefined;
-var gitanaConfig = require('./gitana.json');
+var gitanaConfig = require("./gitana.json");
+
+// configuration for cloudcms-addon module
+var addonConfig = {
+  "trackRenditions": true,
+  "preview": true,
+  "basePageUrl": "http://localhost:3000"
+};
 
 module.exports = {
   target: "static",
@@ -58,15 +65,16 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    "./plugins/preview.client.js",
-    "./plugins/cloudcms.js"
+    // "./plugins/preview.client.js",
+    // "./plugins/cloudcms.js"
   ],
 
   /*
   ** Nuxt.js modules
   */
   modules: [
-    ['cloudcms-nuxt', gitanaConfig]
+      ["cloudcms-nuxt", gitanaConfig],
+      ["./modules/cloudcms-nuxt-addon/module", addonConfig]
   ],
 
   /*
@@ -80,27 +88,15 @@ module.exports = {
 
     }
   },
-
-  // hooks: {
-  //   generate: {
-  //     page({route, path, html}) {
-  //
-  //       var i = html.indexOf("data-node-id");
-  //       if (i > -1)
-  //       {
-  //         var text = html.substring(i + 12);
-  //         var i1 = text.indexOf("\"");
-  //         var i2 = text.substring(i1 + 1).indexOf("\"");
-  //         var nodeId = text.substring(i1 + 1, i2);
-  //
-  //         console.log("The page: " + path + " depends on a node ID: " + nodeId);
-  //       }
-  //     },
-  //     done(nuxt, errors) {
-  //       console.log('done');
-  //     }
-  //   },
-  // },
+  
+  router: {
+    extendRoutes(routes) {
+      routes.forEach((route) => {
+        // ensure that index.html works for any landing pages
+        route.alias = route.path.length > 1 ? `${route.path}/index.html` : '/index.html'
+      })
+    },
+  },
 
   env: {
     repositoryId: process.env.repositoryId ||  "8acd8b0c0b5c0beef7a0",
