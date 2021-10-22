@@ -13,9 +13,17 @@ const BookPage = ({ data }) => {
     }
 
     book.imageUrl = book._system.attachments.default.path.publicURL;
-    book.recommendations.forEach(rec => {
-        rec.imageUrl = rec._system.attachments.default.path.publicURL;
-    });
+    if (book.recommendations)
+    {
+        book.recommendations.forEach(rec => {
+            rec.imageUrl = rec._system.attachments.default.path.publicURL;
+        });
+    }
+    else
+    {
+        book.recommendations = [];
+    }
+    
     book.pdfUrl = book._system.attachments.book_pdf.path.publicURL
 
     return (

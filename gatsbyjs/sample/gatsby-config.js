@@ -15,7 +15,7 @@ module.exports = {
       },
     },
     {
-      resolve: require.resolve(`/Users/mwhitman/projects/gatsby-source-cloudcms`),
+      resolve: `gatsby-source-cloudcms`,
       options: {
         keys: gitanaJson,
         repositoryId: `c517484d30f8f7b4dee8`,
