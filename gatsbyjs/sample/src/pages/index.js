@@ -7,49 +7,65 @@ import BooksContainer from '../components/BooksContainer';
 import AuthorsContainer from "../components/AuthorsContainer";
 
 const HomePage = ({ data }) => {
-  const books = data.cloudcms.store_books.map(book => {
-    book.imageUrl = data.site.siteMetadata.baseCDNURL + "/static/" + book._doc + "-image.jpg?node=" + book._doc;
-    return book;
-  });
-  const authors = data.cloudcms.store_authors.map(author => {
-    author.imageUrl = data.site.siteMetadata.baseCDNURL + "/static/" + author._doc + "-image.jpg?node=" + author._doc;
-    return author;
-  });
+    const books = data.allStoreBook.nodes.map(book => {
+        book.imageUrl = book._system.attachments.default.path.publicURL;
+        return book;
+    });
 
-  return (
-  <Layout>
-    <Slider book={books[0]} />
-    <BooksContainer
-        books={books}
-        title="New Books"
-        subtitle="Do eiusmod tempor incididunt ut labore et dolore magna aliqua" />
-    <AuthorsContainer authors={authors} />
-  </Layout>
-  );
+    const authors = data.allStoreAuthor.nodes.map(author => {
+        author.imageUrl = author._system.attachments.default.path.publicURL;
+        return author;
+    });
+
+    return (
+        <Layout>
+            <Slider book={books[0]} />
+            <BooksContainer
+                books={books}
+                title="New Books"
+                subtitle="Do eiusmod tempor incididunt ut labore et dolore magna aliqua" />
+            <AuthorsContainer authors={authors} />
+        </Layout>
+    );
 }
 
 export const query = graphql`
-  query {
-    site {
-      siteMetadata {
-          baseCDNURL
-      }
-    }
-    cloudcms {
-      store_books {
-        _doc
-        title
-        description
-        author {
-          title
+    query {
+        allStoreBook {
+            nodes {
+                _doc
+                title
+                description
+                author {
+                    title
+                }
+                _system {
+                    attachments {
+                        default {
+                            path {
+                                publicURL
+                            }
+                        }
+                    }
+                }
+            }
         }
-      }
-      store_authors {
-        _doc
-        title
-      }
+        allStoreAuthor {
+            nodes {
+                _doc
+                title
+                _system {
+                    attachments {
+                        default {
+                            path {
+                                publicURL
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-  }
 `;
 
 export default HomePage;

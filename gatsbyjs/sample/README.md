@@ -2,11 +2,11 @@
 
 This is an example website which uses Cloud CMS as a data source and generates a Gatsby static site. It uses the Cloud CMS app server as a GraphQL endpoint, but can be configured to directly use the API with a bit more effort. Additionally, this example uses the app server to serve images, but it is recommended that you use a CDN for this in production.
 
-To run, in the nuxtjs/sample directory:
+To run, in the gatsbyjs/sample directory:
 1. Add your `gitana.json` file. For information on how to retrieve this see: https://www.cloudcms.com/apikeys.html
-2. Run `npm install`
-3. Run `npm install gatsby-cli -g`
-4. In a separate terminal, run `node appServer` to run the app server.
+2. Make sure you have yarn by running `npm i -g yarn`, and then install dependencies by running `yarn`
+3. Run `yarn global add gatsby-cli`
+4. Replace the `repositoryId` and `branchId` values in `gatsby-config.js` with those for your project. [Help](https://support.cloudcms.com/hc/en-us/articles/360005276393-How-to-find-the-Repository-ID-for-a-Project-)
 5. Run `gatsby build` to build the static site
 6. Run `gatsby serve`
 8. Navigate to http://localhost:9000
