@@ -3,8 +3,9 @@ const pkg = require('./package');
 window = undefined;
 var gitanaConfig = require('./gitana.json');
 
-
 module.exports = {
+  target: "static",
+
   /*
   ** Headers of the page
   */
@@ -57,6 +58,8 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    "./plugins/preview.client.js",
+    "./plugins/cloudcms.js"
   ],
 
   /*
@@ -74,12 +77,33 @@ module.exports = {
     ** You can extend webpack config here
     */
     extend(config, ctx) {
-      
+
     }
   },
 
+  // hooks: {
+  //   generate: {
+  //     page({route, path, html}) {
+  //
+  //       var i = html.indexOf("data-node-id");
+  //       if (i > -1)
+  //       {
+  //         var text = html.substring(i + 12);
+  //         var i1 = text.indexOf("\"");
+  //         var i2 = text.substring(i1 + 1).indexOf("\"");
+  //         var nodeId = text.substring(i1 + 1, i2);
+  //
+  //         console.log("The page: " + path + " depends on a node ID: " + nodeId);
+  //       }
+  //     },
+  //     done(nuxt, errors) {
+  //       console.log('done');
+  //     }
+  //   },
+  // },
+
   env: {
-    repositoryId: process.env.repositoryId ||  "c517484d30f8f7b4dee8",
+    repositoryId: process.env.repositoryId ||  "8acd8b0c0b5c0beef7a0",
     branchId: process.env.branchId || "master"
   },
 }

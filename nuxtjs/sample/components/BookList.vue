@@ -10,8 +10,8 @@
                 <div class="module-body">
                     <div class="books">
                         <div class="row">
-                            <div class="col-md-3" v-for="book in books" :key="book._doc">
-                                <Book v-bind:book="book" width="255" height="261" />
+                            <div class="col-md-3" v-for="book in books" :key="book.slug">
+                                <Book v-bind:book="book" />
                             </div>
                         </div>
                     </div>
