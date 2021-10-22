@@ -5,14 +5,14 @@ exports.createPages = ({graphql, actions}) => {
 
     return graphql(`
         {
-            cloudcms {
-                store_books {
+            allStoreBook {
+                nodes {
                     _doc
                 }
             }
         }
     `).then(result => {
-        result.data.cloudcms.store_books.forEach(book => {
+        result.data.allStoreBook.nodes.forEach(book => {
             console.log("Create " + book._doc);
             createPage({
                 path: `book/${book._doc}`,

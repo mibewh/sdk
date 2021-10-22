@@ -5,19 +5,19 @@ import Layout from "../components/Layout";
 import BooksContainer from "../components/BooksContainer";
 import BookTags from "../components/BookTags";
 
-const BookPage = ({data}) => {
+const BookPage = ({ data }) => {
 
-    let book = data.cloudcms.store_books && data.cloudcms.store_books[0];
+    let book = data.storeBook;
     if (!book) {
         return "Error: No book data found"
     }
 
-    book.imageUrl = data.site.siteMetadata.baseCDNURL + "/static/" + book._doc + "-image.jpg?node=" + book._doc;
+    book.imageUrl = book._system.attachments.default.path.publicURL;
     book.recommendations.forEach(rec => {
-        rec.imageUrl = data.site.siteMetadata.baseCDNURL + "/static/" + rec._doc + "-image.jpg?node=" + rec._doc;
+        rec.imageUrl = rec._system.attachments.default.path.publicURL;
     });
-    book.pdfUrl = data.site.siteMetadata.baseCDNURL + "/static/" + book._doc + "-pdf.pdf?node=" + book._doc + "&attachment=book_pdf";
-    
+    book.pdfUrl = book._system.attachments.book_pdf.path.publicURL
+
     return (
         <Layout>
             <div className="book-detail page">
@@ -101,24 +101,40 @@ const BookPage = ({data}) => {
 
 export const query = graphql`
     query BookQuery($bookId: String!) {
-        site {
-            siteMetadata {
-                baseCDNURL
+        storeBook(_doc: { eq: $bookId }) {
+            _doc
+            title
+            description
+            summary
+            tags
+            author {
+                title
             }
-        }
-        cloudcms {
-            store_books(_doc: $bookId) {
+            recommendations {
                 _doc
                 title
-                description
-                summary
-                tags
-                author {
-                    title
+                _system {
+                    attachments {
+                        default {
+                            path {
+                                publicURL
+                            }
+                        }
+                    }
                 }
-                recommendations {
-                    _doc
-                    title
+            }
+            _system {
+                attachments {
+                    default {
+                        path {
+                            publicURL
+                        }
+                    }
+                    book_pdf {
+                        path {
+                            publicURL
+                        }
+                    }
                 }
             }
         }

@@ -8,7 +8,6 @@ To run, in the nuxtjs/sample directory:
 3. Run `npm install http-server -g`
 4. Run `npm install nuxt-cli -g`
 5. Run `nuxt generate` to generate your static site
-6. In a separate terminal, run `node appServer` to run the image serving app server
 7. Switch to the `dist` directory, and run `http-server`.
 8. Navigate to http://localhost:8081
 

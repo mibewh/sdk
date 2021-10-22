@@ -79,8 +79,7 @@ module.exports = {
   },
 
   env: {
-    baseCDNurl: process.env.baseCDNurl || "http://localhost:2999",
-    repositoryId: process.env.repositoryId ||  "89b236097bdd37d1ea23",
+    repositoryId: process.env.repositoryId ||  "c517484d30f8f7b4dee8",
     branchId: process.env.branchId || "master"
   },
 }
