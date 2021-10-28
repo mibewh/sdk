@@ -89,6 +89,12 @@ export default {
             author: author,
             loaded: true
         };
+    },
+
+    head() {
+        return {
+            title: this.author.title
+        }
     }
 
 }

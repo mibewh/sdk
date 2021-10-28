@@ -23,6 +23,12 @@ export default {
         return {
             tags: tags
         };
+    },
+
+    head() {
+        return {
+            title: "Tags"
+        }
     }
 }
 </script>

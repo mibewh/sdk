@@ -23,6 +23,12 @@ export default {
         return {
             books: books
         };
+    },
+
+    head() {
+        return {
+            title: "All Books"
+        }
     }
 }
 </script>
