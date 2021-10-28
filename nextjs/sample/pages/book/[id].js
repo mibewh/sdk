@@ -1,40 +1,43 @@
 import React from "react";
-import Image from 'next/image';
+// import Image from 'next/image';
+import Head from 'next/head'
 
-import Layout from "../components/Layout";
-import BooksContainer from "../components/BooksContainer";
-import BookTags from "../components/BookTags";
+import { getBooks, readBook } from '../../lib/cloudcms';
 
-const BookPage = ({ data }) => {
+import Layout from "../../components/Layout";
+import BooksContainer from "../../components/BooksContainer";
+import BookTags from "../../components/BookTags";
 
-    let book = data.storeBook;
-    if (!book) {
-        return "Error: No book data found"
-    }
+const BookPage = ({ book }) => {
 
-    book.imageUrl = book._system.attachments.default.path.publicURL;
-    if (book.recommendations)
-    {
-        book.recommendations.forEach(rec => {
-            rec.imageUrl = rec._system.attachments.default.path.publicURL;
-        });
-    }
-    else
-    {
-        book.recommendations = [];
-    }
+    // let book = data.storeBook;
+    // if (!book) {
+    //     return "Error: No book data found"
+    // }
+
+    // book.imageUrl = book._system.attachments.default.path.publicURL;
+    // if (book.recommendations)
+    // {
+    //     book.recommendations.forEach(rec => {
+    //         rec.imageUrl = rec._system.attachments.default.path.publicURL;
+    //     });
+    // }
+    // else
+    // {
+    //     book.recommendations = [];
+    // }
     
-    book.pdfUrl = book._system.attachments.book_pdf.path.publicURL
+    // book.pdfUrl = book._system.attachments.book_pdf.path.publicURL
 
     return (
-        <Layout>
-            <div className="book-detail page">
+        <Layout title={book.title}>
+            <div className="book-detail page" data-cms-id={book._doc}>
                 <div className="container">
                     <div className="primary-block clearfix">
                         <div className="row">
                             <div className="col-sm-4">
                                 <div className="book-cover book detail-book-cover">
-                                    <Image src={book.imageUrl} className="img-responsive" alt={book.title} />
+                                    <img src={book.imageUrl} className="img-responsive" alt={book.title} />
 
                                     <div className="fade"></div>
                                 </div>
@@ -105,6 +108,30 @@ const BookPage = ({ data }) => {
             </div>
         </Layout>
     )
+}
+
+export async function getStaticPaths()
+{
+    const books = await getBooks();
+
+    let paths = books.map(book => ({ params: { id: book._doc }}));
+    return {
+        paths,
+        fallback: false
+    }
+}
+
+export async function getStaticProps(context)
+{
+    let nodeId = context.params.id;
+
+    let book = await readBook(nodeId);
+
+    return {
+        props: {
+            book
+        }
+    }
 }
 
 export default BookPage
