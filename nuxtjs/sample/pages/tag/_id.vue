@@ -56,12 +56,6 @@ export default {
             tagLink: "/tag/" + tag.tag,
             loaded: true
         };
-    },
-
-    head() {
-        return {
-            title: this.tag.title
-        }
     }
 
 }

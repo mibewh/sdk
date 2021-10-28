@@ -66,7 +66,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src: "./plugins/sample.js", mode: "server" }
+    "./plugins/sample.js",
   ],
 
   /*
@@ -88,18 +88,17 @@ module.exports = {
     }
   },
   
-  // router: {
-  //   extendRoutes(routes) {
-  //     routes.forEach((route) => {
-  //       // ensure that index.html works for any landing pages
-  //       route.alias = route.path.length > 1 ? `${route.path}/index.html` : '/index.html'
-  //     })
-  //   },
-  //   // trailingSlash: false
-  // },
+  router: {
+    extendRoutes(routes) {
+      routes.forEach((route) => {
+        // ensure that index.html works for any landing pages
+        route.alias = route.path.length > 1 ? `${route.path}/index.html` : '/index.html'
+      })
+    },
+  },
 
   env: {
-    repositoryId: process.env.repositoryId ||  "026e69ddefe3a5a6a6cc",
+    repositoryId: process.env.repositoryId ||  "8acd8b0c0b5c0beef7a0",
     branchId: process.env.branchId || "master"
   },
 }
