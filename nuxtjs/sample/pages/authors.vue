@@ -23,6 +23,12 @@ export default {
         return {
             authors: authors
         };
+    },
+
+    head() {
+        return {
+            title: "All Authors"
+        }
     }
 }
 </script>

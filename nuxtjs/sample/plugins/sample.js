@@ -1,23 +1,22 @@
 var build_branch = function(context)
 {
-  var repositoryId = context.repositoryId;
-  var branchId = context.branchId;
+  var repositoryId = context.repositoryId || process.env.repositoryId;
+  var branchId = context.branchId || process.env.branchId;
   
   var bindExtraProperties_response = async function(response)
   {
     if (response && response.rows)
     {
-      for (let row of response.rows)
-      {
-        bindExtraProperties_row(row);
-      }
+      // Bind extra properties for all rows in the response
+      const tasks = response.rows.map(row => bindExtraProperties_row(row))
+      await Promise.all(tasks);
     }
   }
 
   var bindExtraProperties_row = async function(row)
   {
     try {
-      row.defaultAttachmentUrl = (await context.$cloudcms.createAttachmentLink(repositoryId, branchId, row._doc));
+      row.defaultAttachmentUrl = await context.$cloudcms.createAttachmentLink(repositoryId, branchId, row._doc);
     } catch (e) {
       // swallow
     }
@@ -30,10 +29,10 @@ var build_branch = function(context)
 
   r.query = async function(query, pagination)
   {
-    var response = (await context.$cloudcms.queryNodes(repositoryId, branchId, query, pagination));
+    var response = await context.$cloudcms.queryNodes(repositoryId, branchId, query, pagination);
     if (response && response.rows && response.rows.length > 0)
     {
-      (await bindExtraProperties_response(response));
+      await bindExtraProperties_response(response);
     }
 
     return response;
@@ -51,7 +50,7 @@ var build_branch = function(context)
 
     if (row)
     {
-      bindExtraProperties_row(row);
+      await bindExtraProperties_row(row);
     }
 
     return row;
@@ -61,7 +60,7 @@ var build_branch = function(context)
   {
     var url = null;
     try {
-      url = (await context.$cloudcms.createAttachmentLink(nodeId, attachmentId));
+      url = (await context.$cloudcms.createAttachmentLink(repositoryId, branchId, nodeId, attachmentId));
     } catch (e) {
       // swallow
     }

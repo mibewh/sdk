@@ -36,7 +36,6 @@ export default {
 
         let books = (await $branch.query({ _type: "store:book" }, { limit: 4 })).rows;
         let authors = (await $branch.query({ _type: "store:author" }, { limit: 4 })).rows;
-
         let link = books[0].defaultAttachmentUrl;
 
         return {
@@ -44,6 +43,12 @@ export default {
             books: books,
             authors: authors,
             link: link
+        };
+    },
+
+    head() {
+        return {
+            title: "Quick Start Books"
         };
     }
 }
