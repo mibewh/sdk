@@ -22,13 +22,13 @@ const HomePage = ({ books, authors }) => {
 
 export async function getStaticProps(context)
 {
-    let books = await getBooks();
-    let authors = await getAuthors();
+    let books = await getBooks(context);
+    let authors = await getAuthors(context);
 
     return {
         props: {
-            books,
-            authors
+            books: books.slice(0,4),
+            authors: authors.slice(0,4)
         }
     }
 }

@@ -9,8 +9,33 @@ const CLOUDCMS_OUT = `_next/static/cloudcms`
 let session = null;
 let savedAttachments = {};
 
-let branchId = 'master';
-let repositoryId = '026e69ddefe3a5a6a6cc';
+function getRepositoryBranch(context)
+{
+    let result = {};
+    if (context.preview && context.previewData)
+    {
+        result = {
+            repository: context.previewData.repository,
+            branch: context.previewData.branch
+        }
+    }
+
+    if (!result.repository)
+    {
+        result.repository = process.env.repositoryId;
+    }
+
+    if (!result.branch)
+    {
+        result.branch = process.env.branchId;
+    }
+    if (!result.branch)
+    {
+        result.branch = "master";
+    }
+
+    return result;
+}
 
 async function connect() {
     if (!session) {
@@ -20,86 +45,110 @@ async function connect() {
     return session;
 }
 
-async function bindExtraProperties_response(response) {
+async function bindExtraProperties_response(context, response) {
     if (response && response.rows) {
         // Bind extra properties for all rows in the response
-        const tasks = response.rows.map(row => bindExtraProperties_row(row))
+        const tasks = response.rows.map(row => bindExtraProperties_row(context, row))
         await Promise.all(tasks);
     }
 }
 
-async function bindExtraProperties_row(row) {
+async function bindExtraProperties_row(context, row) {
     try {
-        row.defaultAttachmentUrl = await downloadAttachment(row._doc, "default");
+        row.defaultAttachmentUrl = await downloadAttachment(context, row._doc, "default");
     } catch (e) {
         // swallow
     }
 }
 
-export async function queryOne(query) {
+export async function queryOne(context, query) {
     const session = await connect();
+    const {repository, branch} = getRepositoryBranch(context);
+    console.log(repository);
+    console.log(branch);
+    console.log(query);
     let row = null;
 
-    const response = (await session.queryNodes(repositoryId, branchId, query, { limit: 1 }));
+    const response = (await session.queryNodes(repository, branch, query, { limit: 1 }));
+    console.log(response);
     if (response && response.rows && response.rows.length > 0) {
         row = response.rows[0];
     }
 
     if (row)
     {
-      await bindExtraProperties_row(row);
+      await bindExtraProperties_row(context, row);
     }
 
     return row;
 }
 
-export async function query(query, pagination) {
+export async function query(context, query, pagination) {
     const session = await connect();
-    let response = await session.queryNodes(repositoryId, branchId, query, pagination);
+    const {repository, branch} = getRepositoryBranch(context);
+
+    let response = await session.queryNodes(repository, branch, query, pagination);
     if (response && response.rows && response.rows.length > 0)
     {
-      await bindExtraProperties_response(response);
+      await bindExtraProperties_response(context, response);
     }
 
     return response.rows;
 }
 
-export async function read(id) {
+export async function read(context, id) {
     const session = await connect();
+    const {repository, branch} = getRepositoryBranch(context);
 
-    let node = await session.readNode(repositoryId, branchId, id);
+    let node = await session.readNode(repository, branch, id);
     if (node)
     {
-        await bindExtraProperties_row(node);
+        await bindExtraProperties_row(context, node);
     }
 
     return node;
 }
 
-export async function track(path, html, title) {
+export async function track(repository, branch, path, html, title) {
     const session = await connect();
-    await session.trackPage(repositoryId, branchId, { path, html, title });
+    await session.trackPage(repository, branch, { path, html, title });
 }
 
-export async function getBooks() {
-    return await query({ _type: "store:book" }, { limit: 4 });
+export async function getBooks(context) {
+    if (!context)
+    {
+        context = {
+            repository: process.env.repositoryId,
+            branch: process.env.branchId
+        };
+    }
+    return await query(context, { _type: "store:book" }, { limit: -1 });
 }
 
-export async function getAuthors() {
-    return await query({ _type: "store:author" }, { limit: 4 });
+export async function getAuthors(context) {
+    if (!context)
+    {
+        context = {
+            repository: process.env.repositoryId,
+            branch: process.env.branchId
+        };
+    }
+    return await query(context, { _type: "store:author" }, { limit: -1 });
 }
 
-export async function downloadAttachment(nodeId, attachmentId) {
-    const tokens = `${repositoryId}/${branchId}/${nodeId}/${attachmentId}`;
+export async function downloadAttachment(context, nodeId, attachmentId) {
+    const {repository, branch} = getRepositoryBranch(context);
+    const tokens = `${repository}/${branch}/${nodeId}/${attachmentId}`;
 
-    if (!savedAttachments[tokens]) {
-        const saveDir = `${CLOUDCMS_SAVE_PATH}/${repositoryId}/${branchId}/${nodeId}`;
+    // Redownload if not cached or this is a preview
+    if (!savedAttachments[tokens] || context.preview) {
+        const saveDir = `${CLOUDCMS_SAVE_PATH}/${repository}/${branch}/${nodeId}`;
         if (!fs.existsSync(saveDir)) {
             fs.mkdirSync(saveDir, { recursive: true });
         }
 
         const session = await connect();
-        const attachment = await session.downloadAttachment(repositoryId, branchId, nodeId, attachmentId);
+        const attachment = await session.downloadAttachment(repository, branch, nodeId, attachmentId);
         const ext = mime.extension(attachment.headers['content-type']);
 
         const savePath = `${tokens}.${ext}`;
@@ -112,11 +161,18 @@ export async function downloadAttachment(nodeId, attachmentId) {
     return outputPath;
 }
 
-export async function getTags() {
+export async function getTags(context) {
+    if (!context)
+    {
+        context = {
+            repository: process.env.repositoryId,
+            branch: process.env.branchId
+        };
+    }
     const session = await connect();
+    const {repository, branch} = getRepositoryBranch(context);
 
-
-    let tags = (await session.queryNodes(repositoryId, branchId, { _type: "n:tag" }, { limit: 1000 })).rows;
+    let tags = (await session.queryNodes(repository, branch, { _type: "n:tag" }, { limit: 1000 })).rows;
 
     return tags;
 }

@@ -104,9 +104,9 @@ export async function getStaticProps(context)
 {
     let nodeSlug = context.params.slug;
 
-    let book = await queryOne({"_type": "store:book", "slug": nodeSlug });
-    book.recommendations = await Promise.all(book.recommendations.map(rec => read(rec.id)));
-    book.pdfUrl = await downloadAttachment(book._doc, "book_pdf");
+    let book = await queryOne(context, {"_type": "store:book", "slug": nodeSlug });
+    book.recommendations = await Promise.all(book.recommendations.map(rec => read(context, rec.id)));
+    book.pdfUrl = await downloadAttachment(context, book._doc, "book_pdf");
 
     return {
         props: {

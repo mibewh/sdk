@@ -16,7 +16,7 @@ const AuthorsPage = ({ authors }) => {
 
 export async function getStaticProps(context)
 {
-    let authors = await getAuthors();
+    let authors = await getAuthors(context);
 
     return {
         props: {

@@ -16,7 +16,7 @@ const BooksPage = ({ books }) => {
 
 export async function getStaticProps(context)
 {
-    let books = await getBooks();
+    let books = await getBooks(context);
 
     return {
         props: {

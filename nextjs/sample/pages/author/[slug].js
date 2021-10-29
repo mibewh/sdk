@@ -94,7 +94,7 @@ export async function getStaticProps(context)
 {
     let nodeSlug = context.params.slug;
 
-    let author = await queryOne({"_type": "store:author", "slug": nodeSlug });
+    let author = await queryOne(context, {"_type": "store:author", "slug": nodeSlug });
 
     return {
         props: {

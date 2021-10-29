@@ -7,4 +7,9 @@ module.exports = {
 
     return config;
   },
+  env: {
+    repositoryId: "026e69ddefe3a5a6a6cc",
+    branchId: "master",
+    useAttachmentCache: false
+  }
 }

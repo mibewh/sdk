@@ -88,15 +88,15 @@ module.exports = {
     }
   },
   
-  // router: {
-  //   extendRoutes(routes) {
-  //     routes.forEach((route) => {
-  //       // ensure that index.html works for any landing pages
-  //       route.alias = route.path.length > 1 ? `${route.path}/index.html` : '/index.html'
-  //     })
-  //   },
-  //   // trailingSlash: false
-  // },
+  router: {
+    extendRoutes(routes) {
+      routes.forEach((route) => {
+        // ensure that index.html works for any landing pages
+        route.alias = route.path.length > 1 ? `${route.path}/index.html` : '/index.html'
+      })
+    },
+    // trailingSlash: false
+  },
 
   env: {
     repositoryId: process.env.repositoryId ||  "026e69ddefe3a5a6a6cc",

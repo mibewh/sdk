@@ -1,6 +1,8 @@
 import Document from 'next/document'
 import { track } from '../lib/cloudcms';
 
+const makePreviewUrl = (url) => `/api/preview?url=${url}`
+
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
     
@@ -16,7 +18,7 @@ class MyDocument extends Document {
         },
       })
 
-      track(ctx.req.url, page.html);
+      track(process.env.repositoryId, process.env.branchId, makePreviewUrl(ctx.req.url), page.html);
 
       return page;
     }

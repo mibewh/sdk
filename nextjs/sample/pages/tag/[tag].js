@@ -35,9 +35,9 @@ const TagsPage = ({tag, results}) => {
 export async function getStaticProps(context)
 {
     let tagSlug = context.params.tag;
-    let tag = await queryOne({ _type: "n:tag", tag: tagSlug });
+    let tag = await queryOne(context, { _type: "n:tag", tag: tagSlug });
 
-    let results = await query({ "_type": { "$in": ["store:book"] }, "tags": tagSlug });
+    let results = await query(context, { "_type": { "$in": ["store:book"] }, "tags": tagSlug });
 
     return {
         props: {
@@ -47,7 +47,7 @@ export async function getStaticProps(context)
     }
 }
 
-export async function getStaticPaths(context)
+export async function getStaticPaths()
 {
     const tags = await getTags();
 

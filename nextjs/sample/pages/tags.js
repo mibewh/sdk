@@ -14,7 +14,7 @@ const TagsPage = (props) => {
 
 export async function getStaticProps(context)
 {
-    let tags = await getTags();
+    let tags = await getTags(context);
 
     return {
         props: {
