@@ -38,7 +38,6 @@ export async function getStaticProps(context)
     let tag = await queryOne({ _type: "n:tag", tag: tagSlug });
 
     let results = await query({ "_type": { "$in": ["store:book"] }, "tags": tagSlug });
-    console.log(results);
 
     return {
         props: {

@@ -16,7 +16,6 @@ class MyDocument extends Document {
         },
       })
 
-      // console.log(page.html);
       track(ctx.req.url, page.html);
 
       return page;

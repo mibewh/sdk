@@ -1,8 +1,6 @@
 import React from "react";
-// import Image from 'next/image';
-import Head from 'next/head'
 
-import { getBooks, readBook } from '../../lib/cloudcms';
+import { getBooks, queryOne, read, downloadAttachment } from '../../lib/cloudcms';
 
 import Layout from "../../components/Layout";
 import BooksContainer from "../../components/BooksContainer";
@@ -95,7 +93,7 @@ export async function getStaticPaths()
 {
     const books = await getBooks();
 
-    let paths = books.map(book => ({ params: { id: book._doc }}));
+    let paths = books.map(book => ({ params: { slug: book.slug }}));
     return {
         paths,
         fallback: false
@@ -104,9 +102,11 @@ export async function getStaticPaths()
 
 export async function getStaticProps(context)
 {
-    let nodeId = context.params.id;
+    let nodeSlug = context.params.slug;
 
-    let book = await readBook(nodeId);
+    let book = await queryOne({"_type": "store:book", "slug": nodeSlug });
+    book.recommendations = await Promise.all(book.recommendations.map(rec => read(rec.id)));
+    book.pdfUrl = await downloadAttachment(book._doc, "book_pdf");
 
     return {
         props: {

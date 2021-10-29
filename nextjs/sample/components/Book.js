@@ -7,7 +7,7 @@ const Book = ({ book }) => (
     <div className="book" data-cms-id={book._doc}>
         <div className="book-cover">
             <div className="book-inner">
-                <Link href={`/book/${book._doc}`}>
+                <Link href={`/book/${book.slug}`}>
                     <img src={book.defaultAttachmentUrl} alt={book.title} width="255" height="261" />
                 </Link>
                 <div className="fade"></div>
@@ -15,7 +15,7 @@ const Book = ({ book }) => (
         </div>
         <div className="book-details">
             <h3 className="book-title">
-                <Link href={`/book/${book._doc}`}>
+                <Link href={`/book/${book.slug}`}>
                     {book.title}
                 </Link>
             </h3>

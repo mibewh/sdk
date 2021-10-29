@@ -31,7 +31,7 @@ const Slider = ({ book }) => (
                                             <p className="slider-caption-subtitle fadeInDown-2 hidden-xs">{book.description}</p>
                                         </div>
                                         <div className="clearfix slider-price fadeInDown-3 hidden-xs">
-                                            <Link href={`/book/${book._doc}`}>
+                                            <Link href={`/book/${book.slug}`}>
                                                 <a className="btn btn-secondary btn-price">View Book</a>
                                             </Link>
                                         </div>

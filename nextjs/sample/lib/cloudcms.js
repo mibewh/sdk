@@ -30,9 +30,7 @@ async function bindExtraProperties_response(response) {
 
 async function bindExtraProperties_row(row) {
     try {
-        console.log("ENHANCE");
         row.defaultAttachmentUrl = await downloadAttachment(row._doc, "default");
-        console.log("ENHANCED: " + row.title);
     } catch (e) {
         // swallow
     }
@@ -66,6 +64,18 @@ export async function query(query, pagination) {
     return response.rows;
 }
 
+export async function read(id) {
+    const session = await connect();
+
+    let node = await session.readNode(repositoryId, branchId, id);
+    if (node)
+    {
+        await bindExtraProperties_row(node);
+    }
+
+    return node;
+}
+
 export async function track(path, html, title) {
     const session = await connect();
     await session.trackPage(repositoryId, branchId, { path, html, title });
@@ -73,26 +83,10 @@ export async function track(path, html, title) {
 
 export async function getBooks() {
     return await query({ _type: "store:book" }, { limit: 4 });
-    ;
 }
 
 export async function getAuthors() {
     return await query({ _type: "store:author" }, { limit: 4 });
-}
-
-export async function readBook(id) {
-    const session = await connect();
-
-    let book = await session.readNode(repositoryId, branchId, id);
-    book.defaultAttachmentUrl = await downloadAttachment(id, "default");
-    book.pdfUrl = await downloadAttachment(id, "book_pdf");
-
-    for (let rec of book.recommendations) {
-        rec._doc = rec.id;
-        rec.defaultAttachmentUrl = (await downloadAttachment(rec._doc, "default"));
-    }
-
-    return book;
 }
 
 export async function downloadAttachment(nodeId, attachmentId) {
