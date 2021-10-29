@@ -10,25 +10,6 @@ import BookTags from "../../components/BookTags";
 
 const BookPage = ({ book }) => {
 
-    // let book = data.storeBook;
-    // if (!book) {
-    //     return "Error: No book data found"
-    // }
-
-    // book.imageUrl = book._system.attachments.default.path.publicURL;
-    // if (book.recommendations)
-    // {
-    //     book.recommendations.forEach(rec => {
-    //         rec.imageUrl = rec._system.attachments.default.path.publicURL;
-    //     });
-    // }
-    // else
-    // {
-    //     book.recommendations = [];
-    // }
-    
-    // book.pdfUrl = book._system.attachments.book_pdf.path.publicURL
-
     return (
         <Layout title={book.title}>
             <div className="book-detail page" data-cms-id={book._doc}>
@@ -37,7 +18,7 @@ const BookPage = ({ book }) => {
                         <div className="row">
                             <div className="col-sm-4">
                                 <div className="book-cover book detail-book-cover">
-                                    <img src={book.imageUrl} className="img-responsive" alt={book.title} />
+                                    <img src={book.defaultAttachmentUrl} className="img-responsive" alt={book.title} />
 
                                     <div className="fade"></div>
                                 </div>

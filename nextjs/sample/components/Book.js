@@ -8,7 +8,7 @@ const Book = ({ book }) => (
         <div className="book-cover">
             <div className="book-inner">
                 <Link href={`/book/${book._doc}`}>
-                    <img src={book.imageUrl} alt={book.title} width="255" height="261" />
+                    <img src={book.defaultAttachmentUrl} alt={book.title} width="255" height="261" />
                 </Link>
                 <div className="fade"></div>
             </div>

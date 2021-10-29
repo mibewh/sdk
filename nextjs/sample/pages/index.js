@@ -13,9 +13,9 @@ const HomePage = ({ books, authors }) => {
             <Slider book={books[0]} />
             <BooksContainer
                 books={books}
-                title="New Books"
+                title="Featured Books"
                 subtitle="Do eiusmod tempor incididunt ut labore et dolore magna aliqua" />
-            <AuthorsContainer authors={authors} />
+            <AuthorsContainer title="Authors" authors={authors} />
         </Layout>
     );
 }

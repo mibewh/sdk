@@ -12,64 +12,99 @@ let savedAttachments = {};
 let branchId = 'master';
 let repositoryId = '026e69ddefe3a5a6a6cc';
 
-export async function getBooks()
-{
-    const session = await connect();
-
-    
-    let books = (await session.queryNodes(repositoryId, branchId, { _type: "store:book" }, { limit: 4 })).rows;
-
-    for (let book of books)
-    {
-        book.imageUrl = await downloadAttachment(book._doc, "default");
+async function connect() {
+    if (!session) {
+        session = await cloudcms.connect(gitanaJson);
     }
 
-    return books;
+    return session;
 }
 
-export async function getAuthors()
-{
-    const session = await connect();
+async function bindExtraProperties_response(response) {
+    if (response && response.rows) {
+        // Bind extra properties for all rows in the response
+        const tasks = response.rows.map(row => bindExtraProperties_row(row))
+        await Promise.all(tasks);
+    }
+}
 
-    let authors = (await session.queryNodes(repositoryId, branchId, { _type: "store:author" }, { limit: 4 })).rows;
-    for (let author of authors)
-    {
-        author.imageUrl = await downloadAttachment(author._doc, "default");
+async function bindExtraProperties_row(row) {
+    try {
+        console.log("ENHANCE");
+        row.defaultAttachmentUrl = await downloadAttachment(row._doc, "default");
+        console.log("ENHANCED: " + row.title);
+    } catch (e) {
+        // swallow
+    }
+}
+
+export async function queryOne(query) {
+    const session = await connect();
+    let row = null;
+
+    const response = (await session.queryNodes(repositoryId, branchId, query, { limit: 1 }));
+    if (response && response.rows && response.rows.length > 0) {
+        row = response.rows[0];
     }
 
-    return authors;
+    if (row)
+    {
+      await bindExtraProperties_row(row);
+    }
+
+    return row;
 }
 
-export async function readBook(id)
-{
+export async function query(query, pagination) {
+    const session = await connect();
+    let response = await session.queryNodes(repositoryId, branchId, query, pagination);
+    if (response && response.rows && response.rows.length > 0)
+    {
+      await bindExtraProperties_response(response);
+    }
+
+    return response.rows;
+}
+
+export async function track(path, html, title) {
+    const session = await connect();
+    await session.trackPage(repositoryId, branchId, { path, html, title });
+}
+
+export async function getBooks() {
+    return await query({ _type: "store:book" }, { limit: 4 });
+    ;
+}
+
+export async function getAuthors() {
+    return await query({ _type: "store:author" }, { limit: 4 });
+}
+
+export async function readBook(id) {
     const session = await connect();
 
     let book = await session.readNode(repositoryId, branchId, id);
-    book.imageUrl = await downloadAttachment(id, "default");
+    book.defaultAttachmentUrl = await downloadAttachment(id, "default");
     book.pdfUrl = await downloadAttachment(id, "book_pdf");
 
-    for (let rec of book.recommendations)
-    {
+    for (let rec of book.recommendations) {
         rec._doc = rec.id;
-        rec.imageUrl = (await downloadAttachment(rec._doc, "default"));
+        rec.defaultAttachmentUrl = (await downloadAttachment(rec._doc, "default"));
     }
 
     return book;
 }
 
-export async function downloadAttachment(nodeId, attachmentId)
-{
+export async function downloadAttachment(nodeId, attachmentId) {
     const tokens = `${repositoryId}/${branchId}/${nodeId}/${attachmentId}`;
 
-    if (!savedAttachments[tokens])
-    {
+    if (!savedAttachments[tokens]) {
         const saveDir = `${CLOUDCMS_SAVE_PATH}/${repositoryId}/${branchId}/${nodeId}`;
-        if (!fs.existsSync(saveDir))
-        {
-            fs.mkdirSync(saveDir, {recursive: true});
+        if (!fs.existsSync(saveDir)) {
+            fs.mkdirSync(saveDir, { recursive: true });
         }
 
-        const session = await connect();    
+        const session = await connect();
         const attachment = await session.downloadAttachment(repositoryId, branchId, nodeId, attachmentId);
         const ext = mime.extension(attachment.headers['content-type']);
 
@@ -83,20 +118,11 @@ export async function downloadAttachment(nodeId, attachmentId)
     return outputPath;
 }
 
-export async function track(path, html, title)
-{
+export async function getTags() {
     const session = await connect();
-    await session.trackPage(repositoryId, branchId, { path, html, title });
-}
 
 
+    let tags = (await session.queryNodes(repositoryId, branchId, { _type: "n:tag" }, { limit: 1000 })).rows;
 
-async function connect()
-{
-    if (!session)
-    {
-        session = await cloudcms.connect(gitanaJson);
-    }
-
-    return session;
+    return tags;
 }

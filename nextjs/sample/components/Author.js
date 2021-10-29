@@ -6,7 +6,7 @@ const Author = ({ author }) => (
     <div className="item item-author-block author" style={{"textAlign": "center"}} data-cms-id={author._doc}>
         <Link href={`/author/${author._doc}`}>
             <div className="author-dp">
-                <img src={author.imageUrl} alt={author.title} />
+                <img src={author.defaultAttachmentUrl} alt={author.title} />
             </div>
         </Link>
         <div className="author-details">

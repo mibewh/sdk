@@ -12,7 +12,8 @@ class AuthorsContainer extends React.Component {
                     <div className="wow fadeInUp">
                         <div className="module block-featured-author module-block">
                             <div className="module-heading">
-                                <h2 className="module-title">Featured Authors</h2>
+                                <h2 className="module-title">{this.props.title}</h2>
+                                <p className="module-subtitle">{this.props.subtitle}</p>
                             </div>
                             <div className="module-body" id="featured-author">
                                 <div className="authors">
