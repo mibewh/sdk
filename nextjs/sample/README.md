@@ -63,10 +63,8 @@ http://localhost:3000/api/preview?url={{url}}&branch={{branch.id}}
 
 ## Page Renditions
 
-When you run `npm run build`, the build process will automatically connect to your Cloud CMS Application and will populate Page Renditions for you.
-
-
-* Coming Soon
+When you run `npm run build`, the build process will automatically connect to your Cloud CMS Application and will populate Page Renditions for you. The rendition urls
+generated in cloudcms default to having a base url `localhost`: to override this, add a `basePageUrl` like `http://localhost:3000` to your `gitana.json` file. 
 
 When your Editors click "Preview" on a piece of content, they will be able to see all of the places in the web site
 where that piece of content appears.  They can then navigate to the site using instant preview to see their changes

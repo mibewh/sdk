@@ -64,13 +64,11 @@ async function bindExtraProperties_row(context, row) {
 export async function queryOne(context, query) {
     const session = await connect();
     const {repository, branch} = getRepositoryBranch(context);
-    console.log(repository);
-    console.log(branch);
-    console.log(query);
+
     let row = null;
 
     const response = (await session.queryNodes(repository, branch, query, { limit: 1 }));
-    console.log(response);
+
     if (response && response.rows && response.rows.length > 0) {
         row = response.rows[0];
     }
