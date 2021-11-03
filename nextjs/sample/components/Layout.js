@@ -1,5 +1,6 @@
 import React from "react";
 import Head from 'next/head'
+import Script from 'next/script';
 
 import Header from './Header';
 
@@ -31,16 +32,15 @@ const Layout = ({title, children}) => (
       <link rel="shortcut icon" href={"/images/favicon.ico"} />
 
       <link rel="stylesheet" href={"/css/custom.css"} />
-
-      <script src={"/js/jquery-1.12.0.min.js"}></script>
-      <script type="text/javascript" src={"/js/bootstrap.min.js"}></script>
-      <script src={"/js/bootstrap-hover-dropdown.min.js"}></script>
-      <script src={"/js/echo.min.js"}></script>
-      <script src={"/js/jquery.easing.min.js"}></script>
-      <script src={"/js/wow.min.js"}></script>
-      <script src={"/js/jquery-ui.min.js"}></script>
-      <script src={"/js/scripts.js"}></script>
     </Head>
+    <Script src={"/js/jquery-1.12.0.min.js"}></Script>
+    <Script type="text/javascript" src={"/js/bootstrap.min.js"}></Script>
+    <Script src={"/js/bootstrap-hover-dropdown.min.js"}></Script>
+    <Script src={"/js/echo.min.js"}></Script>
+    <Script src={"/js/jquery.easing.min.js"}></Script>
+    <Script src={"/js/wow.min.js"}></Script>
+    <Script src={"/js/jquery-ui.min.js"}></Script>
+    <Script src={"/js/scripts.js"}></Script>
     <Header /> 
     <div className="page-container" data-cms-pagetitle={title}>
       {children}

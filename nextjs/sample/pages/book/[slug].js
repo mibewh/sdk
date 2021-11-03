@@ -72,7 +72,7 @@ const BookPage = ({ book }) => {
 
                                     <div className="tab-pane" id="download" role="tabpanel">
                                         <h3>Download</h3>
-                                        <p>Download this book - <a href={book.pdfUrl} target="_blank">PDF</a></p>
+                                        <p>Download this book - <a href={book.pdfUrl} target="_blank" rel="noopener noreferrer">PDF</a></p>
                                     </div>
 
                                 </div>
