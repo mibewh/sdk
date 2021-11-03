@@ -45,10 +45,10 @@ export default {
         const $branch = context.$branch;
 
         // find tag instance
-        let tag = (await $branch.queryOne({ "_type": "n:tag", "tag": tagSlug }, { limit: 1 }));
+        let tag = (await $branch.queryOneNode({ "_type": "n:tag", "tag": tagSlug }, { limit: 1 }));
 
         // find tagged documents
-        let results = (await $branch.query({ "_type": { "$in": ["store:book", "store:author"] }, "tags": tagSlug }, { limit: 100 })).rows;
+        let results = (await $branch.queryNodes({ "_type": { "$in": ["store:book", "store:author"] }, "tags": tagSlug }, { limit: 100 })).rows;
 
         return {
             tag: tag,

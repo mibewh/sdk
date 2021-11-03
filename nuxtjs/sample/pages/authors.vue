@@ -18,7 +18,7 @@ export default {
 
     async asyncData({ $branch }) {
 
-        let authors = (await $branch.query({ _type: "store:author" }, { limit: 1000 })).rows;
+        let authors = (await $branch.queryNodes({ _type: "store:author" }, { limit: 1000 })).rows;
 
         return {
             authors: authors

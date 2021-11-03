@@ -102,7 +102,7 @@ export default {
         const $branch = context.$branch;
 
         // find book instance
-        let book = (await $branch.queryOne({ "_type": "store:book", "slug": bookSlug }, { limit: 1 }));
+        let book = (await $branch.queryOneNode({ "_type": "store:book", "slug": bookSlug }, { limit: 1 }));
 
         book.pdfURL = (await $branch.createAttachmentLink(book._doc, "book_pdf"));
         for (let rec of book.recommendations)

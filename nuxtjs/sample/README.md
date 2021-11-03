@@ -15,6 +15,7 @@ own Nuxt JS applications.
 
 ## Prerequisites
 
+We recommend using the latest LTS for Node.js, as recommended by Nuxt.
 To build this sample, you will need to have Nuxt.js installed.
 
 1. Run `npm install nuxt -g` to install Nuxt globally.
@@ -25,7 +26,6 @@ To build this sample, you will need to have Nuxt.js installed.
 Go into your `nuxtjs/sample` directory and do the following.
 
 1. Add your `gitana.json` file. For information on how to retrieve this see: https://www.cloudcms.com/apikeys.html
-2. Modify `nuxt.config.js` and fill in the value for your project's `repositoryId`.
 
 ## Building
 
@@ -67,7 +67,8 @@ render time integration to the Cloud CMS API.
 
 The Cloud CMS Nuxt Module instantiates the [https://github.com/gitana/cloudcms-javascript-driver](Cloud CMS JavaScript Driver)
 using the credentials provided in your `gitana.json` file.  This driver is then available to your Nuxt files via the
-`context.$cloudcms` variable.
+`context.$cloudcms` variable. You also get access to `context.$branch`, which is an object representing your current project branch (default is master). 
+You can change the branch by adding a `branchId` to your project.
 
 ## Preview Mode
 
@@ -102,10 +103,14 @@ as a Cloud CMS Preview Endpoint using the URL as shown.
 http://localhost:3000?preview&branch={{branch.id}}
 ```
 
+When preview mode is enabled, variables `repositoryId` and `branchId` become available in your context, and the `cloudcms-nuxt` plugin
+will automatically switch to the preview branch, so that new content will be queried when rendering your application.
+
 ## Page Renditions
 
 When you run `nuxt generate`, the build process will automatically connect to your Cloud CMS Application and will
-populate Page Renditions for you.
+populate Page Renditions for you. The rendition urls generated in cloudcms default to having a base url `localhost`: 
+to override this, add a `basePageUrl` like `http://localhost:3000` to your `gitana.json` file. 
 
 When your Editors click "Preview" on a piece of content, they will be able to see all of the places in the web site
 where that piece of content appears.  They can then navigate to the site using instant preview to see their changes

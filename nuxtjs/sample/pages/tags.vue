@@ -18,7 +18,7 @@ export default {
 
     async asyncData({ $branch }) {
 
-        let tags = (await $branch.query({ _type: "n:tag" }, { limit: 1000 })).rows;
+        let tags = (await $branch.queryNodes({ _type: "n:tag" }, { limit: 1000 })).rows;
 
         return {
             tags: tags

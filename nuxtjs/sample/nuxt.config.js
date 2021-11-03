@@ -66,7 +66,7 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src: "./plugins/sample.js", mode: "server" }
+
   ],
 
   /*
@@ -99,7 +99,6 @@ module.exports = {
   },
 
   env: {
-    repositoryId: process.env.repositoryId ||  "026e69ddefe3a5a6a6cc",
-    branchId: process.env.branchId || "master"
+
   },
 }

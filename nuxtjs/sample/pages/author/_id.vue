@@ -83,7 +83,7 @@ export default {
         const $branch = context.$branch;
 
         // find author instance
-        let author = (await $branch.queryOne({ "_type": "store:author", "slug": authorSlug }, { limit: 1 }));
+        let author = (await $branch.queryOneNode({ "_type": "store:author", "slug": authorSlug }, { limit: 1 }));
 
         return {
             author: author,

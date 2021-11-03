@@ -34,8 +34,8 @@ export default {
 
     async asyncData({ $branch }) {
 
-        let books = (await $branch.query({ _type: "store:book" }, { limit: 4 })).rows;
-        let authors = (await $branch.query({ _type: "store:author" }, { limit: 4 })).rows;
+        let books = (await $branch.queryNodes({ _type: "store:book" }, { limit: 4 })).rows;
+        let authors = (await $branch.queryNodes({ _type: "store:author" }, { limit: 4 })).rows;
         let link = books[0].defaultAttachmentUrl;
 
         return {
