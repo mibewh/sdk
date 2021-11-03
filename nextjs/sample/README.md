@@ -1,7 +1,7 @@
-# Nuxt JS Static Sample Site Example
+# Next JS Static Sample Site Example
 
 This is an sample website which uses Cloud CMS as a data source and generates a static web site.  The static site
-can either be run by itself or you can run it inside of Nuxt itself.
+can either be run by itself or you can run it inside of Next itself.
 
 This sample further demonstrates how to utilize Preview Mode to allow your editors to preview changes to content
 on their editoiral branches.
@@ -11,7 +11,7 @@ which pieces of content are rendered on which pages.  This allows your editors t
 see how to appears on different places within the web site.
 
 This example is not intended for production use, but rather to demonstrate how Cloud CMS might integrate with your
-own Nuxt JS applications.
+own Next JS applications.
 
 ## Prerequisites
 
@@ -22,7 +22,6 @@ own Nuxt JS applications.
 Go into your `nextjs/sample` directory and do the following.
 
 1. Add your `gitana.json` file. For information on how to retrieve this see: https://www.cloudcms.com/apikeys.html
-2. Modify `next.config.js` and fill in the value for your project's `repositoryId`.
 
 ## Run
 
