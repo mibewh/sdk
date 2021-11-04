@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from '../components/Layout';
 import BooksContainer from '../components/BooksContainer';
-import { getBooks } from '../lib/cloudcms';
+import { getCurrentBranch } from '../lib/cloudcms';
 
 const BooksPage = ({ books }) => {
     return (
@@ -16,7 +16,8 @@ const BooksPage = ({ books }) => {
 
 export async function getStaticProps(context)
 {
-    let books = await getBooks(context);
+    const branch = await getCurrentBranch(context);
+    let books = (await branch.queryNodes({ _type: "store:book" }, { limit: -1 })).rows;
 
     return {
         props: {

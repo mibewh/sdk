@@ -1,4 +1,5 @@
 import * as cloudcms from 'cloudcms';
+import { UtilitySession } from 'cloudcms';
 import * as gitanaJson from '../gitana.json';
 import * as fs from 'fs';
 import mime from 'mime-types';
@@ -6,171 +7,140 @@ import mime from 'mime-types';
 const CLOUDCMS_SAVE_PATH = `${process.cwd()}/.next/static/cloudcms`
 const CLOUDCMS_OUT = `_next/static/cloudcms`
 
-let session = null;
-let savedAttachments = {};
-
-function getRepositoryBranch(context)
-{
-    let result = {};
-    if (context.preview && context.previewData)
+class NextSession extends UtilitySession {
+    constructor(config, driver, storage)
     {
-        result = {
-            repository: context.previewData.repository,
-            branch: context.previewData.branch
+        super(config, driver, storage);
+        this._savedAttachments = {};
+        this._branches = {};
+    }
+
+    async readNode(repository, branch, nodeId, path, callback) {
+        let node = await super.readNode(repository, branch, nodeId, path, callback);
+        await this.bindExtraProperties_row(repository, branch, node);
+        return node;
+    }
+
+    async queryNodes(repository, branch, query, pagination, callback) {
+        let response = await super.queryNodes(repository, branch, query, pagination, callback);
+        await this.bindExtraProperties_response(repository, branch, response);
+        return response;
+    }
+
+    async searchNodes(repository, branch, search, pagination, callback) {
+        let response = await super.searchNodes(repository, branch, search, pagination, callback);
+        await this.bindExtraProperties_response(repository, branch, response);
+        return response;
+    }
+
+    async findNodes(repository, branch, config, pagination, callback) {
+        let response = await super.findNodes(repository, branch, config, pagination, callback);
+        await this.bindExtraProperties_response(repository, branch, response);
+        return response;
+    }
+
+    async bindExtraProperties_row(repository, branch, row) {
+        try {
+            row.defaultAttachmentUrl = await this.createAttachmentLink(repository, branch, row._doc);
+        } catch (e) {
+            // swallow
+        }
+    }
+    
+    async bindExtraProperties_response(repository, branch, response) {
+        if (response && response.rows) {
+            // Bind extra properties for all rows in the response
+            const tasks = response.rows.map(row => this.bindExtraProperties_row(repository, branch, row))
+            await Promise.all(tasks);
         }
     }
 
-    if (!result.repository)
-    {
-        result.repository = process.env.repositoryId;
+    async createAttachmentLink(repository, branch, nodeId, attachmentId) {
+        const repositoryId = this.acquireId(repository);
+        const branchId = this.acquireId(branch);
+        if (!attachmentId) {
+            attachmentId = "default";
+        }
+
+        const tokens = `${repositoryId}/${branchId}/${nodeId}/${attachmentId}`;
+    
+        // Redownload if not cached or this is a preview
+        if (!this._savedAttachments[tokens] || branch.previewMode) {
+            const saveDir = `${CLOUDCMS_SAVE_PATH}/${repositoryId}/${branchId}/${nodeId}`;
+            if (!fs.existsSync(saveDir)) {
+                fs.mkdirSync(saveDir, { recursive: true });
+            }
+    
+            const attachment = await this.downloadAttachment(repositoryId, branchId, nodeId, attachmentId);
+            const ext = mime.extension(attachment.headers['content-type']);
+    
+            const savePath = `${tokens}.${ext}`;
+            this._savedAttachments[tokens] = savePath;
+            const ws = fs.createWriteStream(`${CLOUDCMS_SAVE_PATH}/${this._savedAttachments[tokens]}`);
+            attachment.pipe(ws);
+        }
+    
+        const outputPath = `/${CLOUDCMS_OUT}/${this._savedAttachments[tokens]}`;
+        return outputPath;
     }
 
-    if (!result.branch)
+    async getCurrentBranch(context)
     {
-        result.branch = process.env.branchId;
-    }
-    if (!result.branch)
-    {
-        result.branch = "master";
-    }
+        let repositoryId = null;
+        let branchId = null;
+        if (context && context.preview && context.previewData)
+        {
+            repositoryId = context.previewData.repository,
+            branchId = context.previewData.branch
+        }
 
-    return result;
+        if (!repositoryId)
+        {
+            repositoryId = process.env.repositoryId;
+        }
+        if (!repositoryId)
+        {
+            repositoryId = (await this.repository())._doc;
+        }
+
+        if (!branchId)
+        {
+            branchId = process.env.branchId;
+        }
+        if (!branchId)
+        {
+            branchId = "master";
+        }
+
+        if(!this._branches[`${repositoryId}/${branchId}`])
+        {
+            let branch = await this.readBranch(repositoryId, branchId);
+
+            // Wraps the branch in the Branch class, which binds all session functions whose first paramaters are (repository, branch), i.e. queryNodes
+            branch = this.wrapBranch(repositoryId, branch);
+            // bind download attachment to branch
+            branch.createAttachmentLink = this.createAttachmentLink.bind(this, repositoryId, branchId);
+            this._branches[`${repositoryId}/${branchId}`] = branch;
+        }
+
+        let branch = this._branches[`${repositoryId}/${branchId}`];
+        branch.previewMode = context ? context.preview : false;
+        return branch;
+    }
 }
 
+
+let session = null;
 async function connect() {
     if (!session) {
+        cloudcms.session(NextSession);
         session = await cloudcms.connect(gitanaJson);
     }
 
     return session;
 }
 
-async function bindExtraProperties_response(context, response) {
-    if (response && response.rows) {
-        // Bind extra properties for all rows in the response
-        const tasks = response.rows.map(row => bindExtraProperties_row(context, row))
-        await Promise.all(tasks);
-    }
-}
-
-async function bindExtraProperties_row(context, row) {
-    try {
-        row.defaultAttachmentUrl = await downloadAttachment(context, row._doc, "default");
-    } catch (e) {
-        // swallow
-    }
-}
-
-export async function queryOne(context, query) {
+export async function getCurrentBranch(context) {
     const session = await connect();
-    const {repository, branch} = getRepositoryBranch(context);
-
-    let row = null;
-
-    const response = (await session.queryNodes(repository, branch, query, { limit: 1 }));
-
-    if (response && response.rows && response.rows.length > 0) {
-        row = response.rows[0];
-    }
-
-    if (row)
-    {
-      await bindExtraProperties_row(context, row);
-    }
-
-    return row;
-}
-
-export async function query(context, query, pagination) {
-    const session = await connect();
-    const {repository, branch} = getRepositoryBranch(context);
-
-    let response = await session.queryNodes(repository, branch, query, pagination);
-    if (response && response.rows && response.rows.length > 0)
-    {
-      await bindExtraProperties_response(context, response);
-    }
-
-    return response.rows;
-}
-
-export async function read(context, id) {
-    const session = await connect();
-    const {repository, branch} = getRepositoryBranch(context);
-
-    let node = await session.readNode(repository, branch, id);
-    if (node)
-    {
-        await bindExtraProperties_row(context, node);
-    }
-
-    return node;
-}
-
-export async function track(repository, branch, path, html, title) {
-    const session = await connect();
-    await session.trackPage(repository, branch, { path, html, title });
-}
-
-export async function getBooks(context) {
-    if (!context)
-    {
-        context = {
-            repository: process.env.repositoryId,
-            branch: process.env.branchId
-        };
-    }
-    return await query(context, { _type: "store:book" }, { limit: -1 });
-}
-
-export async function getAuthors(context) {
-    if (!context)
-    {
-        context = {
-            repository: process.env.repositoryId,
-            branch: process.env.branchId
-        };
-    }
-    return await query(context, { _type: "store:author" }, { limit: -1 });
-}
-
-export async function downloadAttachment(context, nodeId, attachmentId) {
-    const {repository, branch} = getRepositoryBranch(context);
-    const tokens = `${repository}/${branch}/${nodeId}/${attachmentId}`;
-
-    // Redownload if not cached or this is a preview
-    if (!savedAttachments[tokens] || context.preview) {
-        const saveDir = `${CLOUDCMS_SAVE_PATH}/${repository}/${branch}/${nodeId}`;
-        if (!fs.existsSync(saveDir)) {
-            fs.mkdirSync(saveDir, { recursive: true });
-        }
-
-        const session = await connect();
-        const attachment = await session.downloadAttachment(repository, branch, nodeId, attachmentId);
-        const ext = mime.extension(attachment.headers['content-type']);
-
-        const savePath = `${tokens}.${ext}`;
-        savedAttachments[tokens] = savePath;
-        const ws = fs.createWriteStream(`${CLOUDCMS_SAVE_PATH}/${savedAttachments[tokens]}`);
-        attachment.pipe(ws);
-    }
-
-    const outputPath = `/${CLOUDCMS_OUT}/${savedAttachments[tokens]}`;
-    return outputPath;
-}
-
-export async function getTags(context) {
-    if (!context)
-    {
-        context = {
-            repository: process.env.repositoryId,
-            branch: process.env.branchId
-        };
-    }
-    const session = await connect();
-    const {repository, branch} = getRepositoryBranch(context);
-
-    let tags = (await session.queryNodes(repository, branch, { _type: "n:tag" }, { limit: 1000 })).rows;
-
-    return tags;
+    return await session.getCurrentBranch(context);
 }

@@ -1,6 +1,6 @@
 {
   "name": "sample",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "cloudcms": "^0.1.13",
+    "cloudcms": "^0.2.2",
     "mime-types": "^2.1.33",
     "next": "^12.0.2",
     "react": "17.0.2",

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { getAuthors, queryOne } from '../../lib/cloudcms';
+import { getCurrentBranch } from '../../lib/cloudcms';
 
 import Layout from "../../components/Layout";
 
@@ -58,7 +58,8 @@ const AuthorPage = ({ author }) => {
 
 export async function getStaticPaths()
 {
-    const authors = await getAuthors();
+    const branch = await getCurrentBranch(null);
+    const authors = (await branch.queryNodes({ _type: "store:author" }, { limit: -1 })).rows;
 
     let paths = authors.map(author => ({ params: { slug: author.slug }}));
     return {
@@ -71,7 +72,8 @@ export async function getStaticProps(context)
 {
     let nodeSlug = context.params.slug;
 
-    let author = await queryOne(context, {"_type": "store:author", "slug": nodeSlug });
+    const branch = await getCurrentBranch(context);
+    let author = await branch.queryOneNode({"_type": "store:author", "slug": nodeSlug });
 
     return {
         props: {

@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from '../components/Layout';
 import TagsContainer from '../components/TagsContainer';
-import { getTags } from '../lib/cloudcms';
+import { getCurrentBranch } from '../lib/cloudcms';
 
 const TagsPage = (props) => {
     const title = props.title || "Tags";
@@ -14,7 +14,8 @@ const TagsPage = (props) => {
 
 export async function getStaticProps(context)
 {
-    let tags = await getTags(context);
+    const branch = await getCurrentBranch(context);
+    let tags = (await branch.queryNodes({ _type: "n:tag" }, { limit: 1000 })).rows;
 
     return {
         props: {

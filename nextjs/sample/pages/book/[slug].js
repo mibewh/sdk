@@ -1,6 +1,6 @@
 import React from "react";
 
-import { getBooks, queryOne, read, downloadAttachment } from '../../lib/cloudcms';
+import { getCurrentBranch } from '../../lib/cloudcms';
 
 import Layout from "../../components/Layout";
 import BooksContainer from "../../components/BooksContainer";
@@ -91,7 +91,8 @@ const BookPage = ({ book }) => {
 
 export async function getStaticPaths()
 {
-    const books = await getBooks();
+    const branch = await getCurrentBranch(null);
+    const books = (await branch.queryNodes({ _type: "store:book" }, { limit: -1 })).rows;
 
     let paths = books.map(book => ({ params: { slug: book.slug }}));
     return {
@@ -104,9 +105,10 @@ export async function getStaticProps(context)
 {
     let nodeSlug = context.params.slug;
 
-    let book = await queryOne(context, {"_type": "store:book", "slug": nodeSlug });
-    book.recommendations = await Promise.all(book.recommendations.map(rec => read(context, rec.id)));
-    book.pdfUrl = await downloadAttachment(context, book._doc, "book_pdf");
+    const branch = await getCurrentBranch(context);
+    let book = await branch.queryOneNode({"_type": "store:book", "slug": nodeSlug });
+    book.recommendations = await Promise.all(book.recommendations.map(rec => branch.readNode(rec.id)));
+    book.pdfUrl = await branch.createAttachmentLink(book._doc, "book_pdf");
 
     return {
         props: {

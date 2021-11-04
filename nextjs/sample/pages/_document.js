@@ -1,5 +1,5 @@
 import Document from 'next/document'
-import { track } from '../lib/cloudcms';
+import { getCurrentBranch } from '../lib/cloudcms';
 
 const makePreviewUrl = (url) => `/api/preview?url=${url}`
 
@@ -7,6 +7,7 @@ class MyDocument extends Document {
   static async getInitialProps(ctx) {
     
     const originalRenderPage = ctx.renderPage
+    const branch = await getCurrentBranch(ctx);
     
     ctx.renderPage = () => {
       const page = originalRenderPage({
@@ -18,7 +19,7 @@ class MyDocument extends Document {
         },
       })
 
-      track(process.env.repositoryId, process.env.branchId, makePreviewUrl(ctx.req.url), page.html);
+      branch.trackPage({path: makePreviewUrl(ctx.req.url), html: page.html});
 
       return page;
     }

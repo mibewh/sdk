@@ -1,6 +1,5 @@
 import React from "react";
-import { getBooks, getAuthors } from '../lib/cloudcms';
-import Head from 'next/head'
+import { getCurrentBranch } from '../lib/cloudcms';
 
 import Layout from '../components/Layout';
 import Slider from '../components/Slider';
@@ -22,8 +21,9 @@ const HomePage = ({ books, authors }) => {
 
 export async function getStaticProps(context)
 {
-    let books = await getBooks(context);
-    let authors = await getAuthors(context);
+    const branch = await getCurrentBranch(context);
+    let books = (await branch.queryNodes({ _type: "store:book" }, { limit: -1 })).rows;
+    let authors = (await branch.queryNodes({ _type: "store:author" }, { limit: -1 })).rows;
 
     return {
         props: {

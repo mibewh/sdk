@@ -1,7 +1,7 @@
 import React from "react";
 import Layout from '../../components/Layout';
 import BooksContainer from '../../components/BooksContainer';
-import { queryOne, query, getTags } from '../../lib/cloudcms';
+import { getCurrentBranch } from '../../lib/cloudcms';
 
 const TagsPage = ({tag, results}) => {
 
@@ -35,9 +35,10 @@ const TagsPage = ({tag, results}) => {
 export async function getStaticProps(context)
 {
     let tagSlug = context.params.tag;
-    let tag = await queryOne(context, { _type: "n:tag", tag: tagSlug });
+    const branch = await getCurrentBranch(context);
+    let tag = await branch.queryOneNode({ _type: "n:tag", tag: tagSlug });
 
-    let results = await query(context, { "_type": { "$in": ["store:book"] }, "tags": tagSlug });
+    let results = (await branch.queryNodes({ "_type": { "$in": ["store:book"] }, "tags": tagSlug })).rows;
 
     return {
         props: {
@@ -49,7 +50,8 @@ export async function getStaticProps(context)
 
 export async function getStaticPaths()
 {
-    const tags = await getTags();
+    const branch = await getCurrentBranch(null);
+    const tags = (await branch.queryNodes({ _type: "n:tag" }, { limit: 1000 })).rows;
 
     let paths = tags.map(tag => ({ params: { tag: tag.tag }}));
     return {
