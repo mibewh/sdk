@@ -1,4 +1,4 @@
-import { connect } from '$lib/api/cloudcms';
+import { connect, attachmentUrl } from '$lib/api/cloudcms';
 
 // POST /api/authors
 export const post = async (request) => {
@@ -11,7 +11,10 @@ export const post = async (request) => {
 	const branch = await session.master();
 
     let authors = (await branch.queryNodes(query, pagination)).rows;
-
+	for (let author of authors)
+	{
+		author.defaultAttachmentUrl = attachmentUrl(author);
+	}
 
 	return {
 		body: {

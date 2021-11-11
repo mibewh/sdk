@@ -132,9 +132,19 @@ export async function connect(fetch) {
     {
         cloudcms.driver(FetchDriver);
         cloudcms.session(UtilitySession);
-        session = await cloudcms.connect({...gitanaJson, fetch});        
+        session = await cloudcms.connect({...gitanaJson, fetch});      
+        session.defaults.qs.metadata = true;  
     }
 
     session.driver.fetch = fetch;
     return session;
+}
+
+export function attachmentUrl(node, attachmentId) {
+    if (!attachmentId) {
+        attachmentId = "default";
+    }
+
+    const ext = node._system.attachments[attachmentId] ? node._system.attachments[attachmentId].ext : "";
+    return `/api/attachment/${node._doc}/${attachmentId}.${ext}`;
 }
