@@ -47,8 +47,10 @@ export const handle = async ({ request, resolve }) => {
 
 	const response = await resolve(request);
 
-	const baseUrl = cloudcmsSession.driver.config.basePageUrl || request.host;
-	// session.trackPage(request.locals.repository, request.locals.branch, { path: makePreviewUrl(ctx.req.url), html: page.html });
+	if (response.headers['content-type'] === 'text/html')
+	{
+		cloudcmsSession.trackPage(request.locals.repository, request.locals.branch, { path: request.path, html: response.body });
+	}
 
 	
 	response.headers['set-cookie'] = responseCookies;

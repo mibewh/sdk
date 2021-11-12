@@ -3,12 +3,12 @@
 	export const load = async ({ page, fetch }) => {
         const tagStr = page.params.tag;
         const tagQuery = JSON.stringify({ 'tag': tagStr });
-        const res = await fetch(`/api/tags?limit=1`, { method: 'POST', body: tagQuery, headers: { 'Content-Type': 'application/json' } })
+        const res = await fetch(`/api/tags?limit=1`, { method: 'POST', body: tagQuery, headers: { 'content-type': 'application/json' } })
                             .then(res => res.json());
 
 		const tag = res.tags[0];
         const booksQuery = JSON.stringify({ 'tags': tagStr });
-        const results = (await fetch(`/api/books?limit=-1`, { method: 'POST',  body: booksQuery, headers: { 'Content-Type': 'application/json' } })
+        const results = (await fetch(`/api/books?limit=-1`, { method: 'POST',  body: booksQuery, headers: { 'content-type': 'application/json' } })
                                     .then(res => res.json())).books
 
 		return {

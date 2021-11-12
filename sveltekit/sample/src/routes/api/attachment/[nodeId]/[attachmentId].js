@@ -32,7 +32,7 @@ export const get = async (request) => {
 	return {
 		body: new Uint8Array(buf),
 		headers: {
-			'Content-Type': contentType
+			'content-type': contentType
 		}
 	};
 };

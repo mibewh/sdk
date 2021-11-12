@@ -3,7 +3,7 @@
 	export const load = async ({ page, fetch }) => {
         const slug = page.params.slug;
         const query = JSON.stringify({ 'slug': slug });
-        const res = await fetch(`/api/authors?limit=1`, { method: 'POST', body: query, headers: { 'Content-Type': 'application/json' } })
+        const res = await fetch(`/api/authors?limit=1`, { method: 'POST', body: query, headers: { 'content-type': 'application/json' } })
                             .then(res => res.json());
 
 		const author = res.authors[0];
