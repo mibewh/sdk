@@ -5,7 +5,7 @@ export const get = async (request) => {
     let { nodeId, attachmentId } = request.params;
 
 	const session = await connect(fetch);
-	const branch = await session.master();
+	const branch = await session.getCurrentBranch(request);
 
 	// Remove extension if present
 	if (attachmentId.indexOf('.') >= 0) {

@@ -1,4 +1,4 @@
-import { connect, attachmentUrl } from '$lib/api/cloudcms';
+import { connect } from '$lib/api/cloudcms';
 
 // GET /api/book/[slug]
 export const get = async (request) => {
@@ -9,20 +9,21 @@ export const get = async (request) => {
     };
 
 	const session = await connect(fetch);
-	const branch = await session.master();
+	const branch = await session.getCurrentBranch(request);
 
     let book = await branch.queryOneNode(query);
-	book.defaultAttachmentUrl = attachmentUrl(book)
-	book.pdfUrl = attachmentUrl(book, 'book_pdf');
+	book.defaultAttachmentUrl = session.attachmentUrl(book)
+	book.pdfUrl = session.attachmentUrl(book, 'book_pdf');
 
 	if (book.recommendations)
 	{
 		book.recommendations = await Promise.all(book.recommendations.map(async (rec) => {
 			let newRec = await branch.readNode(rec.id);
-			newRec.defaultAttachmentUrl = attachmentUrl(newRec);
+			newRec.defaultAttachmentUrl = session.attachmentUrl(newRec);
 			return newRec;
 		}));
 	}
+
 
 	return {
 		body: {

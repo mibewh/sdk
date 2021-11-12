@@ -1,25 +1,64 @@
 import cookie from 'cookie';
-import { v4 as uuid } from '@lukeed/uuid';
+import { connect } from '$lib/api/cloudcms';
 
 export const handle = async ({ request, resolve }) => {
 	const cookies = cookie.parse(request.headers.cookie || '');
-	request.locals.userid = cookies.userid || uuid();
+	
+	const cloudcmsSession = await connect(fetch);
+	const query = Object.fromEntries(request.query);
 
-	// TODO https://github.com/sveltejs/kit/issues/1046
-	if (request.query.has('_method')) {
-		request.method = request.query.get('_method').toUpperCase();
+	if (query.repository)
+	{
+		request.locals.repository = query.repository;
 	}
+	else if (cookies.repository)
+	{
+		request.locals.repository = cookies.repository;
+	}
+
+	if (query.branch)
+	{
+		request.locals.branch = query.branch;
+	}
+	else if (cookies.branch)
+	{
+		request.locals.branch = cookies.branch;
+	}
+
+	let responseCookies = [];
+	if (request.locals.branch)
+	{
+		responseCookies.push(cookie.serialize('branch', request.locals.branch, {
+			path: '/',
+			sameSite: "strict"
+		}));
+	}
+
+	if (request.locals.repository)
+	{
+		responseCookies.push(cookie.serialize('branch', request.locals.branch, {
+			path: '/',
+			sameSite: "strict"
+		}));
+	}
+
+	// ensures branch info will be avaible in page fetches
+	request.headers.cookie = responseCookies.join(',');
 
 	const response = await resolve(request);
 
-	if (!cookies.userid) {
-		// if this is the first time the user has visited this app,
-		// set a cookie so that we recognise them when they return
-		response.headers['set-cookie'] = cookie.serialize('userid', request.locals.userid, {
-			path: '/',
-			httpOnly: true
-		});
-	}
+	const baseUrl = cloudcmsSession.driver.config.basePageUrl || request.host;
+	// session.trackPage(request.locals.repository, request.locals.branch, { path: makePreviewUrl(ctx.req.url), html: page.html });
 
+	
+	response.headers['set-cookie'] = responseCookies;
 	return response;
 };
+
+export async function getSession(request) {
+	let session = {};
+	session.branch = request.locals.branch;
+	session.repository = request.locals.repository;
+
+	return session;
+}

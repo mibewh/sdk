@@ -1,4 +1,4 @@
-import { connect, attachmentUrl } from '$lib/api/cloudcms';
+import { connect } from '$lib/api/cloudcms';
 
 // POST /api/books
 export const post = async (request) => {
@@ -7,13 +7,13 @@ export const post = async (request) => {
 
 	const pagination = Object.fromEntries(request.query);
 
-	const session = await connect(fetch);
-	const branch = await session.master();
+	const cloudcms = await connect(fetch);
+	const branch = await cloudcms.getCurrentBranch(request);
 
     let books = (await branch.queryNodes(query, pagination)).rows;
 	for (let book of books)
 	{
-		book.defaultAttachmentUrl = attachmentUrl(book);
+		book.defaultAttachmentUrl = cloudcms.attachmentUrl(book);
 	}
 
 	return {

@@ -8,7 +8,7 @@ export const post = async (request) => {
 	const pagination = Object.fromEntries(request.query);
 
 	const session = await connect(fetch);
-	const branch = await session.master();
+	const branch = await session.getCurrentBranch(request);
 
     let tags = (await branch.queryNodes(query, pagination)).rows;
 
