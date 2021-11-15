@@ -6,9 +6,8 @@ To run, in the gatsbyjs/sample directory:
 1. Add your `gitana.json` file. For information on how to retrieve this see: https://www.cloudcms.com/apikeys.html
 2. Make sure you have yarn by running `npm i -g yarn`, and then install dependencies by running `yarn`
 3. Run `yarn global add gatsby-cli`
-4. Replace the `repositoryId` and `branchId` values in `gatsby-config.js` with those for your project. [Help](https://support.cloudcms.com/hc/en-us/articles/360005276393-How-to-find-the-Repository-ID-for-a-Project-)
-5. Run `gatsby build` to build the static site
-6. Run `gatsby serve`
-8. Navigate to http://localhost:9000
+4. Run `gatsby build` to build the static site
+5. Run `gatsby serve`
+6. Navigate to http://localhost:9000
 
 This example is not intended for production use, but rather to demonstrate how Cloud CMS might integrate with your Gatsby JS application.

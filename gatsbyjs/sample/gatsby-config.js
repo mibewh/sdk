@@ -17,9 +17,7 @@ module.exports = {
     {
       resolve: `gatsby-source-cloudcms`,
       options: {
-        keys: gitanaJson,
-        repositoryId: `c517484d30f8f7b4dee8`,
-        branchId: `fc0adef08016fa289978`
+        keys: gitanaJson
       }
     }
   ]
