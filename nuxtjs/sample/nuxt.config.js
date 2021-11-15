@@ -6,7 +6,7 @@ window = undefined;
 var config = require("./gitana.json");
 
 // additional config for module
-config.renditions = true;
+config.renditions = false;
 config.preview = true;
 config.basePageUrl = "http://localhost:3000";
 

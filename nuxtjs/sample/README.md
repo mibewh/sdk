@@ -27,34 +27,30 @@ Go into your `nuxtjs/sample` directory and do the following.
 
 1. Add your `gitana.json` file. For information on how to retrieve this see: https://www.cloudcms.com/apikeys.html
 
-## Building
 
-To build out the static web site, simply run:
-
-```
-nuxt generate
-```
-
-## Running the Sample (with Nuxt)
+## Running the Sample (Static)
 
 To run your static site using Nuxt's server, run the following:
 
 ```
+nuxt generate
 nuxt start
 ```
 
 Now open a browser to `http://localhost:3000`.
 
-## Running the Sample (with Web Server)
+## Running the Sample (with  Server)
 
-If you want to run the generated static site within a standard web server, you just need to copy the contents
-of the `dist` directory to your web root.
+You can also build your nuxt site to be run on a dynamic server. This is required when using preview mode (see below) and in order for new content changes to be seen without rebuilding the site.
 
-You can try this locally by doing this:
+To run the dev server, just run `nuxt`
 
-1. Run `npm install http-server -g` to install a global web server.
-2. From the command prompt, go into the `dist` directory and run `http-server -p 3000`
-3. Navigate to `http://localhost:3000`
+To build and run, do: 
+
+```
+nuxt build
+nuxt start
+```
 
 ## Integration to Cloud CMS
 
@@ -106,12 +102,6 @@ http://localhost:3000?preview&branch={{branch.id}}
 When preview mode is enabled, variables `repositoryId` and `branchId` become available in your context, and the `cloudcms-nuxt` plugin
 will automatically switch to the preview branch, so that new content will be queried when rendering your application.
 
-## Page Renditions
+You can configure cloudcms to provide preview links by setting up a  [preview server](https://www.cloudcms.com/documentation/publishing/preview-servers.html)! 
+Follow the instructions to setup a URL preview server with http://localhost:3000 as the url, then when you click "View On [My Server]" above a content item, you can view how that content will look in-context on your site.
 
-When you run `nuxt generate`, the build process will automatically connect to your Cloud CMS Application and will
-populate Page Renditions for you. The rendition urls generated in cloudcms default to having a base url `localhost`: 
-to override this, add a `basePageUrl` like `http://localhost:3000` to your `gitana.json` file. 
-
-When your Editors click "Preview" on a piece of content, they will be able to see all of the places in the web site
-where that piece of content appears.  They can then navigate to the site using instant preview to see their changes
-in place.

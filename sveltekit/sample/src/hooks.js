@@ -47,10 +47,10 @@ export const handle = async ({ request, resolve }) => {
 
 	const response = await resolve(request);
 
-	if (response.headers['content-type'] === 'text/html')
-	{
-		cloudcmsSession.trackPage(request.locals.repository, request.locals.branch, { path: request.path, html: response.body });
-	}
+	// if (response.headers['content-type'] === 'text/html')
+	// {
+	// 	cloudcmsSession.trackPage(request.locals.repository, request.locals.branch, { path: request.path, html: response.body });
+	// }
 
 	
 	response.headers['set-cookie'] = responseCookies;

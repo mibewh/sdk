@@ -19,7 +19,7 @@ class MyDocument extends Document {
         },
       })
 
-      branch.trackPage({path: makePreviewUrl(ctx.req.url), html: page.html});
+      // branch.trackPage({path: makePreviewUrl(ctx.req.url), html: page.html});
 
       return page;
     }
