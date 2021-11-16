@@ -1,6 +1,6 @@
 import * as cloudcms from 'cloudcms';
 import { UtilitySession } from 'cloudcms';
-import * as gitanaJson from '../gitana.json';
+// import * as gitanaJson from '../gitana.json';
 import * as fs from 'fs';
 import mime from 'mime-types';
 
@@ -134,6 +134,14 @@ let session = null;
 async function connect() {
     if (!session) {
         cloudcms.session(NextSession);
+        const gitanaJson = {
+            "clientKey": process.env.CLOUDCMS_CLIENT_KEY,
+            "clientSecret": process.env.CLOUDCMS_CLIENT_SECRET,
+            "username": process.env.CLOUDCMS_USERNAME,
+            "password": process.env.CLOUDCMS_PASSWORD,
+            "baseURL": process.env.CLOUDCMS_BASE_URL,
+            "application": process.env.CLOUDCMS_APPLICATION
+        }
         session = await cloudcms.connect(gitanaJson);
     }
 
