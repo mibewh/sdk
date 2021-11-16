@@ -95,6 +95,7 @@ export async function getStaticPaths()
     const books = (await branch.queryNodes({ _type: "store:book" }, { limit: -1 })).rows;
 
     let paths = books.map(book => ({ params: { slug: book.slug }}));
+    paths = paths.filter((path) => !!path.params.slug)
     return {
         paths,
         fallback: false
