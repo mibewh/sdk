@@ -15,6 +15,19 @@ class NextSession extends UtilitySession {
         this._branches = {};
     }
 
+    async readBranch(repository, branchId)
+    {
+        const repositoryId = this.acquireId(repository);
+
+        if(!this._branches[`${repositoryId}/${branchId}`])
+        {
+            let branch = await super.readBranch(repositoryId, branchId);
+            this._branches[`${repositoryId}/${branchId}`] = branch;
+        }
+
+        return this._branches[`${repositoryId}/${branchId}`];
+    }
+
     async readNode(repository, branch, nodeId, path, callback) {
         let node = await super.readNode(repository, branch, nodeId, path, callback);
         await this.bindExtraProperties_row(repository, branch, node);
@@ -64,8 +77,11 @@ class NextSession extends UtilitySession {
 
         const tokens = `${repositoryId}/${branchId}/${nodeId}/${attachmentId}`;
     
-        // Redownload if not cached or this is a preview
-        if (!this._savedAttachments[tokens] || branch.previewMode) {
+        if (branch.previewMode)
+        {
+            return `/api/${nodeId}/${attachmentId}`;
+        }
+        if (!this._savedAttachments[tokens] ) {
             const saveDir = `${CLOUDCMS_SAVE_PATH}/${repositoryId}/${branchId}/${nodeId}`;
             if (!fs.existsSync(saveDir)) {
                 fs.mkdirSync(saveDir, { recursive: true });
@@ -111,27 +127,21 @@ class NextSession extends UtilitySession {
         {
             branchId = "master";
         }
-
-        if(!this._branches[`${repositoryId}/${branchId}`])
-        {
-            let branch = await this.readBranch(repositoryId, branchId);
-
-            // Wraps the branch in the Branch class, which binds all session functions whose first paramaters are (repository, branch), i.e. queryNodes
-            branch = this.wrapBranch(repositoryId, branch);
-            // bind download attachment to branch
-            branch.createAttachmentLink = this.createAttachmentLink.bind(this, repositoryId, branchId);
-            this._branches[`${repositoryId}/${branchId}`] = branch;
-        }
-
-        let branch = this._branches[`${repositoryId}/${branchId}`];
+        
+        let branch = await this.readBranch(repositoryId, branchId);
         branch.previewMode = context ? context.preview : false;
+
+        // Wraps the branch in the Branch class, which binds all session functions whose first paramaters are (repository, branch), i.e. queryNodes
+        branch = this.wrapBranch(repositoryId, branch);
+        branch.createAttachmentLink = this.createAttachmentLink.bind(this, repositoryId, branch);
+
         return branch;
     }
 }
 
 
 let session = null;
-async function connect() {
+export async function connect() {
     if (!session) {
         cloudcms.session(NextSession);
         const gitanaJson = {

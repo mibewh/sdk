@@ -33,7 +33,7 @@ const Layout = ({title, children}) => (
 
       <link rel="stylesheet" href={"/css/custom.css"} />
     </Head>
-    <Script type="text/javascript" src={"/js/jquery-1.12.0.min.js"}></Script>
+    <Script type="text/javascript" src={"/js/jquery-1.12.0.min.js"} strategy="beforeInteractive"></Script>
     <Script type="text/javascript" src={"/js/bootstrap.min.js"}></Script>
     <Script src={"/js/bootstrap-hover-dropdown.min.js"}></Script>
     <Script src={"/js/echo.min.js"}></Script>
