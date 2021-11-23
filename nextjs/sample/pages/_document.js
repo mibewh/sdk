@@ -7,7 +7,7 @@ class MyDocument extends Document {
   static async getInitialProps(ctx) {
     
     const originalRenderPage = ctx.renderPage
-    const branch = await getCurrentBranch(ctx);
+    // const branch = await getCurrentBranch(ctx);
     
     ctx.renderPage = () => {
       const page = originalRenderPage({

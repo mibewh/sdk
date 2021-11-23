@@ -140,9 +140,9 @@ class NextSession extends UtilitySession {
 }
 
 
-let session = null;
-export async function connect() {
-    if (!session) {
+let sessions = {};
+export async function connect(platformId) {
+    if (!sessions.default) {
         cloudcms.session(NextSession);
         const gitanaJson = {
             "clientKey": process.env.CLOUDCMS_CLIENT_KEY,
@@ -152,13 +152,48 @@ export async function connect() {
             "baseURL": process.env.CLOUDCMS_BASE_URL,
             "application": process.env.CLOUDCMS_APPLICATION
         }
-        session = await cloudcms.connect(gitanaJson);
+        sessions.default = await cloudcms.connect(gitanaJson);
     }
 
-    return session;
+    if (!platformId)
+    {
+        // Use default credentials
+        return sessions.default;
+    }
+    else if (!sessions[platformId])
+    {
+        // Get registrar using default platform credentials
+        const defaultPlatform = await sessions.default.driver.get(`/`);
+        const registrarId = defaultPlatform.ownerRegistrarId;
+
+        // Locate tenant for provided platform id and load the default client
+        const tenant = (await sessions.default.driver.post(`/registrars/${registrarId}/tenants/query`, {}, { platformId })).rows[0];
+        const client = await sessions.default.driver.get(`/registrars/${registrarId}/tenants/${tenant._doc}/defaultclient`);
+        
+        const gitanaJson = {
+            "clientKey": client.key,
+            "clientSecret": client.secret,
+            "username": process.env.CLOUDCMS_USERNAME,
+            "password": process.env.CLOUDCMS_PASSWORD,
+            "baseURL": process.env.CLOUDCMS_BASE_URL
+        }
+        // application id?
+        cloudcms.session(NextSession);
+        sessions[platformId] = await cloudcms.connect(gitanaJson);
+    }
+
+    return sessions[platformId];
 }
 
 export async function getCurrentBranch(context) {
-    const session = await connect();
+
+
+    let platformId = null;
+    if (context && context.preview && context.previewData)
+    {
+        platformId = context.previewData.platform;
+    }
+
+    const session = await connect(platformId);
     return await session.getCurrentBranch(context);
 }
